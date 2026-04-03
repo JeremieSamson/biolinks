@@ -4,7 +4,7 @@
 
 No third-party accounts. No subscriptions. No limits. Just a free, open-source plugin that gets the job done.
 
-![BioLinks Demo](https://nomadesurrails.fr/wp-content/uploads/2026/04/biolinks-demo.png)
+![BioLinks Demo](screenshots/demo.png)
 
 ---
 
@@ -28,30 +28,52 @@ No third-party accounts. No subscriptions. No limits. Just a free, open-source p
 ## Installation
 
 1. Download the latest release ZIP from the [Releases page](https://github.com/JeremieSamson/biolinks/releases)
-2. In your WordPress admin, go to **Plugins → Add New → Upload Plugin**
+2. In your WordPress admin, go to **Plugins > Add New > Upload Plugin**
 3. Select the ZIP file and click **Install Now**
 4. Activate the plugin — your page is created automatically at `/links/`
 5. Go to **BioLinks** in the admin menu to configure your links, photo, and template
 
-## Configuration
+---
 
-### "My Page" tab
+## Screenshots
 
-- **Profile** — Upload a photo, set your display name and bio (max 160 characters)
-- **Links** — Add, edit, delete and reorder your links with drag & drop
-- **Social networks** — Enter the URL for each network you use. Only filled networks are displayed.
-- **Page URL** — Customize the slug of your BioLinks page (default: `/links/`)
+### Profile configuration
 
-### "Appearance" tab
+Set your profile photo (via WordPress Media Library), display name, bio (max 160 characters), and customize the page slug.
 
-- **Template** — Choose from 5 visual templates
-- **Accent color** — Pick a color that matches your brand
+![Profile configuration](screenshots/admin-profile.png)
 
-### "Statistics" tab
+### Social networks
 
-- **Stats cards** — Clicks today, this week, this month, and total
-- **Daily chart** — Line chart of clicks per day (7 / 30 / 90 days)
-- **Per-link chart** — See which links get the most clicks
+Enter the URL for each social network you use. Only filled networks are displayed as icons on your page. Supports Instagram, YouTube, LinkedIn, TikTok, Twitter/X, Facebook, GitHub, Pinterest, Twitch, and Snapchat.
+
+![Social networks](screenshots/admin-socials.png)
+
+### Add a link
+
+Add links with a name, URL, optional icon, and position. Icons include globe, blog, contact, podcast, newsletter, music, video, shop, and link.
+
+![Add a link](screenshots/admin-add-link.png)
+
+### Manage your links
+
+View all your links with click stats (30-day and total). Reorder with drag & drop, edit or delete any link. The drag handle on the left lets you reorder instantly.
+
+![Manage links](screenshots/admin-links.png)
+
+### Appearance
+
+Choose from 5 visual templates and pick a custom accent color to match your brand. The template preview shows you what each style looks like before you select it.
+
+![Appearance settings](screenshots/admin-appearance.png)
+
+### Statistics
+
+Track your link performance with daily click charts and per-link breakdown. Filter by period (7, 30, or 90 days). Stats cards show clicks today, this week, this month, and total.
+
+![Statistics dashboard](screenshots/admin-stats.png)
+
+---
 
 ## Templates
 
@@ -87,7 +109,7 @@ Contributions are welcome! Feel free to open an issue or submit a pull request.
 
 ## Credits
 
-Built by [Jérémie Samson](https://nomadesurrails.fr) — digital nomad, train traveler, and WordPress developer.
+Built by [Jeremie Samson](https://nomadesurrails.fr) — digital nomad, train traveler, and WordPress developer.
 
 ## License
 
