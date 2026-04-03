@@ -1,0 +1,304 @@
+.biolinks-admin {
+    max-width: 1200px;
+}
+
+/* Sections */
+.bl-section {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.bl-section h2 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+/* Import banner */
+.bl-import-banner {
+    background: #fff8e5;
+    border: 1px solid #f0c33c;
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.bl-import-banner p {
+    margin: 0;
+}
+
+/* Photo upload */
+.bl-photo-upload {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.bl-photo-preview {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #c3c4c7;
+}
+
+.bl-photo-remove {
+    color: #b32d2e !important;
+}
+
+/* Templates grid */
+.bl-templates-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.bl-template-card {
+    border: 2px solid #c3c4c7;
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.bl-template-card:hover {
+    border-color: #2271b1;
+}
+
+.bl-template-active {
+    border-color: #2271b1;
+    background: #f0f6fc;
+}
+
+.bl-template-card input[type="radio"] {
+    display: none;
+}
+
+.bl-template-preview {
+    width: 100%;
+    aspect-ratio: 9/16;
+    max-height: 160px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 12px;
+}
+
+.bl-preview-circle {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+}
+
+.bl-preview-line {
+    width: 50%;
+    height: 4px;
+    border-radius: 2px;
+}
+
+.bl-preview-line-long {
+    width: 60%;
+}
+
+.bl-preview-btn {
+    width: 80%;
+    height: 10px;
+    border-radius: 4px;
+}
+
+/* Template preview styles */
+.bl-template-preview-dark {
+    background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
+}
+.bl-template-preview-dark .bl-preview-circle { border: 2px solid rgba(255,255,255,0.3); }
+.bl-template-preview-dark .bl-preview-line { background: rgba(255,255,255,0.5); }
+.bl-template-preview-dark .bl-preview-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); }
+
+.bl-template-preview-light {
+    background: #f5f5f7;
+}
+.bl-template-preview-light .bl-preview-circle { border: 2px solid #e0e0e0; }
+.bl-template-preview-light .bl-preview-line { background: #999; }
+.bl-template-preview-light .bl-preview-btn { background: #fff; border: 1px solid #e0e0e0; }
+
+.bl-template-preview-minimal {
+    background: #0a7286;
+}
+.bl-template-preview-minimal .bl-preview-circle { border: 2px solid rgba(255,255,255,0.5); }
+.bl-template-preview-minimal .bl-preview-line { background: rgba(255,255,255,0.7); }
+.bl-template-preview-minimal .bl-preview-btn { background: transparent; border: 2px solid rgba(255,255,255,0.5); }
+
+.bl-template-preview-colorful {
+    background: linear-gradient(135deg, #0a7286, #064a58);
+}
+.bl-template-preview-colorful .bl-preview-circle { background: #fff; }
+.bl-template-preview-colorful .bl-preview-line { background: rgba(255,255,255,0.8); }
+.bl-template-preview-colorful .bl-preview-btn { background: #fff; }
+
+.bl-template-preview-glass {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+.bl-template-preview-glass .bl-preview-circle { border: 2px solid rgba(255,255,255,0.4); }
+.bl-template-preview-glass .bl-preview-line { background: rgba(255,255,255,0.6); }
+.bl-template-preview-glass .bl-preview-btn { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); }
+
+.bl-template-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #1d2327;
+}
+
+.bl-template-desc {
+    font-size: 0.75rem;
+    color: #646970;
+}
+
+/* Stats cards */
+.bl-stats-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.bl-stat-card {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 8px;
+    padding: 1.25rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.bl-stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1d2327;
+}
+
+.bl-stat-label {
+    font-size: 0.85rem;
+    color: #646970;
+}
+
+/* Charts */
+.bl-charts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.bl-chart-container {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 8px;
+    padding: 1.25rem;
+}
+
+.bl-chart-wrap {
+    position: relative;
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+}
+
+.bl-chart-container h2 {
+    margin: 0 0 1rem;
+    font-size: 1rem;
+}
+
+.bl-chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.bl-chart-header h2 {
+    margin: 0;
+}
+
+.bl-chart-header select {
+    padding: 0.25rem 0.5rem;
+}
+
+/* Links table */
+.bl-links-table {
+    margin-top: 0.5rem;
+}
+
+.bl-col-drag {
+    width: 30px;
+}
+
+.bl-drag-handle {
+    cursor: grab;
+    color: #c3c4c7;
+}
+
+.bl-drag-handle:hover {
+    color: #2271b1;
+}
+
+.bl-links-table .sortable-ghost {
+    background: #f0f6fc;
+    opacity: 0.6;
+}
+
+.bl-links-table td {
+    vertical-align: middle;
+}
+
+.bl-links-table .button-link-delete {
+    color: #b32d2e;
+}
+
+.bl-links-table .button-link-delete:hover {
+    color: #a00;
+    border-color: #a00;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .bl-templates-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 1024px) {
+    .bl-stats-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .bl-charts {
+        grid-template-columns: 1fr;
+    }
+
+    .bl-templates-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .bl-templates-grid {
+        grid-template-columns: 1fr;
+    }
+}
