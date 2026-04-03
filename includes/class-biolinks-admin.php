@@ -449,6 +449,9 @@ class BioLinks_Admin
             $url = esc_url_raw($_POST['link_url'] ?? '');
             $position = (int) ($_POST['link_position'] ?? 0);
             $icon = sanitize_text_field($_POST['link_icon'] ?? '');
+            if ($icon !== '' && !array_key_exists($icon, BIOLINKS_GENERIC_LABELS)) {
+                $icon = '';
+            }
             $icon = $icon !== '' ? $icon : null;
 
             if ($id > 0) {

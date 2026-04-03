@@ -39,6 +39,13 @@ class BioLinks_Front
             wp_send_json_error('Invalid link ID', 400);
         }
 
+        $ip = $_SERVER['REMOTE_ADDR'] ?? '';
+        $rate_key = 'bl_rate_' . md5($ip . $link_id);
+        if (get_transient($rate_key)) {
+            wp_send_json_success();
+        }
+        set_transient($rate_key, 1, 60);
+
         $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field($_SERVER['HTTP_USER_AGENT']) : null;
 
         BioLinks_DB::log_click($link_id, $user_agent);
