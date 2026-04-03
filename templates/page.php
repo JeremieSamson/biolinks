@@ -11,6 +11,10 @@ $nonce = wp_create_nonce('biolinks_nonce');
 $ajax_url = admin_url('admin-ajax.php');
 
 $template = $config['template'] ?? 'dark';
+$allowed_templates = ['dark', 'light', 'minimal', 'colorful', 'glass'];
+if (!in_array($template, $allowed_templates, true)) {
+    $template = 'dark';
+}
 $accent = $config['accent_color'] ?? '#0a7286';
 $photo_url = $config['photo_url'] ?? '';
 $title = $config['title'] ?? get_bloginfo('name');

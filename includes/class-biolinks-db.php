@@ -309,7 +309,7 @@ class BioLinks_DB
     {
         global $wpdb;
         $old_table = $wpdb->prefix . 'click_tracker';
-        return $wpdb->get_var("SHOW TABLES LIKE '$old_table'") === $old_table;
+        return $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $old_table)) === $old_table;
     }
 
     public static function import_from_click_tracker(): int
