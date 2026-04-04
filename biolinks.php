@@ -13,7 +13,7 @@ declare(strict_types=1);
  * Text Domain: biolinks
  * Domain Path: /languages
  * Requires at least: 5.9
- * Tested up to: 6.8
+ * Tested up to: 6.9
  * Requires PHP: 8.0
  */
 
@@ -31,10 +31,6 @@ require_once BIOLINKS_PATH . 'includes/class-biolinks-admin.php';
 require_once BIOLINKS_PATH . 'includes/class-biolinks-front.php';
 
 register_activation_hook(__FILE__, [BioLinks_DB::class, 'activate']);
-
-add_action('plugins_loaded', static function (): void {
-    load_plugin_textdomain('biolinks', false, dirname(plugin_basename(__FILE__)) . '/languages');
-});
 
 if (is_admin()) {
     new BioLinks_Admin();

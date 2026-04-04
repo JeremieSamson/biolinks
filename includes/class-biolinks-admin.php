@@ -77,10 +77,10 @@ class BioLinks_Admin
         $links = BioLinks_DB::get_all_links();
         $editing = null;
         if (isset($_GET['edit'])) {
-            $editing = BioLinks_DB::get_link((int) $_GET['edit']);
+            $editing = BioLinks_DB::get_link(absint(wp_unslash($_GET['edit'])));
         }
 
-        $tab = $_GET['tab'] ?? 'page';
+        $tab = isset($_GET['tab']) ? sanitize_text_field(wp_unslash($_GET['tab'])) : 'page';
         $page_id = (int) ($config['page_id'] ?? 0);
         $page_url = $page_id > 0 ? get_permalink($page_id) : '';
         $socials = json_decode($config['socials'] ?? '{}', true) ?: [];
@@ -105,7 +105,7 @@ class BioLinks_Admin
                         printf(
                             /* translators: %d: number of imported links */
                             esc_html__('%d link(s) imported from Click Tracker.', 'biolinks'),
-                            (int) $_GET['imported']
+                            absint(wp_unslash($_GET['imported']))
                         );
                     ?></p>
                 </div>
@@ -171,10 +171,13 @@ class BioLinks_Admin
                         <td>
                             <textarea name="bio" id="bl-bio" class="regular-text" rows="2" maxlength="160"><?php echo esc_textarea($config['bio'] ?? ''); ?></textarea>
                             <p class="description"><?php
-                                printf(
-                                    /* translators: %s: character count */
-                                    esc_html__('Max 160 characters. %s/160', 'biolinks'),
-                                    '<span id="bl-bio-count">' . mb_strlen($config['bio'] ?? '') . '</span>'
+                                echo wp_kses(
+                                    sprintf(
+                                        /* translators: %s: character count HTML element */
+                                        __('Max 160 characters. %s/160', 'biolinks'),
+                                        '<span id="bl-bio-count">' . esc_html((string) mb_strlen($config['bio'] ?? '')) . '</span>'
+                                    ),
+                                    ['span' => ['id' => []]]
                                 );
                             ?></p>
                         </td>
@@ -236,7 +239,7 @@ class BioLinks_Admin
                     </tr>
                     <tr>
                         <th><label for="bl-link-position"><?php esc_html_e('Position', 'biolinks'); ?></label></th>
-                        <td><input type="number" name="link_position" id="bl-link-position" value="<?php echo $editing ? (int) $editing->position : BioLinks_DB::get_next_position(); ?>" min="0"></td>
+                        <td><input type="number" name="link_position" id="bl-link-position" value="<?php echo esc_attr((string) ($editing ? $editing->position : BioLinks_DB::get_next_position())); ?>" min="0"></td>
                     </tr>
                 </table>
                 <?php submit_button($editing ? esc_html__('Update', 'biolinks') : esc_html__('Add', 'biolinks'), 'primary', 'submit'); ?>
@@ -268,8 +271,8 @@ class BioLinks_Admin
                             <td><?php echo esc_html($link->icon ?? '--'); ?></td>
                             <td><strong><?php echo esc_html($link->link_name); ?></strong></td>
                             <td><a href="<?php echo esc_url($link->link_url); ?>" target="_blank"><?php echo esc_html(mb_strimwidth($link->link_url, 0, 50, '...')); ?></a></td>
-                            <td><?php echo $clicks_30d_map[$link->id] ?? 0; ?></td>
-                            <td><?php echo (int) $link->click_count; ?></td>
+                            <td><?php echo esc_html((string) ($clicks_30d_map[$link->id] ?? 0)); ?></td>
+                            <td><?php echo esc_html((string) $link->click_count); ?></td>
                             <td>
                                 <a href="?page=biolinks&tab=page&edit=<?php echo (int) $link->id; ?>" class="button button-small"><?php esc_html_e('Edit', 'biolinks'); ?></a>
                                 <form method="post" style="display:inline">
@@ -387,8 +390,14 @@ class BioLinks_Admin
                             /* translators: %d: number of days */
                             printf(esc_html__('%d days', 'biolinks'), 7);
                         ?></option>
-                        <option value="30" selected><?php printf(esc_html__('%d days', 'biolinks'), 30); ?></option>
-                        <option value="90"><?php printf(esc_html__('%d days', 'biolinks'), 90); ?></option>
+                        <option value="30" selected><?php
+                            /* translators: %d: number of days */
+                            printf(esc_html__('%d days', 'biolinks'), 30);
+                        ?></option>
+                        <option value="90"><?php
+                            /* translators: %d: number of days */
+                            printf(esc_html__('%d days', 'biolinks'), 90);
+                        ?></option>
                     </select>
                 </div>
                 <div class="bl-chart-wrap"><canvas id="bl-chart-daily"></canvas></div>
@@ -424,18 +433,18 @@ class BioLinks_Admin
             wp_die(esc_html__('Access denied', 'biolinks'));
         }
 
-        $action = $_POST['bl_action'];
+        $action = sanitize_text_field(wp_unslash($_POST['bl_action']));
 
         if ($action === 'save_profile') {
-            if (!wp_verify_nonce($_POST['bl_profile_nonce'] ?? '', 'biolinks_save_profile')) {
+            if (!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['bl_profile_nonce'] ?? '')), 'biolinks_save_profile')) {
                 wp_die(esc_html__('Invalid nonce', 'biolinks'));
             }
 
-            BioLinks_DB::set_config('photo_url', esc_url_raw($_POST['photo_url'] ?? ''));
-            BioLinks_DB::set_config('title', sanitize_text_field($_POST['title'] ?? ''));
-            BioLinks_DB::set_config('bio', sanitize_text_field($_POST['bio'] ?? ''));
+            BioLinks_DB::set_config('photo_url', esc_url_raw(wp_unslash($_POST['photo_url'] ?? '')));
+            BioLinks_DB::set_config('title', sanitize_text_field(wp_unslash($_POST['title'] ?? '')));
+            BioLinks_DB::set_config('bio', sanitize_text_field(wp_unslash($_POST['bio'] ?? '')));
 
-            $new_slug = sanitize_title($_POST['slug'] ?? 'links');
+            $new_slug = sanitize_title(wp_unslash($_POST['slug'] ?? 'links'));
             $old_slug = BioLinks_DB::get_config('slug');
             BioLinks_DB::set_config('slug', $new_slug);
 
@@ -453,13 +462,13 @@ class BioLinks_Admin
         }
 
         if ($action === 'save_socials') {
-            if (!wp_verify_nonce($_POST['bl_socials_nonce'] ?? '', 'biolinks_save_socials')) {
+            if (!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['bl_socials_nonce'] ?? '')), 'biolinks_save_socials')) {
                 wp_die(esc_html__('Invalid nonce', 'biolinks'));
             }
 
             $socials = [];
             foreach (BIOLINKS_SOCIAL_KEYS as $key) {
-                $url = esc_url_raw($_POST['socials'][$key] ?? '');
+                $url = esc_url_raw(wp_unslash($_POST['socials'][$key] ?? ''));
                 if (!empty($url)) {
                     $socials[$key] = $url;
                 }
@@ -471,24 +480,24 @@ class BioLinks_Admin
         }
 
         if ($action === 'save_link') {
-            if (!wp_verify_nonce($_POST['bl_link_nonce'] ?? '', 'biolinks_save_link')) {
+            if (!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['bl_link_nonce'] ?? '')), 'biolinks_save_link')) {
                 wp_die(esc_html__('Invalid nonce', 'biolinks'));
             }
 
-            $id = (int) ($_POST['link_id'] ?? 0);
-            $name = sanitize_text_field($_POST['link_name'] ?? '');
-            $url = esc_url_raw($_POST['link_url'] ?? '');
-            $position = (int) ($_POST['link_position'] ?? 0);
-            $icon = sanitize_text_field($_POST['link_icon'] ?? '');
+            $id = absint(wp_unslash($_POST['link_id'] ?? 0));
+            $name = sanitize_text_field(wp_unslash($_POST['link_name'] ?? ''));
+            $url = esc_url_raw(wp_unslash($_POST['link_url'] ?? ''));
+            $position = absint(wp_unslash($_POST['link_position'] ?? 0));
+            $icon = sanitize_text_field(wp_unslash($_POST['link_icon'] ?? ''));
             if ($icon !== '' && !in_array($icon, BIOLINKS_GENERIC_LABELS_KEYS, true)) {
                 $icon = '';
             }
             $icon = $icon !== '' ? $icon : null;
 
             if ($id > 0) {
-                BioLinks_DB::update_link($id, $name, $url, $position, $icon);
+                BioLinks_DB::update_link($id, $name, $url, (int) $position, $icon);
             } else {
-                BioLinks_DB::insert_link($name, $url, $position, $icon);
+                BioLinks_DB::insert_link($name, $url, (int) $position, $icon);
             }
 
             wp_safe_redirect(admin_url('admin.php?page=biolinks&tab=page'));
@@ -496,30 +505,30 @@ class BioLinks_Admin
         }
 
         if ($action === 'delete_link') {
-            $id = (int) ($_POST['link_id'] ?? 0);
-            if (!wp_verify_nonce($_POST['bl_delete_nonce'] ?? '', 'biolinks_delete_' . $id)) {
+            $id = absint(wp_unslash($_POST['link_id'] ?? 0));
+            if (!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['bl_delete_nonce'] ?? '')), 'biolinks_delete_' . $id)) {
                 wp_die(esc_html__('Invalid nonce', 'biolinks'));
             }
 
-            BioLinks_DB::delete_link($id);
+            BioLinks_DB::delete_link((int) $id);
 
             wp_safe_redirect(admin_url('admin.php?page=biolinks&tab=page'));
             exit;
         }
 
         if ($action === 'save_appearance') {
-            if (!wp_verify_nonce($_POST['bl_appearance_nonce'] ?? '', 'biolinks_save_appearance')) {
+            if (!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['bl_appearance_nonce'] ?? '')), 'biolinks_save_appearance')) {
                 wp_die(esc_html__('Invalid nonce', 'biolinks'));
             }
 
-            $template = sanitize_text_field($_POST['template'] ?? 'dark');
+            $template = sanitize_text_field(wp_unslash($_POST['template'] ?? 'dark'));
             $allowed = ['dark', 'light', 'minimal', 'colorful', 'glass'];
             if (!in_array($template, $allowed, true)) {
                 $template = 'dark';
             }
             BioLinks_DB::set_config('template', $template);
 
-            $color = sanitize_hex_color($_POST['accent_color'] ?? '#0a7286');
+            $color = sanitize_hex_color(wp_unslash($_POST['accent_color'] ?? '#0a7286'));
             BioLinks_DB::set_config('accent_color', $color ?: '#0a7286');
 
             $show_credit = isset($_POST['show_credit']) ? '1' : '0';
@@ -537,7 +546,7 @@ class BioLinks_Admin
             wp_send_json_error(esc_html__('Access denied', 'biolinks'), 403);
         }
 
-        $order = isset($_POST['order']) ? array_map('intval', $_POST['order']) : [];
+        $order = isset($_POST['order']) ? array_map('absint', wp_unslash($_POST['order'])) : [];
         if (empty($order)) {
             wp_send_json_error(esc_html__('No data', 'biolinks'), 400);
         }
@@ -553,7 +562,7 @@ class BioLinks_Admin
             wp_send_json_error(esc_html__('Access denied', 'biolinks'), 403);
         }
 
-        $days = isset($_POST['days']) ? (int) $_POST['days'] : 30;
+        $days = isset($_POST['days']) ? absint(wp_unslash($_POST['days'])) : 30;
         $days = in_array($days, [7, 30, 90], true) ? $days : 30;
 
         $daily = BioLinks_DB::get_clicks_per_day($days);

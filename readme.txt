@@ -2,7 +2,7 @@
 Contributors: jeremiesamson
 Tags: link in bio, social links, bio page, link page, click tracking
 Requires at least: 5.9
-Tested up to: 6.8
+Tested up to: 6.9
 Requires PHP: 8.0
 Stable tag: 1.1.0
 License: GPLv2 or later
