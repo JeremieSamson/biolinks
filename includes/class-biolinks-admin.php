@@ -343,12 +343,13 @@ class BioLinks_Admin
                 <h2><?php esc_html_e('Footer', 'biolinks'); ?></h2>
                 <table class="form-table">
                     <tr>
-                        <th><label for="bl-show-credit"><?php esc_html_e('Show credit link', 'biolinks'); ?></label></th>
+                        <th><label for="bl-show-credit"><?php esc_html_e('Support the developer', 'biolinks'); ?></label></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="show_credit" id="bl-show-credit" value="1" <?php checked($show_credit); ?>>
-                                <?php esc_html_e('Display "Powered by BioLinks" in the page footer', 'biolinks'); ?>
+                                <?php esc_html_e('Display a small "Powered by BioLinks" credit in the page footer', 'biolinks'); ?>
                             </label>
+                            <p class="description"><?php esc_html_e('BioLinks is a free, open-source plugin developed on my own time. Enabling this adds a discreet credit link at the bottom of your bio page, which helps other WordPress users discover the plugin. Entirely optional — thank you for your support!', 'biolinks'); ?></p>
                         </td>
                     </tr>
                 </table>

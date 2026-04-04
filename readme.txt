@@ -79,7 +79,7 @@ Yes. The bio page is a standard WordPress page and works with all major caching 
 = 1.1.0 =
 * Added internationalization (i18n) support with French translation
 * Bundled Chart.js and SortableJS locally (no more external CDN)
-* Added optional "Powered by BioLinks" footer credit
+* Added optional "Powered by BioLinks" footer credit linking to the developer's website (disabled by default)
 * Added uninstall cleanup (removes all data on uninstall)
 * Used dbDelta() for database table creation
 * Added full plugin header for WordPress.org compatibility

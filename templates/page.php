@@ -90,10 +90,13 @@ $biolinks_allowed_svg = [
 
         <?php if ($biolinks_credit): ?>
         <span class="biolinks-footer"><?php
-            printf(
-                /* translators: %s: BioLinks plugin name */
-                esc_html__('Powered by %s', 'biolinks'),
-                'BioLinks'
+            echo wp_kses(
+                sprintf(
+                    /* translators: %s: BioLinks plugin name wrapped in a link */
+                    __('Powered by %s', 'biolinks'),
+                    '<a href="' . esc_url('https://symfolidity.com/biolinks') . '" target="_blank" rel="noopener">BioLinks</a>'
+                ),
+                ['a' => ['href' => true, 'target' => true, 'rel' => true]]
             );
         ?></span>
         <?php endif; ?>
