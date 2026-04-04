@@ -5,7 +5,7 @@ declare(strict_types=1);
  * Plugin Name: BioLinks
  * Plugin URI: https://github.com/JeremieSamson/biolinks
  * Description: Self-hosted link in bio page with 5 templates, click tracking, and analytics.
- * Version: 1.1.0
+ * Version: 1.1.1
  * Author: Jérémie Samson
  * Author URI: https://nomadesurrails.fr
  * License: GPLv2 or later
@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('BIOLINKS_VERSION', '1.1.0');
+define('BIOLINKS_VERSION', '1.1.1');
 define('BIOLINKS_PATH', plugin_dir_path(__FILE__));
 define('BIOLINKS_URL', plugin_dir_url(__FILE__));
 

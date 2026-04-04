@@ -4,7 +4,7 @@ Tags: link in bio, social links, bio page, link page, click tracking
 Requires at least: 5.9
 Tested up to: 6.9
 Requires PHP: 8.0
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -76,6 +76,11 @@ Yes. The bio page is a standard WordPress page and works with all major caching 
 
 == Changelog ==
 
+= 1.1.1 =
+* Made the optional "Powered by BioLinks" footer credit a clickable link to the developer's website
+* Renamed the admin option to "Support the developer" with a clearer description of its purpose
+* Fixed WordPress admin bar appearing unstyled on the standalone bio page for logged-in users
+
 = 1.1.0 =
 * Added internationalization (i18n) support with French translation
 * Bundled Chart.js and SortableJS locally (no more external CDN)
@@ -97,6 +102,9 @@ Yes. The bio page is a standard WordPress page and works with all major caching 
 * Import from Click Tracker plugin
 
 == Upgrade Notice ==
+
+= 1.1.1 =
+Recommended update: footer credit is now a proper clickable link, and the admin bar no longer appears unstyled on the bio page.
 
 = 1.1.0 =
 Recommended update: bundled JS assets locally, added i18n support, and WordPress.org compatibility improvements.
