@@ -69,7 +69,7 @@ class BioLinks_DB
             'template' => 'dark',
             'accent_color' => '#0a7286',
             'socials' => '{}',
-            'show_credit' => '1',
+            'show_credit' => '0',
         ];
 
         foreach ($defaults as $key => $value) {

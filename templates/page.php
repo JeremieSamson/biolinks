@@ -20,7 +20,7 @@ $photo_url = $config['photo_url'] ?? '';
 $title = $config['title'] ?? get_bloginfo('name');
 $bio = $config['bio'] ?? '';
 $socials = json_decode($config['socials'] ?? '{}', true) ?: [];
-$show_credit = ($config['show_credit'] ?? '1') === '1';
+$show_credit = ($config['show_credit'] ?? '0') === '1';
 
 $ga_id = BioLinks_Front::detect_ga_id();
 

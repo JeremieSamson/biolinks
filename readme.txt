@@ -1,6 +1,6 @@
 === BioLinks ===
 Contributors: jeremiesamson
-Tags: link in bio, linktree, social links, bio page, link page
+Tags: link in bio, social links, bio page, link page, click tracking
 Requires at least: 5.9
 Tested up to: 6.8
 Requires PHP: 8.0

@@ -291,7 +291,7 @@ class BioLinks_Admin
     {
         $current_template = $config['template'] ?? 'dark';
         $accent_color = $config['accent_color'] ?? '#0a7286';
-        $show_credit = ($config['show_credit'] ?? '1') === '1';
+        $show_credit = ($config['show_credit'] ?? '0') === '1';
 
         $templates = [
             'dark' => ['name' => __('Dark', 'biolinks'), 'desc' => __('Dark gradient, transparent buttons', 'biolinks')],
