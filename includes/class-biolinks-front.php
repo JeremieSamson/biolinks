@@ -14,6 +14,7 @@ class BioLinks_Front
         add_action('wp_enqueue_scripts', [$this, 'dequeue_other_assets'], 999);
         add_action('wp_head', [$this, 'output_inline_styles']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_ga_script']);
+        add_action('wp', [$this, 'maybe_hide_admin_bar']);
         add_action('wp_ajax_biolinks_click', [$this, 'handle_click']);
         add_action('wp_ajax_nopriv_biolinks_click', [$this, 'handle_click']);
         add_filter('wp_sitemaps_posts_query_args', [$this, 'exclude_from_sitemap'], 10, 2);
@@ -96,6 +97,13 @@ class BioLinks_Front
                     wp_dequeue_script($handle);
                 }
             }
+        }
+    }
+
+    public function maybe_hide_admin_bar(): void
+    {
+        if ($this->is_biolinks_page()) {
+            add_filter('show_admin_bar', '__return_false');
         }
     }
 
