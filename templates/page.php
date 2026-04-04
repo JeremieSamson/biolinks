@@ -20,15 +20,16 @@ $photo_url = $config['photo_url'] ?? '';
 $title = $config['title'] ?? get_bloginfo('name');
 $bio = $config['bio'] ?? '';
 $socials = json_decode($config['socials'] ?? '{}', true) ?: [];
+$show_credit = ($config['show_credit'] ?? '1') === '1';
 
 $ga_id = BioLinks_Front::detect_ga_id();
 
 $template_css = BIOLINKS_URL . 'templates/' . $template . '.css?v=' . BIOLINKS_VERSION;
 ?>
 <!DOCTYPE html>
-<html lang="fr">
+<html <?php language_attributes(); ?>>
 <head>
-    <meta charset="UTF-8">
+    <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo esc_html($title); ?></title>
     <link rel="icon" href="<?php echo esc_url(get_site_icon_url()); ?>">
@@ -95,7 +96,15 @@ $template_css = BIOLINKS_URL . 'templates/' . $template . '.css?v=' . BIOLINKS_V
             <?php endforeach; ?>
         </div>
 
-        <a href="https://nomadesurrails.fr/biolinks" class="biolinks-footer" rel="dofollow">Propulsé par BioLinks</a>
+        <?php if ($show_credit): ?>
+        <span class="biolinks-footer"><?php
+            printf(
+                /* translators: %s: BioLinks plugin name */
+                esc_html__('Powered by %s', 'biolinks'),
+                'BioLinks'
+            );
+        ?></span>
+        <?php endif; ?>
     </div>
 
     <script>

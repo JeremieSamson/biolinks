@@ -1,0 +1,310 @@
+# Copyright (C) 2026 Jeremie Samson
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: BioLinks 1.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/JeremieSamson/biolinks/issues\n"
+"POT-Creation-Date: 2026-04-04T00:00:00+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: includes/class-biolinks-admin.php
+msgid "View page"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "%d link(s) imported from Click Tracker."
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "My page"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Appearance"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Statistics"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Click Tracker detected!"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Import existing links?"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Import links"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Profile"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Profile photo"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Choose an image"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Remove"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Title"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Bio"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Max 160 characters. %s/160"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Page slug"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Save profile"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Social networks"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Save social networks"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Edit link"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Add a link"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Link name"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "URL"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Icon"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Position"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Update"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Add"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Cancel"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Links"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Name"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Clicks (30d)"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Clicks (total)"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Actions"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Edit"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Delete this link?"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Delete"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Dark"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Dark gradient, transparent buttons"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Light"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "White background, gray borders, clean"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Minimal"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Solid color, outline buttons"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Colorful"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Vibrant background, white buttons"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Glass"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Glassmorphism, blur and transparency"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Template"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Accent color"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Color"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Footer"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Show credit link"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Display \"Powered by BioLinks\" in the page footer"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Save appearance"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Today"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Last 7 days"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Last 30 days"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Total"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Clicks per day"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "%d days"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Clicks per link"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Access denied"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Invalid nonce"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "No data"
+msgstr ""
+
+#: includes/icons.php
+msgid "-- None --"
+msgstr ""
+
+#: includes/icons.php
+msgid "Globe"
+msgstr ""
+
+#: includes/icons.php
+msgid "Blog"
+msgstr ""
+
+#: includes/icons.php
+msgid "Contact"
+msgstr ""
+
+#: includes/icons.php
+msgid "Podcast"
+msgstr ""
+
+#: includes/icons.php
+msgid "Newsletter"
+msgstr ""
+
+#: includes/icons.php
+msgid "Music"
+msgstr ""
+
+#: includes/icons.php
+msgid "Video"
+msgstr ""
+
+#: includes/icons.php
+msgid "Shop"
+msgstr ""
+
+#: includes/icons.php
+msgid "Link"
+msgstr ""
+
+#: templates/page.php
+msgid "Powered by %s"
+msgstr ""

@@ -38,16 +38,16 @@ class BioLinks_Admin
         wp_enqueue_style('wp-color-picker');
         wp_enqueue_script(
             'chartjs',
-            'https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js',
+            BIOLINKS_URL . 'assets/vendor/chart.umd.min.js',
             [],
-            '4',
+            '4.4.8',
             true
         );
         wp_enqueue_script(
             'sortablejs',
-            'https://cdn.jsdelivr.net/npm/sortablejs@1/Sortable.min.js',
+            BIOLINKS_URL . 'assets/vendor/Sortable.min.js',
             [],
-            '1',
+            '1.15.7',
             true
         );
         wp_enqueue_style(
@@ -97,18 +97,24 @@ class BioLinks_Admin
 
         ?>
         <div class="wrap biolinks-admin">
-            <h1>BioLinks <?php if ($page_url): ?><a href="<?php echo esc_url($page_url); ?>" target="_blank" class="page-title-action">Voir la page</a><?php endif; ?></h1>
+            <h1>BioLinks <?php if ($page_url): ?><a href="<?php echo esc_url($page_url); ?>" target="_blank" class="page-title-action"><?php esc_html_e('View page', 'biolinks'); ?></a><?php endif; ?></h1>
 
             <?php if (isset($_GET['imported'])): ?>
                 <div class="notice notice-success is-dismissible">
-                    <p><?php echo (int) $_GET['imported']; ?> lien(s) importé(s) depuis Click Tracker.</p>
+                    <p><?php
+                        printf(
+                            /* translators: %d: number of imported links */
+                            esc_html__('%d link(s) imported from Click Tracker.', 'biolinks'),
+                            (int) $_GET['imported']
+                        );
+                    ?></p>
                 </div>
             <?php endif; ?>
 
             <nav class="nav-tab-wrapper">
-                <a href="?page=biolinks&tab=page" class="nav-tab <?php echo $tab === 'page' ? 'nav-tab-active' : ''; ?>">Ma page</a>
-                <a href="?page=biolinks&tab=appearance" class="nav-tab <?php echo $tab === 'appearance' ? 'nav-tab-active' : ''; ?>">Apparence</a>
-                <a href="?page=biolinks&tab=stats" class="nav-tab <?php echo $tab === 'stats' ? 'nav-tab-active' : ''; ?>">Statistiques</a>
+                <a href="?page=biolinks&tab=page" class="nav-tab <?php echo $tab === 'page' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e('My page', 'biolinks'); ?></a>
+                <a href="?page=biolinks&tab=appearance" class="nav-tab <?php echo $tab === 'appearance' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e('Appearance', 'biolinks'); ?></a>
+                <a href="?page=biolinks&tab=stats" class="nav-tab <?php echo $tab === 'stats' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e('Statistics', 'biolinks'); ?></a>
             </nav>
 
             <?php if ($tab === 'page'): ?>
@@ -133,54 +139,60 @@ class BioLinks_Admin
         <!-- Import banner -->
         <?php if ($can_import && empty($links)): ?>
         <div class="bl-import-banner">
-            <p><strong>Click Tracker détecté !</strong> Importer les liens existants ?</p>
-            <button type="button" class="button button-primary" id="bl-import-btn">Importer les liens</button>
+            <p><strong><?php esc_html_e('Click Tracker detected!', 'biolinks'); ?></strong> <?php esc_html_e('Import existing links?', 'biolinks'); ?></p>
+            <button type="button" class="button button-primary" id="bl-import-btn"><?php esc_html_e('Import links', 'biolinks'); ?></button>
         </div>
         <?php endif; ?>
 
         <!-- Profile section -->
         <div class="bl-section">
-            <h2>Profil</h2>
+            <h2><?php esc_html_e('Profile', 'biolinks'); ?></h2>
             <form method="post">
                 <?php wp_nonce_field('biolinks_save_profile', 'bl_profile_nonce'); ?>
                 <input type="hidden" name="bl_action" value="save_profile">
                 <table class="form-table">
                     <tr>
-                        <th><label>Photo de profil</label></th>
+                        <th><label><?php esc_html_e('Profile photo', 'biolinks'); ?></label></th>
                         <td>
                             <div class="bl-photo-upload">
                                 <img src="<?php echo esc_url($config['photo_url'] ?? ''); ?>" alt="" class="bl-photo-preview" id="bl-photo-preview" style="<?php echo empty($config['photo_url']) ? 'display:none;' : ''; ?>">
                                 <input type="hidden" name="photo_url" id="bl-photo-url" value="<?php echo esc_attr($config['photo_url'] ?? ''); ?>">
-                                <button type="button" class="button" id="bl-photo-upload-btn">Choisir une image</button>
-                                <button type="button" class="button bl-photo-remove" id="bl-photo-remove-btn" style="<?php echo empty($config['photo_url']) ? 'display:none;' : ''; ?>">Supprimer</button>
+                                <button type="button" class="button" id="bl-photo-upload-btn"><?php esc_html_e('Choose an image', 'biolinks'); ?></button>
+                                <button type="button" class="button bl-photo-remove" id="bl-photo-remove-btn" style="<?php echo empty($config['photo_url']) ? 'display:none;' : ''; ?>"><?php esc_html_e('Remove', 'biolinks'); ?></button>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <th><label for="bl-title">Titre</label></th>
+                        <th><label for="bl-title"><?php esc_html_e('Title', 'biolinks'); ?></label></th>
                         <td><input type="text" name="title" id="bl-title" class="regular-text" value="<?php echo esc_attr($config['title'] ?? ''); ?>"></td>
                     </tr>
                     <tr>
-                        <th><label for="bl-bio">Bio</label></th>
+                        <th><label for="bl-bio"><?php esc_html_e('Bio', 'biolinks'); ?></label></th>
                         <td>
                             <textarea name="bio" id="bl-bio" class="regular-text" rows="2" maxlength="160"><?php echo esc_textarea($config['bio'] ?? ''); ?></textarea>
-                            <p class="description">Max 160 caractères. <span id="bl-bio-count"><?php echo mb_strlen($config['bio'] ?? ''); ?></span>/160</p>
+                            <p class="description"><?php
+                                printf(
+                                    /* translators: %s: character count */
+                                    esc_html__('Max 160 characters. %s/160', 'biolinks'),
+                                    '<span id="bl-bio-count">' . mb_strlen($config['bio'] ?? '') . '</span>'
+                                );
+                            ?></p>
                         </td>
                     </tr>
                     <tr>
-                        <th><label for="bl-slug">Slug de la page</label></th>
+                        <th><label for="bl-slug"><?php esc_html_e('Page slug', 'biolinks'); ?></label></th>
                         <td>
                             <code><?php echo esc_html(home_url('/')); ?></code><input type="text" name="slug" id="bl-slug" value="<?php echo esc_attr($config['slug'] ?? 'links'); ?>" class="small-text" style="width:150px">
                         </td>
                     </tr>
                 </table>
-                <?php submit_button('Enregistrer le profil'); ?>
+                <?php submit_button(esc_html__('Save profile', 'biolinks')); ?>
             </form>
         </div>
 
         <!-- Social networks section -->
         <div class="bl-section">
-            <h2>Réseaux sociaux</h2>
+            <h2><?php esc_html_e('Social networks', 'biolinks'); ?></h2>
             <form method="post">
                 <?php wp_nonce_field('biolinks_save_socials', 'bl_socials_nonce'); ?>
                 <input type="hidden" name="bl_action" value="save_socials">
@@ -192,61 +204,61 @@ class BioLinks_Admin
                     </tr>
                     <?php endforeach; ?>
                 </table>
-                <?php submit_button('Enregistrer les réseaux'); ?>
+                <?php submit_button(esc_html__('Save social networks', 'biolinks')); ?>
             </form>
         </div>
 
         <!-- Links section -->
         <div class="bl-section">
-            <h2><?php echo $editing ? 'Modifier le lien' : 'Ajouter un lien'; ?></h2>
+            <h2><?php echo $editing ? esc_html__('Edit link', 'biolinks') : esc_html__('Add a link', 'biolinks'); ?></h2>
             <form method="post" id="bl-link-form">
                 <?php wp_nonce_field('biolinks_save_link', 'bl_link_nonce'); ?>
                 <input type="hidden" name="bl_action" value="save_link">
                 <input type="hidden" name="link_id" id="bl-link-id" value="<?php echo $editing ? (int) $editing->id : 0; ?>">
                 <table class="form-table">
                     <tr>
-                        <th><label for="bl-link-name">Nom du lien</label></th>
+                        <th><label for="bl-link-name"><?php esc_html_e('Link name', 'biolinks'); ?></label></th>
                         <td><input type="text" name="link_name" id="bl-link-name" class="regular-text" required value="<?php echo $editing ? esc_attr($editing->link_name) : ''; ?>"></td>
                     </tr>
                     <tr>
-                        <th><label for="bl-link-url">URL</label></th>
+                        <th><label for="bl-link-url"><?php esc_html_e('URL', 'biolinks'); ?></label></th>
                         <td><input type="url" name="link_url" id="bl-link-url" class="regular-text" required value="<?php echo $editing ? esc_attr($editing->link_url) : ''; ?>"></td>
                     </tr>
                     <tr>
-                        <th><label for="bl-link-icon">Icône</label></th>
+                        <th><label for="bl-link-icon"><?php esc_html_e('Icon', 'biolinks'); ?></label></th>
                         <td>
                             <select name="link_icon" id="bl-link-icon">
-                                <?php foreach (BIOLINKS_GENERIC_LABELS as $value => $label): ?>
+                                <?php foreach (biolinks_generic_labels() as $value => $label): ?>
                                     <option value="<?php echo esc_attr($value); ?>" <?php selected($editing ? ($editing->icon ?? '') : '', $value); ?>><?php echo esc_html($label); ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </td>
                     </tr>
                     <tr>
-                        <th><label for="bl-link-position">Position</label></th>
+                        <th><label for="bl-link-position"><?php esc_html_e('Position', 'biolinks'); ?></label></th>
                         <td><input type="number" name="link_position" id="bl-link-position" value="<?php echo $editing ? (int) $editing->position : BioLinks_DB::get_next_position(); ?>" min="0"></td>
                     </tr>
                 </table>
-                <?php submit_button($editing ? 'Mettre à jour' : 'Ajouter', 'primary', 'submit'); ?>
+                <?php submit_button($editing ? esc_html__('Update', 'biolinks') : esc_html__('Add', 'biolinks'), 'primary', 'submit'); ?>
                 <?php if ($editing): ?>
-                    <a href="?page=biolinks&tab=page" class="button">Annuler</a>
+                    <a href="?page=biolinks&tab=page" class="button"><?php esc_html_e('Cancel', 'biolinks'); ?></a>
                 <?php endif; ?>
             </form>
         </div>
 
         <!-- Links table -->
         <div class="bl-section">
-            <h2>Liens</h2>
+            <h2><?php esc_html_e('Links', 'biolinks'); ?></h2>
             <table class="widefat bl-links-table">
                 <thead>
                     <tr>
                         <th class="bl-col-drag"></th>
-                        <th>Icône</th>
-                        <th>Nom</th>
-                        <th>URL</th>
-                        <th>Clics (30j)</th>
-                        <th>Clics (total)</th>
-                        <th>Actions</th>
+                        <th><?php esc_html_e('Icon', 'biolinks'); ?></th>
+                        <th><?php esc_html_e('Name', 'biolinks'); ?></th>
+                        <th><?php esc_html_e('URL', 'biolinks'); ?></th>
+                        <th><?php esc_html_e('Clicks (30d)', 'biolinks'); ?></th>
+                        <th><?php esc_html_e('Clicks (total)', 'biolinks'); ?></th>
+                        <th><?php esc_html_e('Actions', 'biolinks'); ?></th>
                     </tr>
                 </thead>
                 <tbody id="bl-sortable-links">
@@ -259,12 +271,12 @@ class BioLinks_Admin
                             <td><?php echo $clicks_30d_map[$link->id] ?? 0; ?></td>
                             <td><?php echo (int) $link->click_count; ?></td>
                             <td>
-                                <a href="?page=biolinks&tab=page&edit=<?php echo (int) $link->id; ?>" class="button button-small">Modifier</a>
+                                <a href="?page=biolinks&tab=page&edit=<?php echo (int) $link->id; ?>" class="button button-small"><?php esc_html_e('Edit', 'biolinks'); ?></a>
                                 <form method="post" style="display:inline">
                                     <?php wp_nonce_field('biolinks_delete_' . $link->id, 'bl_delete_nonce'); ?>
                                     <input type="hidden" name="bl_action" value="delete_link">
                                     <input type="hidden" name="link_id" value="<?php echo (int) $link->id; ?>">
-                                    <button type="submit" class="button button-small button-link-delete" onclick="return confirm('Supprimer ce lien ?');">Supprimer</button>
+                                    <button type="submit" class="button button-small button-link-delete" onclick="return confirm('<?php echo esc_js(__('Delete this link?', 'biolinks')); ?>');"><?php esc_html_e('Delete', 'biolinks'); ?></button>
                                 </form>
                             </td>
                         </tr>
@@ -279,13 +291,14 @@ class BioLinks_Admin
     {
         $current_template = $config['template'] ?? 'dark';
         $accent_color = $config['accent_color'] ?? '#0a7286';
+        $show_credit = ($config['show_credit'] ?? '1') === '1';
 
         $templates = [
-            'dark' => ['name' => 'Sombre', 'desc' => 'Dégradé sombre, boutons transparents'],
-            'light' => ['name' => 'Clair', 'desc' => 'Fond blanc, bordures grises, clean'],
-            'minimal' => ['name' => 'Minimal', 'desc' => 'Couleur unie, boutons outline'],
-            'colorful' => ['name' => 'Coloré', 'desc' => 'Fond vif, boutons blancs'],
-            'glass' => ['name' => 'Glass', 'desc' => 'Glassmorphism, flou et transparence'],
+            'dark' => ['name' => __('Dark', 'biolinks'), 'desc' => __('Dark gradient, transparent buttons', 'biolinks')],
+            'light' => ['name' => __('Light', 'biolinks'), 'desc' => __('White background, gray borders, clean', 'biolinks')],
+            'minimal' => ['name' => __('Minimal', 'biolinks'), 'desc' => __('Solid color, outline buttons', 'biolinks')],
+            'colorful' => ['name' => __('Colorful', 'biolinks'), 'desc' => __('Vibrant background, white buttons', 'biolinks')],
+            'glass' => ['name' => __('Glass', 'biolinks'), 'desc' => __('Glassmorphism, blur and transparency', 'biolinks')],
         ];
         ?>
         <form method="post">
@@ -293,7 +306,7 @@ class BioLinks_Admin
             <input type="hidden" name="bl_action" value="save_appearance">
 
             <div class="bl-section">
-                <h2>Template</h2>
+                <h2><?php esc_html_e('Template', 'biolinks'); ?></h2>
                 <div class="bl-templates-grid">
                     <?php foreach ($templates as $key => $tpl): ?>
                     <label class="bl-template-card <?php echo $current_template === $key ? 'bl-template-active' : ''; ?>">
@@ -314,16 +327,31 @@ class BioLinks_Admin
             </div>
 
             <div class="bl-section">
-                <h2>Couleur d'accent</h2>
+                <h2><?php esc_html_e('Accent color', 'biolinks'); ?></h2>
                 <table class="form-table">
                     <tr>
-                        <th><label for="bl-accent-color">Couleur</label></th>
+                        <th><label for="bl-accent-color"><?php esc_html_e('Color', 'biolinks'); ?></label></th>
                         <td><input type="text" name="accent_color" id="bl-accent-color" value="<?php echo esc_attr($accent_color); ?>" class="bl-color-picker" data-default-color="#0a7286"></td>
                     </tr>
                 </table>
             </div>
 
-            <?php submit_button('Enregistrer l\'apparence'); ?>
+            <div class="bl-section">
+                <h2><?php esc_html_e('Footer', 'biolinks'); ?></h2>
+                <table class="form-table">
+                    <tr>
+                        <th><label for="bl-show-credit"><?php esc_html_e('Show credit link', 'biolinks'); ?></label></th>
+                        <td>
+                            <label>
+                                <input type="checkbox" name="show_credit" id="bl-show-credit" value="1" <?php checked($show_credit); ?>>
+                                <?php esc_html_e('Display "Powered by BioLinks" in the page footer', 'biolinks'); ?>
+                            </label>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <?php submit_button(esc_html__('Save appearance', 'biolinks')); ?>
         </form>
         <?php
     }
@@ -334,36 +362,39 @@ class BioLinks_Admin
         <div class="bl-stats-cards">
             <div class="bl-stat-card">
                 <span class="bl-stat-value"><?php echo (int) $stats['today']; ?></span>
-                <span class="bl-stat-label">Aujourd'hui</span>
+                <span class="bl-stat-label"><?php esc_html_e('Today', 'biolinks'); ?></span>
             </div>
             <div class="bl-stat-card">
                 <span class="bl-stat-value"><?php echo (int) $stats['week']; ?></span>
-                <span class="bl-stat-label">7 derniers jours</span>
+                <span class="bl-stat-label"><?php esc_html_e('Last 7 days', 'biolinks'); ?></span>
             </div>
             <div class="bl-stat-card">
                 <span class="bl-stat-value"><?php echo (int) $stats['month']; ?></span>
-                <span class="bl-stat-label">30 derniers jours</span>
+                <span class="bl-stat-label"><?php esc_html_e('Last 30 days', 'biolinks'); ?></span>
             </div>
             <div class="bl-stat-card">
                 <span class="bl-stat-value"><?php echo (int) $stats['total']; ?></span>
-                <span class="bl-stat-label">Total</span>
+                <span class="bl-stat-label"><?php esc_html_e('Total', 'biolinks'); ?></span>
             </div>
         </div>
 
         <div class="bl-charts">
             <div class="bl-chart-container">
                 <div class="bl-chart-header">
-                    <h2>Clics par jour</h2>
+                    <h2><?php esc_html_e('Clicks per day', 'biolinks'); ?></h2>
                     <select id="bl-period-select">
-                        <option value="7">7 jours</option>
-                        <option value="30" selected>30 jours</option>
-                        <option value="90">90 jours</option>
+                        <option value="7"><?php
+                            /* translators: %d: number of days */
+                            printf(esc_html__('%d days', 'biolinks'), 7);
+                        ?></option>
+                        <option value="30" selected><?php printf(esc_html__('%d days', 'biolinks'), 30); ?></option>
+                        <option value="90"><?php printf(esc_html__('%d days', 'biolinks'), 90); ?></option>
                     </select>
                 </div>
                 <div class="bl-chart-wrap"><canvas id="bl-chart-daily"></canvas></div>
             </div>
             <div class="bl-chart-container">
-                <h2>Clics par lien</h2>
+                <h2><?php esc_html_e('Clicks per link', 'biolinks'); ?></h2>
                 <div class="bl-chart-wrap"><canvas id="bl-chart-links"></canvas></div>
             </div>
         </div>
@@ -390,14 +421,14 @@ class BioLinks_Admin
         }
 
         if (!current_user_can('manage_options')) {
-            wp_die('Accès refusé');
+            wp_die(esc_html__('Access denied', 'biolinks'));
         }
 
         $action = $_POST['bl_action'];
 
         if ($action === 'save_profile') {
             if (!wp_verify_nonce($_POST['bl_profile_nonce'] ?? '', 'biolinks_save_profile')) {
-                wp_die('Nonce invalide');
+                wp_die(esc_html__('Invalid nonce', 'biolinks'));
             }
 
             BioLinks_DB::set_config('photo_url', esc_url_raw($_POST['photo_url'] ?? ''));
@@ -423,7 +454,7 @@ class BioLinks_Admin
 
         if ($action === 'save_socials') {
             if (!wp_verify_nonce($_POST['bl_socials_nonce'] ?? '', 'biolinks_save_socials')) {
-                wp_die('Nonce invalide');
+                wp_die(esc_html__('Invalid nonce', 'biolinks'));
             }
 
             $socials = [];
@@ -441,7 +472,7 @@ class BioLinks_Admin
 
         if ($action === 'save_link') {
             if (!wp_verify_nonce($_POST['bl_link_nonce'] ?? '', 'biolinks_save_link')) {
-                wp_die('Nonce invalide');
+                wp_die(esc_html__('Invalid nonce', 'biolinks'));
             }
 
             $id = (int) ($_POST['link_id'] ?? 0);
@@ -449,7 +480,7 @@ class BioLinks_Admin
             $url = esc_url_raw($_POST['link_url'] ?? '');
             $position = (int) ($_POST['link_position'] ?? 0);
             $icon = sanitize_text_field($_POST['link_icon'] ?? '');
-            if ($icon !== '' && !array_key_exists($icon, BIOLINKS_GENERIC_LABELS)) {
+            if ($icon !== '' && !in_array($icon, BIOLINKS_GENERIC_LABELS_KEYS, true)) {
                 $icon = '';
             }
             $icon = $icon !== '' ? $icon : null;
@@ -467,7 +498,7 @@ class BioLinks_Admin
         if ($action === 'delete_link') {
             $id = (int) ($_POST['link_id'] ?? 0);
             if (!wp_verify_nonce($_POST['bl_delete_nonce'] ?? '', 'biolinks_delete_' . $id)) {
-                wp_die('Nonce invalide');
+                wp_die(esc_html__('Invalid nonce', 'biolinks'));
             }
 
             BioLinks_DB::delete_link($id);
@@ -478,7 +509,7 @@ class BioLinks_Admin
 
         if ($action === 'save_appearance') {
             if (!wp_verify_nonce($_POST['bl_appearance_nonce'] ?? '', 'biolinks_save_appearance')) {
-                wp_die('Nonce invalide');
+                wp_die(esc_html__('Invalid nonce', 'biolinks'));
             }
 
             $template = sanitize_text_field($_POST['template'] ?? 'dark');
@@ -491,6 +522,9 @@ class BioLinks_Admin
             $color = sanitize_hex_color($_POST['accent_color'] ?? '#0a7286');
             BioLinks_DB::set_config('accent_color', $color ?: '#0a7286');
 
+            $show_credit = isset($_POST['show_credit']) ? '1' : '0';
+            BioLinks_DB::set_config('show_credit', $show_credit);
+
             wp_safe_redirect(admin_url('admin.php?page=biolinks&tab=appearance'));
             exit;
         }
@@ -500,12 +534,12 @@ class BioLinks_Admin
     {
         check_ajax_referer('biolinks_admin_nonce', 'nonce');
         if (!current_user_can('manage_options')) {
-            wp_send_json_error('Accès refusé', 403);
+            wp_send_json_error(esc_html__('Access denied', 'biolinks'), 403);
         }
 
         $order = isset($_POST['order']) ? array_map('intval', $_POST['order']) : [];
         if (empty($order)) {
-            wp_send_json_error('Pas de données', 400);
+            wp_send_json_error(esc_html__('No data', 'biolinks'), 400);
         }
 
         BioLinks_DB::update_positions($order);
@@ -516,7 +550,7 @@ class BioLinks_Admin
     {
         check_ajax_referer('biolinks_admin_nonce', 'nonce');
         if (!current_user_can('manage_options')) {
-            wp_send_json_error('Accès refusé', 403);
+            wp_send_json_error(esc_html__('Access denied', 'biolinks'), 403);
         }
 
         $days = isset($_POST['days']) ? (int) $_POST['days'] : 30;
@@ -541,7 +575,7 @@ class BioLinks_Admin
     {
         check_ajax_referer('biolinks_admin_nonce', 'nonce');
         if (!current_user_can('manage_options')) {
-            wp_send_json_error('Accès refusé', 403);
+            wp_send_json_error(esc_html__('Access denied', 'biolinks'), 403);
         }
 
         $count = BioLinks_DB::import_from_click_tracker();

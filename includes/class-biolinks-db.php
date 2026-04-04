@@ -33,30 +33,32 @@ class BioLinks_DB
         $links = self::table_links();
         $logs = self::table_logs();
 
-        $wpdb->query("CREATE TABLE IF NOT EXISTS $config (
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+
+        dbDelta("CREATE TABLE $config (
             option_name varchar(100) NOT NULL,
             option_value longtext NOT NULL,
-            PRIMARY KEY (option_name)
-        ) $charset");
+            PRIMARY KEY  (option_name)
+        ) $charset;");
 
-        $wpdb->query("CREATE TABLE IF NOT EXISTS $links (
+        dbDelta("CREATE TABLE $links (
             id int(11) NOT NULL AUTO_INCREMENT,
             link_name varchar(255) NOT NULL,
             link_url varchar(500) NOT NULL,
             icon varchar(50) DEFAULT NULL,
             position int(11) NOT NULL DEFAULT 0,
             click_count int(11) DEFAULT 0,
-            PRIMARY KEY (id)
-        ) $charset");
+            PRIMARY KEY  (id)
+        ) $charset;");
 
-        $wpdb->query("CREATE TABLE IF NOT EXISTS $logs (
+        dbDelta("CREATE TABLE $logs (
             id bigint(20) NOT NULL AUTO_INCREMENT,
             link_id int(11) NOT NULL,
             clicked_at datetime NOT NULL,
             user_agent varchar(500) DEFAULT NULL,
-            PRIMARY KEY (id),
+            PRIMARY KEY  (id),
             KEY idx_link_date (link_id, clicked_at)
-        ) $charset");
+        ) $charset;");
 
         $defaults = [
             'photo_url' => '',
@@ -67,6 +69,7 @@ class BioLinks_DB
             'template' => 'dark',
             'accent_color' => '#0a7286',
             'socials' => '{}',
+            'show_credit' => '1',
         ];
 
         foreach ($defaults as $key => $value) {

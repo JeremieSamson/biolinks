@@ -1,0 +1,238 @@
+# French translation for BioLinks
+# Copyright (C) 2026 Jeremie Samson
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: BioLinks 1.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/JeremieSamson/biolinks/issues\n"
+"POT-Creation-Date: 2026-04-04T00:00:00+00:00\n"
+"PO-Revision-Date: 2026-04-04T00:00:00+00:00\n"
+"Last-Translator: Jeremie Samson <contact@nomadesurrails.fr>\n"
+"Language-Team: French\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "View page"
+msgstr "Voir la page"
+
+msgid "%d link(s) imported from Click Tracker."
+msgstr "%d lien(s) importé(s) depuis Click Tracker."
+
+msgid "My page"
+msgstr "Ma page"
+
+msgid "Appearance"
+msgstr "Apparence"
+
+msgid "Statistics"
+msgstr "Statistiques"
+
+msgid "Click Tracker detected!"
+msgstr "Click Tracker détecté !"
+
+msgid "Import existing links?"
+msgstr "Importer les liens existants ?"
+
+msgid "Import links"
+msgstr "Importer les liens"
+
+msgid "Profile"
+msgstr "Profil"
+
+msgid "Profile photo"
+msgstr "Photo de profil"
+
+msgid "Choose an image"
+msgstr "Choisir une image"
+
+msgid "Remove"
+msgstr "Supprimer"
+
+msgid "Title"
+msgstr "Titre"
+
+msgid "Bio"
+msgstr "Bio"
+
+msgid "Max 160 characters. %s/160"
+msgstr "Max 160 caractères. %s/160"
+
+msgid "Page slug"
+msgstr "Slug de la page"
+
+msgid "Save profile"
+msgstr "Enregistrer le profil"
+
+msgid "Social networks"
+msgstr "Réseaux sociaux"
+
+msgid "Save social networks"
+msgstr "Enregistrer les réseaux"
+
+msgid "Edit link"
+msgstr "Modifier le lien"
+
+msgid "Add a link"
+msgstr "Ajouter un lien"
+
+msgid "Link name"
+msgstr "Nom du lien"
+
+msgid "URL"
+msgstr "URL"
+
+msgid "Icon"
+msgstr "Icône"
+
+msgid "Position"
+msgstr "Position"
+
+msgid "Update"
+msgstr "Mettre à jour"
+
+msgid "Add"
+msgstr "Ajouter"
+
+msgid "Cancel"
+msgstr "Annuler"
+
+msgid "Links"
+msgstr "Liens"
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Clicks (30d)"
+msgstr "Clics (30j)"
+
+msgid "Clicks (total)"
+msgstr "Clics (total)"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Edit"
+msgstr "Modifier"
+
+msgid "Delete this link?"
+msgstr "Supprimer ce lien ?"
+
+msgid "Delete"
+msgstr "Supprimer"
+
+msgid "Dark"
+msgstr "Sombre"
+
+msgid "Dark gradient, transparent buttons"
+msgstr "Dégradé sombre, boutons transparents"
+
+msgid "Light"
+msgstr "Clair"
+
+msgid "White background, gray borders, clean"
+msgstr "Fond blanc, bordures grises, clean"
+
+msgid "Minimal"
+msgstr "Minimal"
+
+msgid "Solid color, outline buttons"
+msgstr "Couleur unie, boutons outline"
+
+msgid "Colorful"
+msgstr "Coloré"
+
+msgid "Vibrant background, white buttons"
+msgstr "Fond vif, boutons blancs"
+
+msgid "Glass"
+msgstr "Glass"
+
+msgid "Glassmorphism, blur and transparency"
+msgstr "Glassmorphism, flou et transparence"
+
+msgid "Template"
+msgstr "Template"
+
+msgid "Accent color"
+msgstr "Couleur d'accent"
+
+msgid "Color"
+msgstr "Couleur"
+
+msgid "Footer"
+msgstr "Pied de page"
+
+msgid "Show credit link"
+msgstr "Afficher le lien de crédit"
+
+msgid "Display \"Powered by BioLinks\" in the page footer"
+msgstr "Afficher « Propulsé par BioLinks » dans le pied de page"
+
+msgid "Save appearance"
+msgstr "Enregistrer l'apparence"
+
+msgid "Today"
+msgstr "Aujourd'hui"
+
+msgid "Last 7 days"
+msgstr "7 derniers jours"
+
+msgid "Last 30 days"
+msgstr "30 derniers jours"
+
+msgid "Total"
+msgstr "Total"
+
+msgid "Clicks per day"
+msgstr "Clics par jour"
+
+msgid "%d days"
+msgstr "%d jours"
+
+msgid "Clicks per link"
+msgstr "Clics par lien"
+
+msgid "Access denied"
+msgstr "Accès refusé"
+
+msgid "Invalid nonce"
+msgstr "Nonce invalide"
+
+msgid "No data"
+msgstr "Pas de données"
+
+msgid "-- None --"
+msgstr "-- Aucune --"
+
+msgid "Globe"
+msgstr "Globe"
+
+msgid "Blog"
+msgstr "Blog"
+
+msgid "Contact"
+msgstr "Contact"
+
+msgid "Podcast"
+msgstr "Podcast"
+
+msgid "Newsletter"
+msgstr "Newsletter"
+
+msgid "Music"
+msgstr "Musique"
+
+msgid "Video"
+msgstr "Vidéo"
+
+msgid "Shop"
+msgstr "Boutique"
+
+msgid "Link"
+msgstr "Lien"
+
+msgid "Powered by %s"
+msgstr "Propulsé par %s"

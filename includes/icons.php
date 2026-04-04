@@ -62,15 +62,20 @@ const BIOLINKS_SOCIAL_LABELS = [
     'snapchat' => 'Snapchat',
 ];
 
-const BIOLINKS_GENERIC_LABELS = [
-    '' => '-- Aucune --',
-    'globe' => 'Globe',
-    'blog' => 'Blog',
-    'contact' => 'Contact',
-    'podcast' => 'Podcast',
-    'newsletter' => 'Newsletter',
-    'music' => 'Musique',
-    'video' => 'Video',
-    'shop' => 'Boutique',
-    'link' => 'Lien',
-];
+function biolinks_generic_labels(): array
+{
+    return [
+        '' => __('-- None --', 'biolinks'),
+        'globe' => __('Globe', 'biolinks'),
+        'blog' => __('Blog', 'biolinks'),
+        'contact' => __('Contact', 'biolinks'),
+        'podcast' => __('Podcast', 'biolinks'),
+        'newsletter' => __('Newsletter', 'biolinks'),
+        'music' => __('Music', 'biolinks'),
+        'video' => __('Video', 'biolinks'),
+        'shop' => __('Shop', 'biolinks'),
+        'link' => __('Link', 'biolinks'),
+    ];
+}
+
+const BIOLINKS_GENERIC_LABELS_KEYS = ['', 'globe', 'blog', 'contact', 'podcast', 'newsletter', 'music', 'video', 'shop', 'link'];
