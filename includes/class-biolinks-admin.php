@@ -95,6 +95,21 @@ class BioLinks_Admin
         $clicks_per_day = BioLinks_DB::get_clicks_per_day(30);
         $clicks_per_link = BioLinks_DB::get_clicks_per_link(30);
 
+        wp_add_inline_script(
+            'biolinks-admin',
+            'var blChartData = ' . wp_json_encode([
+                'daily' => [
+                    'labels' => array_map(static fn($r) => $r->date, $clicks_per_day),
+                    'values' => array_map(static fn($r) => (int) $r->clicks, $clicks_per_day),
+                ],
+                'links' => [
+                    'labels' => array_map(static fn($r) => $r->link_name, $clicks_per_link),
+                    'values' => array_map(static fn($r) => (int) $r->clicks, $clicks_per_link),
+                ],
+            ]) . ';',
+            'before'
+        );
+
         ?>
         <div class="wrap biolinks-admin">
             <h1>BioLinks <?php if ($page_url): ?><a href="<?php echo esc_url($page_url); ?>" target="_blank" class="page-title-action"><?php esc_html_e('View page', 'biolinks'); ?></a><?php endif; ?></h1>
@@ -349,7 +364,7 @@ class BioLinks_Admin
                                 <input type="checkbox" name="show_credit" id="bl-show-credit" value="1" <?php checked($show_credit); ?>>
                                 <?php esc_html_e('Display a small "Powered by BioLinks" credit in the page footer', 'biolinks'); ?>
                             </label>
-                            <p class="description"><?php esc_html_e('BioLinks is a free, open-source plugin developed on my own time. Enabling this adds a discreet credit link at the bottom of your bio page, which helps other WordPress users discover the plugin. Entirely optional — thank you for your support!', 'biolinks'); ?></p>
+                            <p class="description"><?php esc_html_e('BioLinks is a free, open-source plugin developed on my own time. Enabling this adds a discreet credit link at the bottom of your bio page, which helps other WordPress users discover the plugin. Entirely optional. Thank you for your support!', 'biolinks'); ?></p>
                         </td>
                     </tr>
                 </table>
@@ -408,19 +423,6 @@ class BioLinks_Admin
                 <div class="bl-chart-wrap"><canvas id="bl-chart-links"></canvas></div>
             </div>
         </div>
-
-        <script>
-            var blChartData = {
-                daily: {
-                    labels: <?php echo wp_json_encode(array_map(fn($r) => $r->date, $clicks_per_day)); ?>,
-                    values: <?php echo wp_json_encode(array_map(fn($r) => (int) $r->clicks, $clicks_per_day)); ?>
-                },
-                links: {
-                    labels: <?php echo wp_json_encode(array_map(fn($r) => $r->link_name, $clicks_per_link)); ?>,
-                    values: <?php echo wp_json_encode(array_map(fn($r) => (int) $r->clicks, $clicks_per_link)); ?>
-                }
-            };
-        </script>
         <?php
     }
 

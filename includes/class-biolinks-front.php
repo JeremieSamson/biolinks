@@ -12,8 +12,6 @@ class BioLinks_Front
         add_filter('template_include', [$this, 'load_template']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_assets']);
         add_action('wp_enqueue_scripts', [$this, 'dequeue_other_assets'], 999);
-        add_action('wp_head', [$this, 'output_inline_styles']);
-        add_action('wp_enqueue_scripts', [$this, 'enqueue_ga_script']);
         add_action('wp', [$this, 'maybe_hide_admin_bar']);
         add_action('wp_ajax_biolinks_click', [$this, 'handle_click']);
         add_action('wp_ajax_nopriv_biolinks_click', [$this, 'handle_click']);
@@ -58,6 +56,9 @@ class BioLinks_Front
             BIOLINKS_VERSION
         );
 
+        $accent = sanitize_hex_color((string) BioLinks_DB::get_config('accent_color')) ?: '#0a7286';
+        wp_add_inline_style('biolinks-template', ':root { --accent: ' . $accent . '; }');
+
         wp_enqueue_script(
             'biolinks-front',
             BIOLINKS_URL . 'assets/front.js',
@@ -79,7 +80,7 @@ class BioLinks_Front
         }
 
         $keep_styles = ['biolinks-template'];
-        $keep_scripts = ['biolinks-front', 'biolinks-gtag', 'jquery'];
+        $keep_scripts = ['biolinks-front', 'jquery'];
 
         global $wp_styles, $wp_scripts;
 
@@ -105,41 +106,6 @@ class BioLinks_Front
         if ($this->is_biolinks_page()) {
             add_filter('show_admin_bar', '__return_false');
         }
-    }
-
-    public function output_inline_styles(): void
-    {
-        if (!$this->is_biolinks_page()) {
-            return;
-        }
-
-        $accent = BioLinks_DB::get_config('accent_color') ?: '#0a7286';
-        echo '<style>:root { --accent: ' . esc_attr($accent) . '; }</style>' . "\n";
-    }
-
-    public function enqueue_ga_script(): void
-    {
-        if (!$this->is_biolinks_page()) {
-            return;
-        }
-
-        $ga_id = self::detect_ga_id();
-        if (!$ga_id) {
-            return;
-        }
-
-        wp_enqueue_script(
-            'biolinks-gtag',
-            'https://www.googletagmanager.com/gtag/js?id=' . rawurlencode($ga_id),
-            [],
-            null,
-            false
-        );
-
-        wp_add_inline_script(
-            'biolinks-gtag',
-            'window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config",' . wp_json_encode($ga_id) . ');'
-        );
     }
 
     public function handle_click(): void
@@ -189,25 +155,5 @@ class BioLinks_Front
                 $query->set('post__not_in', $excluded);
             }
         }
-    }
-
-    public static function detect_ga_id(): string
-    {
-        $seopress = get_option('seopress_google_analytics_option_name');
-        if (is_array($seopress) && !empty($seopress['seopress_google_analytics_ga4'])) {
-            return $seopress['seopress_google_analytics_ga4'];
-        }
-
-        $wpseo = get_option('wpseo');
-        if (is_array($wpseo) && !empty($wpseo['ga_measurement_id'])) {
-            return $wpseo['ga_measurement_id'];
-        }
-
-        $mi = get_option('monsterinsights_site_profile');
-        if (is_array($mi) && !empty($mi['ua'])) {
-            return $mi['ua'];
-        }
-
-        return '';
     }
 }

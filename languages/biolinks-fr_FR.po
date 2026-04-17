@@ -171,8 +171,8 @@ msgstr "Soutenir le développeur"
 msgid "Display a small \"Powered by BioLinks\" credit in the page footer"
 msgstr "Afficher un discret « Propulsé par BioLinks » dans le pied de page"
 
-msgid "BioLinks is a free, open-source plugin developed on my own time. Enabling this adds a discreet credit link at the bottom of your bio page, which helps other WordPress users discover the plugin. Entirely optional — thank you for your support!"
-msgstr "BioLinks est un plugin gratuit et open source développé sur mon temps personnel. Activer cette option ajoute un lien de crédit discret en bas de ta page, ce qui aide d'autres utilisateurs WordPress à découvrir le plugin. Entièrement optionnel — merci pour ton soutien !"
+msgid "BioLinks is a free, open-source plugin developed on my own time. Enabling this adds a discreet credit link at the bottom of your bio page, which helps other WordPress users discover the plugin. Entirely optional. Thank you for your support!"
+msgstr "BioLinks est un plugin gratuit et open source développé sur mon temps personnel. Activer cette option ajoute un lien de crédit discret en bas de ta page, ce qui aide d'autres utilisateurs WordPress à découvrir le plugin. Entièrement optionnel. Merci pour ton soutien !"
 
 msgid "Save appearance"
 msgstr "Enregistrer l'apparence"

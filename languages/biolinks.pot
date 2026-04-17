@@ -222,7 +222,7 @@ msgid "Display a small \"Powered by BioLinks\" credit in the page footer"
 msgstr ""
 
 #: includes/class-biolinks-admin.php
-msgid "BioLinks is a free, open-source plugin developed on my own time. Enabling this adds a discreet credit link at the bottom of your bio page, which helps other WordPress users discover the plugin. Entirely optional — thank you for your support!"
+msgid "BioLinks is a free, open-source plugin developed on my own time. Enabling this adds a discreet credit link at the bottom of your bio page, which helps other WordPress users discover the plugin. Entirely optional. Thank you for your support!"
 msgstr ""
 
 #: includes/class-biolinks-admin.php

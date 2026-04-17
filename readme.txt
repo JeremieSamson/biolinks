@@ -1,10 +1,10 @@
 === BioLinks ===
-Contributors: jeremiesamson
+Contributors: nomadesurrails
 Tags: link in bio, social links, bio page, link page, click tracking
 Requires at least: 5.9
 Tested up to: 6.9
 Requires PHP: 8.0
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,15 +18,14 @@ No third-party accounts. No subscriptions. No limits. Just a free, open-source p
 
 **Features:**
 
-* **5 visual templates** — Dark, Light, Minimal, Colorful, Glassmorphism
-* **Custom accent color** — Native WordPress color picker to match your brand
-* **Social media icons** — Instagram, YouTube, TikTok, LinkedIn, Twitter/X, Facebook, GitHub, Pinterest, Twitch, Snapchat (SVG icons displayed automatically)
-* **Click tracking** — Built-in analytics with daily charts and per-link stats inside your WordPress admin
-* **Google Analytics auto-detection** — Works with SEOPress, Yoast, and MonsterInsights out of the box
-* **Standalone page** — No theme header/footer, works with any WordPress theme
-* **Zero external dependencies** — Everything hosted on your server. No CDN, no cookies, no third-party tracking. GDPR friendly by design
-* **Drag & drop link ordering** — Reorder your links with a simple drag and drop
-* **Media Library integration** — Upload your profile photo directly from the WordPress media library
+* **5 visual templates**: Dark, Light, Minimal, Colorful, Glassmorphism
+* **Custom accent color**: Native WordPress color picker to match your brand
+* **Social media icons**: Instagram, YouTube, TikTok, LinkedIn, Twitter/X, Facebook, GitHub, Pinterest, Twitch, Snapchat (SVG icons displayed automatically)
+* **Click tracking**: Built-in analytics with daily charts and per-link stats inside your WordPress admin
+* **Standalone page**: No theme header/footer, works with any WordPress theme
+* **Zero external dependencies**: Everything hosted on your server. No CDN, no cookies, no third-party tracking. GDPR friendly by design
+* **Drag & drop link ordering**: Reorder your links with a simple drag and drop
+* **Media Library integration**: Upload your profile photo directly from the WordPress media library
 
 **Why BioLinks instead of Linktree?**
 
@@ -67,14 +66,20 @@ Yes. The bio page is a standard WordPress page and works with all major caching 
 
 == Screenshots ==
 
-1. Profile configuration — Set your photo, display name, bio, and page slug.
-2. Social networks — Enter URLs for your social accounts. Only filled networks are displayed.
-3. Add a link — Add links with a name, URL, optional icon, and position.
-4. Manage your links — View all links with click stats. Reorder with drag & drop.
-5. Appearance settings — Choose from 5 templates and pick a custom accent color.
-6. Statistics dashboard — Daily click charts and per-link breakdown.
+1. Profile configuration: Set your photo, display name, bio, and page slug.
+2. Social networks: Enter URLs for your social accounts. Only filled networks are displayed.
+3. Add a link: Add links with a name, URL, optional icon, and position.
+4. Manage your links: View all links with click stats. Reorder with drag & drop.
+5. Appearance settings: Choose from 5 templates and pick a custom accent color.
+6. Statistics dashboard: Daily click charts and per-link breakdown.
 
 == Changelog ==
+
+= 1.1.2 =
+* Replaced inline `<style>` output with `wp_add_inline_style()` against the template handle
+* Replaced inline `<script>` chart data with `wp_add_inline_script()` against the admin script handle
+* Removed Google Analytics auto-detection and third-party script loading; BioLinks no longer contacts any external server. Built-in click analytics remain fully available
+* Updated the Contributors list to match the submitter account
 
 = 1.1.1 =
 * Made the optional "Powered by BioLinks" footer credit a clickable link to the developer's website
@@ -95,13 +100,15 @@ Yes. The bio page is a standard WordPress page and works with all major caching 
 * Custom accent color with WordPress color picker
 * Social media icons (10 networks)
 * Click tracking with daily charts and per-link stats
-* Google Analytics auto-detection (SEOPress, Yoast, MonsterInsights)
 * Standalone page without theme header/footer
 * Drag & drop link ordering
 * Media Library integration for profile photo
 * Import from Click Tracker plugin
 
 == Upgrade Notice ==
+
+= 1.1.2 =
+Recommended update: WordPress.org compliance improvements (inline styles and scripts now enqueued via the proper APIs, Google Analytics integration removed, BioLinks no longer contacts any external server).
 
 = 1.1.1 =
 Recommended update: footer credit is now a proper clickable link, and the admin bar no longer appears unstyled on the bio page.
