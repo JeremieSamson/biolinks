@@ -4,7 +4,7 @@ Tags: link in bio, social links, bio page, link page, click tracking
 Requires at least: 5.9
 Tested up to: 6.9
 Requires PHP: 8.0
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -75,6 +75,10 @@ Yes. The bio page is a standard WordPress page and works with all major caching 
 
 == Changelog ==
 
+= 1.1.3 =
+* Renamed transient key to use the `biolinks_` prefix (was `bl_`), avoiding potential conflicts with other plugins
+* Replaced promotional wording on the optional footer credit admin setting with neutral, factual labels (opt-in behavior unchanged, remains disabled by default)
+
 = 1.1.2 =
 * Replaced inline `<style>` output with `wp_add_inline_style()` against the template handle
 * Replaced inline `<script>` chart data with `wp_add_inline_script()` against the admin script handle
@@ -106,6 +110,9 @@ Yes. The bio page is a standard WordPress page and works with all major caching 
 * Import from Click Tracker plugin
 
 == Upgrade Notice ==
+
+= 1.1.3 =
+Recommended update: unique transient prefix and neutral wording on the optional footer credit setting.
 
 = 1.1.2 =
 Recommended update: WordPress.org compliance improvements (inline styles and scripts now enqueued via the proper APIs, Google Analytics integration removed, BioLinks no longer contacts any external server).

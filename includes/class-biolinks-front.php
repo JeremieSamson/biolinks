@@ -120,7 +120,7 @@ class BioLinks_Front
         }
 
         $ip = isset($_SERVER['REMOTE_ADDR']) ? sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR'])) : '';
-        $rate_key = 'bl_rate_' . md5($ip . $link_id);
+        $rate_key = 'biolinks_rate_' . md5($ip . $link_id);
         if (get_transient($rate_key)) {
             wp_send_json_success();
         }
