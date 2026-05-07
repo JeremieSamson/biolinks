@@ -120,51 +120,15 @@ class BioLinks_Dashboard
                 <a href="<?php echo esc_url($stats_url); ?>"><?php esc_html_e('View full stats', 'biolinks'); ?> &rarr;</a>
             </p>
         </div>
-
-        <script>
-        (function() {
-            if (typeof Chart === 'undefined') return;
-            var canvas = document.getElementById('biolinks-dash-spark');
-            if (!canvas) return;
-            new Chart(canvas, {
-                type: 'line',
-                data: {
-                    labels: <?php echo wp_json_encode($labels); ?>,
-                    datasets: [{
-                        data: <?php echo wp_json_encode($values); ?>,
-                        borderColor: '#2271b1',
-                        backgroundColor: 'rgba(34, 113, 177, 0.12)',
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.3,
-                        pointRadius: 0,
-                        pointHoverRadius: 4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            displayColors: false,
-                            callbacks: {
-                                title: function(items) { return items[0].label; },
-                                label: function(item) {
-                                    var n = item.parsed.y;
-                                    return n + ' click' + (n === 1 ? '' : 's');
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: { display: false },
-                        y: { display: false, beginAtZero: true }
-                    }
-                }
-            });
-        })();
-        </script>
         <?php
+
+        $payload = wp_json_encode([
+            'labels' => $labels,
+            'values' => array_map('intval', $values),
+        ]);
+
+        $js = "(function(){var c=document.getElementById('biolinks-dash-spark');if(!c)return;var d={$payload};new Chart(c,{type:'line',data:{labels:d.labels,datasets:[{data:d.values,borderColor:'#2271b1',backgroundColor:'rgba(34,113,177,0.12)',borderWidth:2,fill:true,tension:0.3,pointRadius:0,pointHoverRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{displayColors:false,callbacks:{title:function(i){return i[0].label;},label:function(i){var n=i.parsed.y;return n+' click'+(n===1?'':'s');}}}},scales:{x:{display:false},y:{display:false,beginAtZero:true}}}});})();";
+
+        wp_add_inline_script('chartjs', $js);
     }
 }

@@ -4,7 +4,7 @@ Tags: link in bio, social links, bio page, link page, click tracking
 Requires at least: 5.9
 Tested up to: 6.9
 Requires PHP: 8.0
-Stable tag: 1.1.4
+Stable tag: 1.1.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,8 +72,12 @@ Yes. The bio page is a standard WordPress page and works with all major caching 
 4. Manage your links: View all links with click stats. Reorder with drag & drop.
 5. Appearance settings: Choose from 5 templates and pick a custom accent color.
 6. Statistics dashboard: Daily click charts and per-link breakdown.
+7. WordPress dashboard widget: At-a-glance click stats with KPIs, 30-day sparkline, and top 3 most clicked links.
 
 == Changelog ==
+
+= 1.1.5 =
+* Fixed an initialization race condition that prevented the dashboard widget sparkline from rendering when Chart.js was loaded in the footer
 
 = 1.1.4 =
 * Added a WordPress dashboard widget showing BioLinks click stats (today, 7 days, 30 days, all-time KPIs, 30-day sparkline, and top 3 most clicked links)
@@ -113,6 +117,9 @@ Yes. The bio page is a standard WordPress page and works with all major caching 
 * Import from Click Tracker plugin
 
 == Upgrade Notice ==
+
+= 1.1.5 =
+Recommended update: fixes the dashboard widget sparkline that did not render in 1.1.4.
 
 = 1.1.4 =
 New WordPress dashboard widget showing your BioLinks click stats at a glance (KPIs, 30-day sparkline, top links).
