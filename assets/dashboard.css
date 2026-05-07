@@ -1,0 +1,94 @@
+.bl-dash-kpis {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.bl-dash-kpi {
+    background: #f6f7f7;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    padding: 10px 4px;
+    text-align: center;
+}
+
+.bl-dash-kpi span {
+    display: block;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #1d2327;
+}
+
+.bl-dash-kpi em {
+    display: block;
+    font-style: normal;
+    font-size: 11px;
+    color: #646970;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-top: 4px;
+}
+
+.bl-dash-chart {
+    position: relative;
+    height: 70px;
+    margin-bottom: 12px;
+}
+
+.bl-dash-h4 {
+    margin: 8px 0 6px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #50575e;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.bl-dash-top {
+    list-style: none;
+    margin: 0 0 12px;
+    padding: 0;
+    counter-reset: bl-rank;
+}
+
+.bl-dash-top li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 4px 0;
+    border-bottom: 1px solid #f0f0f1;
+    counter-increment: bl-rank;
+}
+
+.bl-dash-top li:last-child {
+    border-bottom: none;
+}
+
+.bl-dash-top li::before {
+    content: counter(bl-rank) ".";
+    color: #8c8f94;
+    font-weight: 600;
+    margin-right: 6px;
+    min-width: 16px;
+}
+
+.bl-dash-top-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.bl-dash-top-count {
+    font-weight: 600;
+    color: #1d2327;
+    margin-left: 8px;
+}
+
+.bl-dash-foot {
+    margin: 0;
+    text-align: right;
+    font-size: 12px;
+}
