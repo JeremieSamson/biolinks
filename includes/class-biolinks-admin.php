@@ -602,6 +602,34 @@ class BioLinks_Admin
             wp_safe_redirect(admin_url('admin.php?page=biolinks&tab=appearance'));
             exit;
         }
+
+        if ($action === 'enable_credit') {
+            if (!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['bl_support_nonce'] ?? '')), 'biolinks_support')) {
+                wp_die(esc_html__('Invalid nonce', 'biolinks'));
+            }
+            BioLinks_DB::set_config('show_credit', '1');
+            BioLinks_DB::set_config('support_dismissed', '1');
+            wp_safe_redirect(admin_url('admin.php?page=biolinks&tab=appearance'));
+            exit;
+        }
+
+        if ($action === 'dismiss_support') {
+            if (!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['bl_support_nonce'] ?? '')), 'biolinks_support')) {
+                wp_die(esc_html__('Invalid nonce', 'biolinks'));
+            }
+            BioLinks_DB::set_config('support_dismissed', '1');
+            wp_safe_redirect(admin_url('admin.php?page=biolinks'));
+            exit;
+        }
+
+        if ($action === 'snooze_support') {
+            if (!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['bl_support_nonce'] ?? '')), 'biolinks_support')) {
+                wp_die(esc_html__('Invalid nonce', 'biolinks'));
+            }
+            BioLinks_DB::set_config('support_snooze_until', (string) (time() + 14 * DAY_IN_SECONDS));
+            wp_safe_redirect(admin_url('admin.php?page=biolinks'));
+            exit;
+        }
     }
 
     public function handle_reorder(): void
