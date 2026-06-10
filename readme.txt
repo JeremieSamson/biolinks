@@ -4,7 +4,7 @@ Tags: link in bio, social links, bio page, link page, click tracking
 Requires at least: 5.9
 Tested up to: 6.9
 Requires PHP: 8.0
-Stable tag: 1.1.5
+Stable tag: 1.1.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -76,6 +76,9 @@ Yes. The bio page is a standard WordPress page and works with all major caching 
 
 == Changelog ==
 
+= 1.1.6 =
+* Add an opt-in support banner on the admin page: leave a review and enable the footer credit.
+
 = 1.1.5 =
 * Fixed an initialization race condition that prevented the dashboard widget sparkline from rendering when Chart.js was loaded in the footer
 
@@ -117,6 +120,9 @@ Yes. The bio page is a standard WordPress page and works with all major caching 
 * Import from Click Tracker plugin
 
 == Upgrade Notice ==
+
+= 1.1.6 =
+Adds a discreet support banner (review + footer credit) on the BioLinks admin page.
 
 = 1.1.5 =
 Recommended update: fixes the dashboard widget sparkline that did not render in 1.1.4.
