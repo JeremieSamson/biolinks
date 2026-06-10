@@ -4,7 +4,7 @@ Tags: link in bio, social links, bio page, link page, click tracking
 Requires at least: 5.9
 Tested up to: 6.9
 Requires PHP: 8.0
-Stable tag: 1.1.6
+Stable tag: 1.1.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -76,6 +76,10 @@ Yes. The bio page is a standard WordPress page and works with all major caching 
 
 == Changelog ==
 
+= 1.1.7 =
+* Add WhatsApp as a social network option.
+* Add German (de_DE) translation.
+
 = 1.1.6 =
 * Add an opt-in support banner on the admin page: leave a review and enable the footer credit.
 * Fix: process admin form submissions on the page load hook so redirects work even when output buffering is off (previously could show a blank page after saving).
@@ -121,6 +125,9 @@ Yes. The bio page is a standard WordPress page and works with all major caching 
 * Import from Click Tracker plugin
 
 == Upgrade Notice ==
+
+= 1.1.7 =
+Adds WhatsApp as a social network option and a German translation.
 
 = 1.1.6 =
 Adds a discreet support banner (review + footer credit) on the BioLinks admin page.
