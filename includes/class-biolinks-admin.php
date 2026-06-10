@@ -75,8 +75,9 @@ class BioLinks_Admin
 
         $config = BioLinks_DB::get_all_config();
         if (empty($config['activated_at'])) {
-            BioLinks_DB::set_config('activated_at', (string) time());
-            $config['activated_at'] = (string) time();
+            $now = (string) time();
+            BioLinks_DB::set_config('activated_at', $now);
+            $config['activated_at'] = $now;
         }
         $links = BioLinks_DB::get_all_links();
         $editing = null;
