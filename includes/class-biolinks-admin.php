@@ -74,6 +74,11 @@ class BioLinks_Admin
         $this->handle_form_submit();
 
         $config = BioLinks_DB::get_all_config();
+        if (empty($config['activated_at'])) {
+            $now = (string) time();
+            BioLinks_DB::set_config('activated_at', $now);
+            $config['activated_at'] = $now;
+        }
         $links = BioLinks_DB::get_all_links();
         $editing = null;
         if (isset($_GET['edit'])) {
@@ -113,6 +118,10 @@ class BioLinks_Admin
         ?>
         <div class="wrap biolinks-admin">
             <h1>BioLinks <?php if ($page_url): ?><a href="<?php echo esc_url($page_url); ?>" target="_blank" class="page-title-action"><?php esc_html_e('View page', 'biolinks'); ?></a><?php endif; ?></h1>
+
+            <?php if ($this->should_show_support_banner($config, $links)) {
+                $this->render_support_banner($config);
+            } ?>
 
             <?php if (isset($_GET['imported'])): ?>
                 <div class="notice notice-success is-dismissible">
@@ -426,6 +435,60 @@ class BioLinks_Admin
         <?php
     }
 
+    private function should_show_support_banner(array $config, array $links): bool
+    {
+        if (($config['support_dismissed'] ?? '0') === '1') {
+            return false;
+        }
+        if ((int) ($config['support_snooze_until'] ?? 0) > time()) {
+            return false;
+        }
+        $activated = (int) ($config['activated_at'] ?? 0);
+        if ($activated === 0 || (time() - $activated) < 7 * DAY_IN_SECONDS) {
+            return false;
+        }
+        if ((int) ($config['page_id'] ?? 0) <= 0) {
+            return false;
+        }
+        return count($links) >= 1;
+    }
+
+    private function render_support_banner(array $config): void
+    {
+        $credit_active = ($config['show_credit'] ?? '0') === '1';
+        $review_url = 'https://wordpress.org/support/plugin/biolinks/reviews/?rate=5#new-post';
+        ?>
+        <div class="bl-support-banner">
+            <div class="bl-support-text">
+                <strong><?php esc_html_e('Enjoying BioLinks?', 'biolinks'); ?></strong>
+                <span><?php esc_html_e('Here are two ways to support this free plugin, built on my own time.', 'biolinks'); ?></span>
+            </div>
+            <div class="bl-support-actions">
+                <a href="<?php echo esc_url($review_url); ?>" target="_blank" rel="noopener" class="button button-primary"><?php esc_html_e('Leave a review', 'biolinks'); ?></a>
+                <?php if (!$credit_active): ?>
+                <form method="post" style="display:inline">
+                    <?php wp_nonce_field('biolinks_support', 'bl_support_nonce'); ?>
+                    <input type="hidden" name="bl_action" value="enable_credit">
+                    <button type="submit" class="button"><?php esc_html_e('Enable footer credit', 'biolinks'); ?></button>
+                </form>
+                <?php endif; ?>
+            </div>
+            <div class="bl-support-dismiss">
+                <form method="post" style="display:inline">
+                    <?php wp_nonce_field('biolinks_support', 'bl_support_nonce'); ?>
+                    <input type="hidden" name="bl_action" value="dismiss_support">
+                    <button type="submit" class="button-link"><?php esc_html_e('I already left a review', 'biolinks'); ?></button>
+                </form>
+                <form method="post" style="display:inline">
+                    <?php wp_nonce_field('biolinks_support', 'bl_support_nonce'); ?>
+                    <input type="hidden" name="bl_action" value="snooze_support">
+                    <button type="submit" class="button-link"><?php esc_html_e('Maybe later', 'biolinks'); ?></button>
+                </form>
+            </div>
+        </div>
+        <?php
+    }
+
     private function handle_form_submit(): void
     {
         if (!isset($_POST['bl_action'])) {
@@ -538,6 +601,34 @@ class BioLinks_Admin
             BioLinks_DB::set_config('show_credit', $show_credit);
 
             wp_safe_redirect(admin_url('admin.php?page=biolinks&tab=appearance'));
+            exit;
+        }
+
+        if ($action === 'enable_credit') {
+            if (!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['bl_support_nonce'] ?? '')), 'biolinks_support')) {
+                wp_die(esc_html__('Invalid nonce', 'biolinks'));
+            }
+            BioLinks_DB::set_config('show_credit', '1');
+            BioLinks_DB::set_config('support_dismissed', '1');
+            wp_safe_redirect(admin_url('admin.php?page=biolinks&tab=appearance'));
+            exit;
+        }
+
+        if ($action === 'dismiss_support') {
+            if (!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['bl_support_nonce'] ?? '')), 'biolinks_support')) {
+                wp_die(esc_html__('Invalid nonce', 'biolinks'));
+            }
+            BioLinks_DB::set_config('support_dismissed', '1');
+            wp_safe_redirect(admin_url('admin.php?page=biolinks'));
+            exit;
+        }
+
+        if ($action === 'snooze_support') {
+            if (!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['bl_support_nonce'] ?? '')), 'biolinks_support')) {
+                wp_die(esc_html__('Invalid nonce', 'biolinks'));
+            }
+            BioLinks_DB::set_config('support_snooze_until', (string) (time() + 14 * DAY_IN_SECONDS));
+            wp_safe_redirect(admin_url('admin.php?page=biolinks'));
             exit;
         }
     }

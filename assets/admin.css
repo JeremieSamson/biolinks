@@ -302,3 +302,37 @@
         grid-template-columns: 1fr;
     }
 }
+
+.bl-support-banner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 20px;
+    margin: 16px 0;
+    padding: 14px 18px;
+    background: #e7f3f5;
+    border: 1px solid #0a7286;
+    border-left-width: 4px;
+    border-radius: 4px;
+}
+.bl-support-text {
+    flex: 1 1 320px;
+    line-height: 1.5;
+}
+.bl-support-text strong {
+    margin-right: 6px;
+}
+.bl-support-actions {
+    display: flex;
+    gap: 8px;
+}
+.bl-support-dismiss {
+    display: flex;
+    gap: 14px;
+    flex-basis: 100%;
+}
+.bl-support-dismiss .button-link {
+    color: #50575e;
+    text-decoration: underline;
+    font-size: 12px;
+}

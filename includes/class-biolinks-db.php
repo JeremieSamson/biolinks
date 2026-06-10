@@ -70,6 +70,7 @@ class BioLinks_DB
             'accent_color' => '#0a7286',
             'socials' => '{}',
             'show_credit' => '0',
+            'activated_at' => (string) time(),
         ];
 
         foreach ($defaults as $key => $value) {
