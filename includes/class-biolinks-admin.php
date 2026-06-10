@@ -10,6 +10,7 @@ class BioLinks_Admin
     public function __construct()
     {
         add_action('admin_menu', [$this, 'add_menu']);
+        add_action('load-toplevel_page_biolinks', [$this, 'handle_form_submit']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_assets']);
         add_action('wp_ajax_biolinks_reorder', [$this, 'handle_reorder']);
         add_action('wp_ajax_biolinks_stats', [$this, 'handle_stats']);
@@ -71,8 +72,6 @@ class BioLinks_Admin
 
     public function render_page(): void
     {
-        $this->handle_form_submit();
-
         $config = BioLinks_DB::get_all_config();
         if (empty($config['activated_at'])) {
             $now = (string) time();
@@ -489,7 +488,7 @@ class BioLinks_Admin
         <?php
     }
 
-    private function handle_form_submit(): void
+    public function handle_form_submit(): void
     {
         if (!isset($_POST['bl_action'])) {
             return;
