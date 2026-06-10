@@ -344,3 +344,27 @@ msgstr ""
 #: templates/page.php
 msgid "Powered by %s"
 msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Enjoying BioLinks?"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Here are two ways to support this free plugin, built on my own time."
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Leave a review"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Enable footer credit"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "I already left a review"
+msgstr ""
+
+#: includes/class-biolinks-admin.php
+msgid "Maybe later"
+msgstr ""

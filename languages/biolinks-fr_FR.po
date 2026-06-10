@@ -263,3 +263,21 @@ msgstr "Lien"
 
 msgid "Powered by %s"
 msgstr "Propulsé par %s"
+
+msgid "Enjoying BioLinks?"
+msgstr "BioLinks te plaît ?"
+
+msgid "Here are two ways to support this free plugin, built on my own time."
+msgstr "Voici deux façons de soutenir ce plugin gratuit, développé sur mon temps perso."
+
+msgid "Leave a review"
+msgstr "Laisser un avis"
+
+msgid "Enable footer credit"
+msgstr "Activer le crédit footer"
+
+msgid "I already left a review"
+msgstr "J'ai déjà laissé un avis"
+
+msgid "Maybe later"
+msgstr "Plus tard"
