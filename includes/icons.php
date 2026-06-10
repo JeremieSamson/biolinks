@@ -16,6 +16,7 @@ const BIOLINKS_SOCIAL_ICONS = [
     'pinterest' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="11" x2="8" y2="21"/><path d="M10.7 14c.73 1.63 2.34 2.73 4.2 2.73 2.76 0 5.1-2.46 5.1-5.5 0-4.14-3.58-7.23-8-7.23a8 8 0 0 0-8 8c0 1.63.63 3.12 1.63 4.24"/></svg>',
     'twitch' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2H3v16h5v4l4-4h5l4-4V2zm-10 9V7m5 4V7"/></svg>',
     'snapchat' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C9.24 2 7 4.24 7 7v2.5c0 .28-.22.5-.5.5H5l1.5 3s-1.5 1-1.5 2c0 .55.45 1 1 1h1c0 2 2.5 4 5 4s5-2 5-4h1c.55 0 1-.45 1-1 0-1-1.5-2-1.5-2L19 10h-1.5a.5.5 0 0 1-.5-.5V7c0-2.76-2.24-5-5-5z"/></svg>',
+    'whatsapp' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"/><path d="M9.5 9.5a4.5 4.5 0 0 0 5 5"/></svg>',
 ];
 
 const BIOLINKS_SOCIAL_DOMAINS = [
@@ -33,6 +34,8 @@ const BIOLINKS_SOCIAL_DOMAINS = [
     'pin.it' => 'pinterest',
     'twitch.tv' => 'twitch',
     'snapchat.com' => 'snapchat',
+    'wa.me' => 'whatsapp',
+    'whatsapp.com' => 'whatsapp',
 ];
 
 const BIOLINKS_GENERIC_ICONS = [
@@ -47,7 +50,7 @@ const BIOLINKS_GENERIC_ICONS = [
     'link' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
 ];
 
-const BIOLINKS_SOCIAL_KEYS = ['instagram', 'youtube', 'linkedin', 'tiktok', 'twitter', 'facebook', 'github', 'pinterest', 'twitch', 'snapchat'];
+const BIOLINKS_SOCIAL_KEYS = ['instagram', 'youtube', 'linkedin', 'tiktok', 'twitter', 'facebook', 'github', 'pinterest', 'twitch', 'snapchat', 'whatsapp'];
 
 const BIOLINKS_SOCIAL_LABELS = [
     'instagram' => 'Instagram',
@@ -60,6 +63,7 @@ const BIOLINKS_SOCIAL_LABELS = [
     'pinterest' => 'Pinterest',
     'twitch' => 'Twitch',
     'snapchat' => 'Snapchat',
+    'whatsapp' => 'WhatsApp',
 ];
 
 function biolinks_generic_labels(): array
