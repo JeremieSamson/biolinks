@@ -78,6 +78,7 @@ Yes. The bio page is a standard WordPress page and works with all major caching 
 
 = 1.1.6 =
 * Add an opt-in support banner on the admin page: leave a review and enable the footer credit.
+* Fix: process admin form submissions on the page load hook so redirects work even when output buffering is off (previously could show a blank page after saving).
 
 = 1.1.5 =
 * Fixed an initialization race condition that prevented the dashboard widget sparkline from rendering when Chart.js was loaded in the footer
