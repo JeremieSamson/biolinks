@@ -12,6 +12,7 @@ class BioLinks_Front
         add_filter('template_include', [$this, 'load_template']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_assets']);
         add_action('wp_enqueue_scripts', [$this, 'dequeue_other_assets'], 999);
+        add_action('template_redirect', [$this, 'purge_third_party_output'], 9999);
         add_action('wp', [$this, 'maybe_hide_admin_bar']);
         add_action('wp_ajax_biolinks_click', [$this, 'handle_click']);
         add_action('wp_ajax_nopriv_biolinks_click', [$this, 'handle_click']);
@@ -98,6 +99,55 @@ class BioLinks_Front
                     wp_dequeue_script($handle);
                 }
             }
+        }
+    }
+
+    public function purge_third_party_output(): void
+    {
+        if (!$this->is_biolinks_page()) {
+            return;
+        }
+
+        $this->purge_hook('wp_head', [
+            'wp_enqueue_scripts',
+            'wp_resource_hints',
+            'wp_print_styles',
+            'wp_print_head_scripts',
+            'wp_maybe_inline_styles',
+        ]);
+
+        $this->purge_hook('wp_footer', [
+            'wp_print_footer_scripts',
+        ]);
+    }
+
+    private function purge_hook(string $hook, array $core_callbacks): void
+    {
+        $keep = apply_filters('biolinks_keep_callbacks', $core_callbacks, $hook);
+        if (!is_array($keep)) {
+            return;
+        }
+
+        global $wp_filter;
+
+        if (!isset($wp_filter[$hook]) || !$wp_filter[$hook] instanceof WP_Hook) {
+            return;
+        }
+
+        $preserved = [];
+        foreach ($wp_filter[$hook]->callbacks as $priority => $callbacks) {
+            foreach ($callbacks as $ident => $callback) {
+                $name = is_string($callback['function']) ? $callback['function'] : $ident;
+                if (in_array($name, $keep, true)) {
+                    $preserved[] = [$callback['function'], (int) $priority, (int) $callback['accepted_args']];
+                }
+            }
+        }
+
+        remove_all_actions($hook);
+
+        foreach ($preserved as $callback) {
+            add_action($hook, $callback[0], $callback[1], $callback[2]);
         }
     }
 
