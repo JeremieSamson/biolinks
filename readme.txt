@@ -79,6 +79,7 @@ Yes. The bio page is a standard WordPress page and works with all major caching 
 = 1.1.8 =
 * Fix leftover theme and plugin widgets (back to top buttons, language switchers, cookie banners) showing up unstyled on the BioLinks page.
 * Add the `biolinks_keep_callbacks` filter to let sites re-enable specific footer or header output on the BioLinks page.
+* Note: third party scripts no longer run on the BioLinks page, so site wide analytics stop counting views there. Use the `biolinks_keep_callbacks` filter to bring them back.
 
 = 1.1.7 =
 * Add WhatsApp as a social network option.
@@ -131,7 +132,7 @@ Yes. The bio page is a standard WordPress page and works with all major caching 
 == Upgrade Notice ==
 
 = 1.1.8 =
-Fixes unstyled theme and plugin widgets appearing on top of the BioLinks page.
+Fixes unstyled theme and plugin widgets appearing on top of the BioLinks page. Third party scripts no longer load there, including analytics: use the new `biolinks_keep_callbacks` filter if you need them.
 
 = 1.1.7 =
 Adds WhatsApp as a social network option and a German translation.
