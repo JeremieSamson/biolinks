@@ -31,6 +31,10 @@ No third-party accounts. No subscriptions. No limits. Just a free, open-source p
 
 Linktree hosts your page on their domain (linktr.ee). With BioLinks, your page lives on your own WordPress site. You keep full control over design, data, and SEO.
 
+**Documentation and screenshots:** [symfolidity.com/biolinks](https://symfolidity.com/biolinks/)
+
+**Source code and issue tracker:** [github.com/JeremieSamson/biolinks](https://github.com/JeremieSamson/biolinks)
+
 == Installation ==
 
 1. Upload the `biolinks` folder to the `/wp-content/plugins/` directory, or install the plugin through the WordPress plugins screen directly.
