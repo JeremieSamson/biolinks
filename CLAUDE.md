@@ -13,7 +13,7 @@ Plugin WordPress gratuit/open-source : alternative auto-hébergée à Linktree /
 
 ## État de release
 
-- Dernière version : **v1.1.8** publiée sur GitHub + Forgejo + WP.org le 2026-07-20 (tag `v1.1.8`, zip ~127 KB, 32 fichiers).
+- Dernière version : **v1.1.9** publiée sur GitHub + Forgejo + WP.org le 2026-08-13 (tag `v1.1.9`, zip ~127 KB, 32 fichiers). Release de compatibilité WP 7.1, validée sur 7.1-RC3, sans changement fonctionnel.
 - Historique git nettoyé des co-auteurs AI (tag backup `backup-before-claude-removal` conservé en sécurité, supprimable).
 - **WordPress.org : APPROUVÉ le 2026-04-21**. Page publique : https://wordpress.org/plugins/biolinks/. Accès SVN actif pour user `nomadesurrails`.
 - **SVN workspace** : `/home/jerem/claude-scripts/biolinks-svn/` (checkout de `https://plugins.svn.wordpress.org/biolinks/`). Credentials cachés dans `~/.subversion/auth/svn.simple/`. Trunk pushed à rev 3614976, tag `1.1.8` à rev 3614979, assets à rev 3511597.
