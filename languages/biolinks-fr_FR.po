@@ -1,283 +1,455 @@
-# French translation for BioLinks
-# Copyright (C) 2026 Jeremie Samson
-# This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
 "Project-Id-Version: BioLinks 1.1.5\n"
 "Report-Msgid-Bugs-To: https://github.com/JeremieSamson/biolinks/issues\n"
-"POT-Creation-Date: 2026-05-13 00:00+0000\n"
-"PO-Revision-Date: 2026-05-13 00:00+0000\n"
 "Last-Translator: Jeremie Samson <contact@nomadesurrails.fr>\n"
 "Language-Team: French\n"
-"Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-05-13 00:00+0000\n"
+"PO-Revision-Date: 2026-05-13 00:00+0000\n"
+"Language: fr_FR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+#: includes/class-biolinks-admin.php:120
 msgid "View page"
 msgstr "Voir la page"
 
+#. translators: %d: number of imported links
+#: includes/class-biolinks-admin.php:131
+#, php-format
 msgid "%d link(s) imported from Click Tracker."
 msgstr "%d lien(s) importé(s) depuis Click Tracker."
 
+#: includes/class-biolinks-admin.php:139
 msgid "My page"
 msgstr "Ma page"
 
+#: includes/class-biolinks-admin.php:140
 msgid "Appearance"
 msgstr "Apparence"
 
+#: includes/class-biolinks-admin.php:141
 msgid "Statistics"
 msgstr "Statistiques"
 
+#: includes/class-biolinks-admin.php:166
 msgid "Click Tracker detected!"
 msgstr "Click Tracker détecté !"
 
+#: includes/class-biolinks-admin.php:166
 msgid "Import existing links?"
 msgstr "Importer les liens existants ?"
 
+#: includes/class-biolinks-admin.php:167
+#: assets/admin.js:201
 msgid "Import links"
 msgstr "Importer les liens"
 
+#: includes/class-biolinks-admin.php:173
 msgid "Profile"
 msgstr "Profil"
 
+#: includes/class-biolinks-admin.php:179
 msgid "Profile photo"
 msgstr "Photo de profil"
 
+#: includes/class-biolinks-admin.php:184
 msgid "Choose an image"
 msgstr "Choisir une image"
 
+#: includes/class-biolinks-admin.php:185
 msgid "Remove"
 msgstr "Supprimer"
 
+#: includes/class-biolinks-admin.php:190
 msgid "Title"
 msgstr "Titre"
 
+#: includes/class-biolinks-admin.php:194
 msgid "Bio"
 msgstr "Bio"
 
+#. translators: %s: character count HTML element
+#: includes/class-biolinks-admin.php:201
+#, php-format
 msgid "Max 160 characters. %s/160"
 msgstr "Max 160 caractères. %s/160"
 
+#: includes/class-biolinks-admin.php:210
 msgid "Page slug"
 msgstr "Slug de la page"
 
+#: includes/class-biolinks-admin.php:216
 msgid "Save profile"
 msgstr "Enregistrer le profil"
 
+#: includes/class-biolinks-admin.php:222
 msgid "Social networks"
 msgstr "Réseaux sociaux"
 
+#: includes/class-biolinks-admin.php:234
 msgid "Save social networks"
 msgstr "Enregistrer les réseaux"
 
+#: includes/class-biolinks-admin.php:240
 msgid "Edit link"
 msgstr "Modifier le lien"
 
+#: includes/class-biolinks-admin.php:240
 msgid "Add a link"
 msgstr "Ajouter un lien"
 
+#: includes/class-biolinks-admin.php:247
 msgid "Link name"
 msgstr "Nom du lien"
 
+#: includes/class-biolinks-admin.php:251
+#: includes/class-biolinks-admin.php:285
 msgid "URL"
 msgstr "URL"
 
+#: includes/class-biolinks-admin.php:255
+#: includes/class-biolinks-admin.php:283
 msgid "Icon"
 msgstr "Icône"
 
+#: includes/class-biolinks-admin.php:265
 msgid "Position"
 msgstr "Position"
 
+#: includes/class-biolinks-admin.php:269
 msgid "Update"
 msgstr "Mettre à jour"
 
+#: includes/class-biolinks-admin.php:269
 msgid "Add"
 msgstr "Ajouter"
 
+#: includes/class-biolinks-admin.php:271
 msgid "Cancel"
 msgstr "Annuler"
 
+#: includes/class-biolinks-admin.php:278
 msgid "Links"
 msgstr "Liens"
 
+#: includes/class-biolinks-admin.php:284
 msgid "Name"
 msgstr "Nom"
 
+#: includes/class-biolinks-admin.php:286
 msgid "Clicks (30d)"
 msgstr "Clics (30j)"
 
+#: includes/class-biolinks-admin.php:287
 msgid "Clicks (total)"
 msgstr "Clics (total)"
 
+#: includes/class-biolinks-admin.php:288
 msgid "Actions"
 msgstr "Actions"
 
+#: includes/class-biolinks-admin.php:301
 msgid "Edit"
 msgstr "Modifier"
 
+#: includes/class-biolinks-admin.php:306
 msgid "Delete this link?"
 msgstr "Supprimer ce lien ?"
 
+#: includes/class-biolinks-admin.php:306
 msgid "Delete"
 msgstr "Supprimer"
 
+#: includes/class-biolinks-admin.php:324
 msgid "Dark"
 msgstr "Sombre"
 
+#: includes/class-biolinks-admin.php:324
 msgid "Dark gradient, transparent buttons"
 msgstr "Dégradé sombre, boutons transparents"
 
+#: includes/class-biolinks-admin.php:325
 msgid "Light"
 msgstr "Clair"
 
+#: includes/class-biolinks-admin.php:325
 msgid "White background, gray borders, clean"
 msgstr "Fond blanc, bordures grises, clean"
 
+#: includes/class-biolinks-admin.php:326
 msgid "Minimal"
 msgstr "Minimal"
 
+#: includes/class-biolinks-admin.php:326
 msgid "Solid color, outline buttons"
 msgstr "Couleur unie, boutons outline"
 
+#: includes/class-biolinks-admin.php:327
 msgid "Colorful"
 msgstr "Coloré"
 
+#: includes/class-biolinks-admin.php:327
 msgid "Vibrant background, white buttons"
 msgstr "Fond vif, boutons blancs"
 
+#: includes/class-biolinks-admin.php:328
 msgid "Glass"
 msgstr "Glass"
 
+#: includes/class-biolinks-admin.php:328
 msgid "Glassmorphism, blur and transparency"
 msgstr "Glassmorphism, flou et transparence"
 
+#: includes/class-biolinks-admin.php:336
 msgid "Template"
 msgstr "Template"
 
+#: includes/class-biolinks-admin.php:357
 msgid "Accent color"
 msgstr "Couleur d’accent"
 
+#: includes/class-biolinks-admin.php:360
 msgid "Color"
 msgstr "Couleur"
 
+#: includes/class-biolinks-admin.php:367
 msgid "Footer"
 msgstr "Pied de page"
 
+#: includes/class-biolinks-admin.php:370
 msgid "Footer credit"
 msgstr "Crédit en pied de page"
 
+#: includes/class-biolinks-admin.php:374
 msgid "Display a \"Powered by BioLinks\" link at the bottom of the page."
 msgstr "Afficher un lien « Propulsé par BioLinks » en bas de la page."
 
+#: includes/class-biolinks-admin.php:376
 msgid "Disabled by default. Opt-in only."
 msgstr "Désactivé par défaut. Sur activation uniquement."
 
+#: includes/class-biolinks-admin.php:382
 msgid "Save appearance"
 msgstr "Enregistrer l’apparence"
 
+#: includes/class-biolinks-admin.php:393
+#: includes/class-biolinks-dashboard.php:97
 msgid "Today"
 msgstr "Aujourd’hui"
 
+#: includes/class-biolinks-admin.php:397
 msgid "Last 7 days"
 msgstr "7 derniers jours"
 
+#: includes/class-biolinks-admin.php:401
 msgid "Last 30 days"
 msgstr "30 derniers jours"
 
+#: includes/class-biolinks-admin.php:405
 msgid "Total"
 msgstr "Total"
 
+#: includes/class-biolinks-admin.php:412
 msgid "Clicks per day"
 msgstr "Clics par jour"
 
+#. translators: %d: number of days
+#: includes/class-biolinks-admin.php:416
+#: includes/class-biolinks-admin.php:420
+#: includes/class-biolinks-admin.php:424
+#, php-format
 msgid "%d days"
 msgstr "%d jours"
 
+#: includes/class-biolinks-admin.php:431
 msgid "Clicks per link"
 msgstr "Clics par lien"
 
+#: includes/class-biolinks-admin.php:499
+#: includes/class-biolinks-admin.php:640
+#: includes/class-biolinks-admin.php:656
+#: includes/class-biolinks-admin.php:681
 msgid "Access denied"
 msgstr "Accès refusé"
 
+#: includes/class-biolinks-admin.php:506
+#: includes/class-biolinks-admin.php:532
+#: includes/class-biolinks-admin.php:550
+#: includes/class-biolinks-admin.php:576
+#: includes/class-biolinks-admin.php:587
+#: includes/class-biolinks-admin.php:609
+#: includes/class-biolinks-admin.php:619
+#: includes/class-biolinks-admin.php:628
 msgid "Invalid nonce"
 msgstr "Nonce invalide"
 
+#: includes/class-biolinks-admin.php:645
 msgid "No data"
 msgstr "Pas de données"
 
+#: includes/class-biolinks-dashboard.php:24
 msgid "BioLinks: click stats"
 msgstr "BioLinks : stats des clics"
 
+#: includes/class-biolinks-dashboard.php:65
 msgid "No clicks tracked yet. Once visitors start clicking your links, stats will appear here."
 msgstr "Aucun clic enregistré pour le moment. Les statistiques apparaîtront ici dès que des visiteurs commenceront à cliquer sur les liens."
 
+#: includes/class-biolinks-dashboard.php:66
 msgid "Open BioLinks"
 msgstr "Ouvrir BioLinks"
 
+#: includes/class-biolinks-dashboard.php:98
 msgid "7 days"
 msgstr "7 jours"
 
+#: includes/class-biolinks-dashboard.php:99
 msgid "30 days"
 msgstr "30 jours"
 
+#: includes/class-biolinks-dashboard.php:100
 msgid "All time"
 msgstr "Depuis le début"
 
+#: includes/class-biolinks-dashboard.php:108
 msgid "Top links (30 days)"
 msgstr "Top liens (30 jours)"
 
+#: includes/class-biolinks-dashboard.php:120
 msgid "View full stats"
 msgstr "Voir les stats complètes"
 
+#: includes/icons.php:72
 msgid "-- None --"
 msgstr "-- Aucune --"
 
+#: includes/icons.php:73
 msgid "Globe"
 msgstr "Globe"
 
+#: includes/icons.php:74
 msgid "Blog"
 msgstr "Blog"
 
+#: includes/icons.php:75
 msgid "Contact"
 msgstr "Contact"
 
+#: includes/icons.php:76
 msgid "Podcast"
 msgstr "Podcast"
 
+#: includes/icons.php:77
 msgid "Newsletter"
 msgstr "Newsletter"
 
+#: includes/icons.php:78
 msgid "Music"
 msgstr "Musique"
 
+#: includes/icons.php:79
 msgid "Video"
 msgstr "Vidéo"
 
+#: includes/icons.php:80
 msgid "Shop"
 msgstr "Boutique"
 
+#: includes/icons.php:81
 msgid "Link"
 msgstr "Lien"
 
+#. translators: %s: BioLinks plugin name wrapped in a link
+#: templates/page.php:96
+#, php-format
 msgid "Powered by %s"
 msgstr "Propulsé par %s"
 
+#: includes/class-biolinks-admin.php:463
 msgid "Enjoying BioLinks?"
 msgstr "BioLinks te plaît ?"
 
+#: includes/class-biolinks-admin.php:464
 msgid "Here are two ways to support this free plugin, built on my own time."
 msgstr "Voici deux façons de soutenir ce plugin gratuit, développé sur mon temps perso."
 
+#: includes/class-biolinks-admin.php:467
 msgid "Leave a review"
 msgstr "Laisser un avis"
 
+#: includes/class-biolinks-admin.php:472
 msgid "Enable footer credit"
 msgstr "Activer le crédit footer"
 
+#: includes/class-biolinks-admin.php:480
 msgid "I already left a review"
 msgstr "J'ai déjà laissé un avis"
 
+#: includes/class-biolinks-admin.php:485
 msgid "Maybe later"
 msgstr "Plus tard"
+
+#. Plugin Name of the plugin
+#: biolinks.php
+msgid "BioLinks"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: biolinks.php
+msgid "https://github.com/JeremieSamson/biolinks"
+msgstr ""
+
+#. Description of the plugin
+#: biolinks.php
+msgid "Self-hosted link in bio page with 5 templates, click tracking, and analytics."
+msgstr ""
+
+#. Author of the plugin
+#: biolinks.php
+msgid "Jérémie Samson"
+msgstr ""
+
+#. Author URI of the plugin
+#: biolinks.php
+msgid "https://nomadesurrails.fr"
+msgstr ""
+
+#. translators: %s is the number of clicks, when there is exactly one.
+#: includes/class-biolinks-dashboard.php:129
+#, php-format
+msgid "%s click"
+msgstr "%s clic"
+
+#. translators: %s is the number of clicks, when there is zero or more than one.
+#: includes/class-biolinks-dashboard.php:131
+#, php-format
+msgid "%s clicks"
+msgstr "%s clics"
+
+#: assets/admin.js:34
+msgid "Choose a profile photo"
+msgstr "Choisir une photo de profil"
+
+#: assets/admin.js:35
+msgid "Use this image"
+msgstr "Utiliser cette image"
+
+#: assets/admin.js:105
+#: assets/admin.js:129
+msgid "Clicks"
+msgstr "Clics"
+
+#: assets/admin.js:182
+msgid "Import links from Click Tracker?"
+msgstr "Importer les liens depuis Click Tracker ?"
+
+#: assets/admin.js:185
+msgid "Importing..."
+msgstr "Import en cours..."
+
+#: assets/admin.js:202
+msgid "Import failed."
+msgstr "Erreur lors de l'import."

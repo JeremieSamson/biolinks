@@ -13,7 +13,7 @@ Plugin WordPress gratuit/open-source : alternative auto-hébergée à Linktree /
 
 ## État de release
 
-- Dernière version : **v1.1.9** publiée sur GitHub + Forgejo + WP.org le 2026-08-13 (tag `v1.1.9`, zip ~127 KB, 32 fichiers). Release de compatibilité WP 7.1, validée sur 7.1-RC3, sans changement fonctionnel.
+- Dernière version : **v1.1.10** publiée sur GitHub + Forgejo + WP.org le 2026-08-13 (tag `v1.1.10`, zip ~131 KB, 34 fichiers, les 2 fichiers en plus étant les `.json` de traduction JS). Précédée le même jour par v1.1.9 (compatibilité WP 7.1, validée sur 7.1-RC3).
 - Historique git nettoyé des co-auteurs AI (tag backup `backup-before-claude-removal` conservé en sécurité, supprimable).
 - **WordPress.org : APPROUVÉ le 2026-04-21**. Page publique : https://wordpress.org/plugins/biolinks/. Accès SVN actif pour user `nomadesurrails`.
 - **SVN workspace** : `/home/jerem/claude-scripts/biolinks-svn/` (checkout de `https://plugins.svn.wordpress.org/biolinks/`). Credentials cachés dans `~/.subversion/auth/svn.simple/`. Trunk pushed à rev 3614976, tag `1.1.8` à rev 3614979, assets à rev 3511597.
@@ -56,6 +56,30 @@ ssh seopress 'cd /home/nomadesurrails.seopress.host/public_html && sudo wp --all
 ```
 
 Une URL par ligne. Page reste cachée (HIT conservé), juste exclue des optimisations CSS. Solution long terme : inliner le CSS du template dans le HTML côté plugin (solution B évoquée, pas implémentée).
+
+## Procédure i18n (après ajout ou modification de chaînes)
+
+`wp-cli` n'est pas installé sur la machine hôte : tout passe par le container du banc de test, après un `rsync` du repo (voir mémoire `biolinks-banc-test-local`). `wp i18n make-mo` remplace l'ancien recours à `babel`.
+
+```bash
+P=/var/www/html/wp-content/plugins/biolinks
+docker exec nomadesurrails-wp wp i18n make-pot $P $P/languages/biolinks.pot \
+  --slug=biolinks --domain=biolinks --exclude=assets/vendor --package-name="BioLinks" --allow-root
+docker exec nomadesurrails-wp wp i18n update-po $P/languages/biolinks.pot $P/languages/ --allow-root
+# traduire les msgstr vides dans les .po, puis :
+docker exec nomadesurrails-wp wp i18n make-mo $P/languages/ --allow-root
+docker exec nomadesurrails-wp wp i18n make-json $P/languages/ --no-purge --allow-root
+```
+
+**Piège `make-json` (wp-cli 2.12)** : les `.json` sont nommés d'après le md5 de `assets/a.js` au lieu de `assets/admin.js`, donc WordPress ne les trouve jamais et les traductions JS restent en anglais, silencieusement. Renommer avec le bon hash après génération :
+
+```bash
+HASH=$(echo -n "assets/admin.js" | md5sum | cut -d' ' -f1)   # 558e5e2053e34e0b46c2256cfe60b60b
+```
+
+Contrôle : `wp eval` doit voir le fichier, et `wp.i18n.__('Choose a profile photo', 'biolinks')` doit renvoyer le français dans la console admin d'un site en `fr_FR`. WordPress injecte ces traductions **inline** (`setLocaleData`), il n'y a donc aucune requête HTTP vers le `.json` : ne pas conclure à un échec sur cette base.
+
+Les traductions livrées dans `languages/` sont un fallback : sur WP.org, celles de translate.wordpress.org priment. Toute nouvelle chaîne doit donc aussi être traduite sur GlotPress (compte PTE fr_FR).
 
 ## Procédure de release (version X.Y.Z)
 
@@ -118,4 +142,5 @@ Triangle de renforcement :
 - Variables globales dans `uninstall.php` préfixées `biolinks_` (ex: `$biolinks_config_table`).
 - Tests : pas de suite automatisée (plugin WordPress, cohérent avec règle globale).
 - **Zero external HTTP** : ne jamais réintroduire d'appel à un domaine tiers (ni gtag.js, ni CDN, ni API externe). Positionnement marketing verrouillé.
-- **Pas d'em dashes** dans les strings user-facing (readme.txt, README.md, admin UI, .po/.pot). Les recompilations .mo se font via `babel` (`python3 -c "from babel.messages import ..."`, msgfmt n'est pas dispo sur cette machine).
+- **Pas d'em dashes** dans les strings user-facing (readme.txt, README.md, admin UI, .po/.pot).
+- **Chaînes JS** : jamais de littéral user-facing dans `assets/*.js`. Passer par `__('...', 'biolinks')` (le raccourci `__` défini en tête de `admin.js` retombe sur l'identité si `wp.i18n` manque), déclarer `wp-i18n` en dépendance et appeler `wp_set_script_translations()`. Pour le JS inline généré côté PHP (widget dashboard), injecter les chaînes déjà traduites dans le payload `wp_json_encode()`.

@@ -125,9 +125,13 @@ class BioLinks_Dashboard
         $payload = wp_json_encode([
             'labels' => $labels,
             'values' => array_map('intval', $values),
+            /* translators: %s is the number of clicks, when there is exactly one. */
+            'one'    => __('%s click', 'biolinks'),
+            /* translators: %s is the number of clicks, when there is zero or more than one. */
+            'many'   => __('%s clicks', 'biolinks'),
         ]);
 
-        $js = "(function(){var c=document.getElementById('biolinks-dash-spark');if(!c)return;var d={$payload};new Chart(c,{type:'line',data:{labels:d.labels,datasets:[{data:d.values,borderColor:'#2271b1',backgroundColor:'rgba(34,113,177,0.12)',borderWidth:2,fill:true,tension:0.3,pointRadius:0,pointHoverRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{displayColors:false,callbacks:{title:function(i){return i[0].label;},label:function(i){var n=i.parsed.y;return n+' click'+(n===1?'':'s');}}}},scales:{x:{display:false},y:{display:false,beginAtZero:true}}}});})();";
+        $js = "(function(){var c=document.getElementById('biolinks-dash-spark');if(!c)return;var d={$payload};new Chart(c,{type:'line',data:{labels:d.labels,datasets:[{data:d.values,borderColor:'#2271b1',backgroundColor:'rgba(34,113,177,0.12)',borderWidth:2,fill:true,tension:0.3,pointRadius:0,pointHoverRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{displayColors:false,callbacks:{title:function(i){return i[0].label;},label:function(i){var n=i.parsed.y;return (n===1?d.one:d.many).replace('%s',n);}}}},scales:{x:{display:false},y:{display:false,beginAtZero:true}}}});})();";
 
         wp_add_inline_script('chartjs', $js);
     }

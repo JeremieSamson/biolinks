@@ -4,7 +4,7 @@ Tags: link in bio, social links, bio page, link page, click tracking
 Requires at least: 5.9
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 1.1.9
+Stable tag: 1.1.10
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -80,6 +80,11 @@ Yes. The bio page is a standard WordPress page and works with all major caching 
 
 == Changelog ==
 
+= 1.1.10 =
+* Fix: admin JavaScript strings (media picker, chart labels, import button) were hardcoded in French and could not be translated. They now go through the translation system.
+* Fix: the dashboard widget tooltip was hardcoded in English and is now translatable.
+* French and German translations for the newly translatable strings.
+
 = 1.1.9 =
 * Confirm compatibility with WordPress 7.1 (tested against 7.1-RC3).
 
@@ -137,6 +142,9 @@ Yes. The bio page is a standard WordPress page and works with all major caching 
 * Import from Click Tracker plugin
 
 == Upgrade Notice ==
+
+= 1.1.10 =
+Fixes untranslatable admin strings: the media picker and import button no longer show French text on English sites.
 
 = 1.1.9 =
 Compatibility update for WordPress 7.1. No functional changes.

@@ -60,10 +60,11 @@ class BioLinks_Admin
         wp_enqueue_script(
             'biolinks-admin',
             BIOLINKS_URL . 'assets/admin.js',
-            ['chartjs', 'sortablejs', 'wp-color-picker', 'jquery'],
+            ['chartjs', 'sortablejs', 'wp-color-picker', 'jquery', 'wp-i18n'],
             BIOLINKS_VERSION,
             true
         );
+        wp_set_script_translations('biolinks-admin', 'biolinks', BIOLINKS_PATH . 'languages');
         wp_localize_script('biolinks-admin', 'biolinksAdmin', [
             'ajax_url' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('biolinks_admin_nonce'),

@@ -1,3 +1,5 @@
+var __ = (window.wp && wp.i18n && wp.i18n.__) ? wp.i18n.__ : function (text) { return text; };
+
 document.addEventListener('DOMContentLoaded', function () {
     initColorPicker();
     initPhotoUpload();
@@ -29,8 +31,8 @@ function initPhotoUpload() {
     uploadBtn.addEventListener('click', function (e) {
         e.preventDefault();
         var frame = wp.media({
-            title: 'Choisir une photo de profil',
-            button: { text: 'Utiliser cette image' },
+            title: __('Choose a profile photo', 'biolinks'),
+            button: { text: __('Use this image', 'biolinks') },
             multiple: false,
             library: { type: 'image' }
         });
@@ -100,7 +102,7 @@ function initCharts() {
         data: {
             labels: blChartData.daily.labels,
             datasets: [{
-                label: 'Clics',
+                label: __('Clicks', 'biolinks'),
                 data: blChartData.daily.values,
                 borderColor: '#0a7286',
                 backgroundColor: 'rgba(10, 114, 134, 0.1)',
@@ -124,7 +126,7 @@ function initCharts() {
         data: {
             labels: blChartData.links.labels,
             datasets: [{
-                label: 'Clics',
+                label: __('Clicks', 'biolinks'),
                 data: blChartData.links.values,
                 backgroundColor: '#0a7286',
                 borderRadius: 4,
@@ -177,10 +179,10 @@ function initImportButton() {
     if (!btn) return;
 
     btn.addEventListener('click', function () {
-        if (!confirm('Importer les liens depuis Click Tracker ?')) return;
+        if (!confirm(__('Import links from Click Tracker?', 'biolinks'))) return;
 
         btn.disabled = true;
-        btn.textContent = 'Import en cours...';
+        btn.textContent = __('Importing...', 'biolinks');
 
         var params = new URLSearchParams();
         params.append('action', 'biolinks_import');
@@ -196,8 +198,8 @@ function initImportButton() {
                 window.location.href = biolinksAdmin.ajax_url.replace('admin-ajax.php', 'admin.php') + '?page=biolinks&tab=page&imported=' + response.data.imported;
             } else {
                 btn.disabled = false;
-                btn.textContent = 'Importer les liens';
-                alert('Erreur lors de l\'import.');
+                btn.textContent = __('Import links', 'biolinks');
+                alert(__('Import failed.', 'biolinks'));
             }
         });
     });
