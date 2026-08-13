@@ -2,9 +2,9 @@
 Contributors: nomadesurrails
 Tags: link in bio, social links, bio page, link page, click tracking
 Requires at least: 5.9
-Tested up to: 6.9
+Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 1.1.8
+Stable tag: 1.1.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -80,6 +80,9 @@ Yes. The bio page is a standard WordPress page and works with all major caching 
 
 == Changelog ==
 
+= 1.1.9 =
+* Confirm compatibility with WordPress 7.1 (tested against 7.1-RC3).
+
 = 1.1.8 =
 * Fix leftover theme and plugin widgets (back to top buttons, language switchers, cookie banners) showing up unstyled on the BioLinks page.
 * Add the `biolinks_keep_callbacks` filter to let sites re-enable specific footer or header output on the BioLinks page.
@@ -134,6 +137,9 @@ Yes. The bio page is a standard WordPress page and works with all major caching 
 * Import from Click Tracker plugin
 
 == Upgrade Notice ==
+
+= 1.1.9 =
+Compatibility update for WordPress 7.1. No functional changes.
 
 = 1.1.8 =
 Fixes unstyled theme and plugin widgets appearing on top of the BioLinks page. Third party scripts no longer load there, including analytics: use the new `biolinks_keep_callbacks` filter if you need them.
