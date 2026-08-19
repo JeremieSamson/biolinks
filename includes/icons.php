@@ -17,25 +17,10 @@ const BIOLINKS_SOCIAL_ICONS = [
     'twitch' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2H3v16h5v4l4-4h5l4-4V2zm-10 9V7m5 4V7"/></svg>',
     'snapchat' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C9.24 2 7 4.24 7 7v2.5c0 .28-.22.5-.5.5H5l1.5 3s-1.5 1-1.5 2c0 .55.45 1 1 1h1c0 2 2.5 4 5 4s5-2 5-4h1c.55 0 1-.45 1-1 0-1-1.5-2-1.5-2L19 10h-1.5a.5.5 0 0 1-.5-.5V7c0-2.76-2.24-5-5-5z"/></svg>',
     'whatsapp' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"/><path d="M9.5 9.5a4.5 4.5 0 0 0 5 5"/></svg>',
-];
-
-const BIOLINKS_SOCIAL_DOMAINS = [
-    'instagram.com' => 'instagram',
-    'youtube.com' => 'youtube',
-    'youtu.be' => 'youtube',
-    'linkedin.com' => 'linkedin',
-    'tiktok.com' => 'tiktok',
-    'twitter.com' => 'twitter',
-    'x.com' => 'twitter',
-    'facebook.com' => 'facebook',
-    'fb.com' => 'facebook',
-    'github.com' => 'github',
-    'pinterest.com' => 'pinterest',
-    'pin.it' => 'pinterest',
-    'twitch.tv' => 'twitch',
-    'snapchat.com' => 'snapchat',
-    'wa.me' => 'whatsapp',
-    'whatsapp.com' => 'whatsapp',
+    'bluesky' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.34 4.36C8.63 6.09 11.09 9.58 12 11.45C12.91 9.58 15.37 6.09 17.66 4.36C19.32 3.12 22 2.16 22 5.22C22 5.83 21.65 10.35 21.44 11.08C20.73 13.64 18.13 14.29 15.82 13.89C19.86 14.58 20.89 16.86 18.67 19.14C14.45 23.47 12.6 18.05 12.13 16.67C12.04 16.41 12 16.29 12 16.39C12 16.29 11.96 16.41 11.87 16.67C11.4 18.05 9.55 23.47 5.33 19.14C3.11 16.86 4.14 14.58 8.18 13.89C5.87 14.29 3.27 13.64 2.56 11.08C2.35 10.35 2 5.83 2 5.22C2 2.16 4.68 3.12 6.34 4.36Z"/></svg>',
+    'mastodon' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.2A5.2 5.2 0 0 1 9.2 3h5.6A5.2 5.2 0 0 1 20 8.2v4.4c0 3.6-2.7 5.9-8 5.9s-8-2.3-8-5.9z"/><path d="M8 15v-3.5a2 2 0 0 1 4 0V15"/><path d="M12 11.5a2 2 0 0 1 4 0V15"/></svg>',
+    'blog' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>',
+    'rss' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>',
 ];
 
 const BIOLINKS_GENERIC_ICONS = [
@@ -50,7 +35,7 @@ const BIOLINKS_GENERIC_ICONS = [
     'link' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
 ];
 
-const BIOLINKS_SOCIAL_KEYS = ['instagram', 'youtube', 'linkedin', 'tiktok', 'twitter', 'facebook', 'github', 'pinterest', 'twitch', 'snapchat', 'whatsapp'];
+const BIOLINKS_SOCIAL_KEYS = ['instagram', 'youtube', 'linkedin', 'tiktok', 'twitter', 'facebook', 'github', 'pinterest', 'twitch', 'snapchat', 'whatsapp', 'bluesky', 'mastodon', 'blog', 'rss'];
 
 const BIOLINKS_SOCIAL_LABELS = [
     'instagram' => 'Instagram',
@@ -64,6 +49,10 @@ const BIOLINKS_SOCIAL_LABELS = [
     'twitch' => 'Twitch',
     'snapchat' => 'Snapchat',
     'whatsapp' => 'WhatsApp',
+    'bluesky' => 'Bluesky',
+    'mastodon' => 'Mastodon',
+    'blog' => 'Blog',
+    'rss' => 'RSS',
 ];
 
 function biolinks_generic_labels(): array
