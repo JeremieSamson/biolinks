@@ -4,7 +4,7 @@ Tags: link in bio, social links, bio page, link page, click tracking
 Requires at least: 5.9
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 1.1.10
+Stable tag: 1.1.11
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,7 +20,7 @@ No third-party accounts. No subscriptions. No limits. Just a free, open-source p
 
 * **5 visual templates**: Dark, Light, Minimal, Colorful, Glassmorphism
 * **Custom accent color**: Native WordPress color picker to match your brand
-* **Social media icons**: Instagram, YouTube, TikTok, LinkedIn, Twitter/X, Facebook, GitHub, Pinterest, Twitch, Snapchat (SVG icons displayed automatically)
+* **Social media icons**: Instagram, YouTube, TikTok, LinkedIn, Twitter/X, Facebook, GitHub, Pinterest, Twitch, Snapchat, WhatsApp, Bluesky, Mastodon, plus Blog and RSS links (SVG icons displayed automatically)
 * **Click tracking**: Built-in analytics with daily charts and per-link stats inside your WordPress admin
 * **Standalone page**: No theme header/footer, works with any WordPress theme
 * **Zero external dependencies**: Everything hosted on your server. No CDN, no cookies, no third-party tracking. GDPR friendly by design
@@ -79,6 +79,10 @@ Yes. The bio page is a standard WordPress page and works with all major caching 
 7. WordPress dashboard widget: At-a-glance click stats with KPIs, 30-day sparkline, and top 3 most clicked links.
 
 == Changelog ==
+
+= 1.1.11 =
+* Add Bluesky, Mastodon, Blog and RSS as social network options.
+* Housekeeping: remove an unused internal constant left over from the old link icon auto detection.
 
 = 1.1.10 =
 * Fix: admin JavaScript strings (media picker, chart labels, import button) were hardcoded in French and could not be translated. They now go through the translation system.
@@ -142,6 +146,9 @@ Yes. The bio page is a standard WordPress page and works with all major caching 
 * Import from Click Tracker plugin
 
 == Upgrade Notice ==
+
+= 1.1.11 =
+Adds Bluesky, Mastodon, Blog and RSS to the social networks section.
 
 = 1.1.10 =
 Fixes untranslatable admin strings: the media picker and import button no longer show French text on English sites.
