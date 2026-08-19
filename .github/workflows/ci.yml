@@ -16,6 +16,7 @@ jobs:
   guards:
     name: Project invariants
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
       - name: Version is consistent across biolinks.php and readme.txt
@@ -30,6 +31,7 @@ jobs:
   lint:
     name: PHP ${{ matrix.php }}
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
@@ -49,6 +51,7 @@ jobs:
   i18n:
     name: Translation freshness
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
       - uses: shivammathur/setup-php@v2
@@ -60,7 +63,14 @@ jobs:
           curl -sSLo "$RUNNER_TEMP/wp" https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
           chmod +x "$RUNNER_TEMP/wp"
           sudo mv "$RUNNER_TEMP/wp" /usr/local/bin/wp
-          sudo apt-get update -qq && sudo apt-get install -y -qq gettext
+          # gettext ships with the runner image. Only reach for apt if it does
+          # not, and never run apt-get update: unattended-upgrades holds the
+          # dpkg lock often enough to hang the job for hours.
+          if ! command -v msgfmt >/dev/null; then
+            sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq gettext
+          fi
+          msgfmt --version | head -1
+          wp --version
       - name: POT covers every source string
         run: .github/scripts/check-pot-fresh.sh
       - name: MO files match their PO
@@ -69,6 +79,7 @@ jobs:
   plugin-check:
     name: WordPress Plugin Check
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
       - name: Stage the plugin exactly as shipped
