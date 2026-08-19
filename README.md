@@ -48,6 +48,10 @@ Enter the URL for each social network you use. Only filled networks are displaye
 
 ![Social networks](screenshots/admin-socials.png)
 
+The icons then show up on the public page:
+
+![Social icons on the public page](screenshots/socials-icons.png)
+
 ### Add a link
 
 Add links with a name, URL, optional icon, and position. Icons include globe, blog, contact, podcast, newsletter, music, video, shop, and link.
