@@ -1,0 +1,93 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  guards:
+    name: Project invariants
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Version is consistent across biolinks.php and readme.txt
+        run: .github/scripts/check-versions.sh
+      - name: No external HTTP call
+        run: .github/scripts/check-no-network.sh
+      - name: No em dash in user facing copy
+        run: .github/scripts/check-no-emdash.sh
+      - name: JS translation files carry the right handle hash
+        run: .github/scripts/check-js-translations.sh
+
+  lint:
+    name: PHP ${{ matrix.php }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # 8.0 is the floor declared by "Requires PHP" in biolinks.php.
+        php: ['8.0', '8.1', '8.2', '8.3', '8.4']
+    steps:
+      - uses: actions/checkout@v7
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+      - name: Lint every shipped PHP file
+        run: |
+          find biolinks.php uninstall.php includes templates -name '*.php' -print0 \
+            | xargs -0 -n1 -P4 php -l
+
+  i18n:
+    name: Translation freshness
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+      - name: Install wp-cli and gettext
+        run: |
+          curl -sSLo "$RUNNER_TEMP/wp" https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+          chmod +x "$RUNNER_TEMP/wp"
+          sudo mv "$RUNNER_TEMP/wp" /usr/local/bin/wp
+          sudo apt-get update -qq && sudo apt-get install -y -qq gettext
+      - name: POT covers every source string
+        run: .github/scripts/check-pot-fresh.sh
+      - name: MO files match their PO
+        run: .github/scripts/check-mo-fresh.sh
+
+  plugin-check:
+    name: WordPress Plugin Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Stage the plugin exactly as shipped
+        # Same exclusions as the release zip, so the check sees the real artifact
+        # and not the repo-only tooling. Keep in sync with CLAUDE.md.
+        run: |
+          mkdir -p build/biolinks
+          rsync -a --delete \
+            --exclude='.git/' --exclude='.github/' --exclude='build/' \
+            --exclude='README.md' --exclude='screenshots/' --exclude='tools/' \
+            --exclude='docs/' --exclude='CLAUDE.md' --exclude='Makefile' \
+            ./ build/biolinks/
+          echo "::group::Staged files"
+          find build/biolinks -type f | sort
+          echo "::endgroup::"
+      - uses: WordPress/plugin-check-action@v1
+        with:
+          build-dir: './build/biolinks'
+          slug: biolinks
+          # The DirectDatabaseQuery and InterpolatedNotPrepared warnings are
+          # structural: the 5.9 floor rules out prepared %i placeholders.
+          ignore-warnings: true
