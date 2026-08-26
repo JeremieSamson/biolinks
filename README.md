@@ -12,7 +12,7 @@ No third-party accounts. No subscriptions. No limits. Just a free, open-source p
 
 - **5 visual templates**: Dark, Light, Minimal, Colorful, Glassmorphism
 - **Custom accent color**: Native WordPress color picker to match your brand
-- **Social media icons**: Instagram, YouTube, TikTok, LinkedIn, Twitter/X, Facebook, GitHub, Pinterest, Twitch, Snapchat (SVG icons displayed automatically)
+- **Social media icons**: Instagram, YouTube, TikTok, LinkedIn, Twitter/X, Facebook, GitHub, Pinterest, Twitch, Snapchat, WhatsApp, Bluesky, Mastodon, plus Blog and RSS links (SVG icons displayed automatically)
 - **Click tracking**: Built-in analytics with daily charts and per-link stats, right inside your WordPress admin
 - **Standalone page**: No theme header/footer, works with any WordPress theme
 - **Zero external dependencies**: Everything hosted on your server. No CDN, no cookies, no third-party tracking. GDPR friendly by design.
@@ -44,9 +44,13 @@ Set your profile photo (via WordPress Media Library), display name, bio (max 160
 
 ### Social networks
 
-Enter the URL for each social network you use. Only filled networks are displayed as icons on your page. Supports Instagram, YouTube, LinkedIn, TikTok, Twitter/X, Facebook, GitHub, Pinterest, Twitch, and Snapchat.
+Enter the URL for each social network you use. Only filled networks are displayed as icons on your page. Instagram, YouTube, LinkedIn, TikTok, Twitter/X, Facebook, GitHub, Pinterest, Twitch, Snapchat, WhatsApp, Bluesky, Mastodon, plus Blog and RSS.
 
 ![Social networks](screenshots/admin-socials.png)
+
+The icons then show up on the public page:
+
+![Social icons on the public page](screenshots/socials-icons.png)
 
 ### Add a link
 
