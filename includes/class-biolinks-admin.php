@@ -7,6 +7,8 @@ if (!defined('ABSPATH')) {
 
 class BioLinks_Admin
 {
+    private const SUPPORT_MIN_CLICKS = 25;
+
     public function __construct()
     {
         add_action('admin_menu', [$this, 'add_menu']);
@@ -450,7 +452,10 @@ class BioLinks_Admin
         if ((int) ($config['page_id'] ?? 0) <= 0) {
             return false;
         }
-        return count($links) >= 1;
+        if (count($links) < 1) {
+            return false;
+        }
+        return BioLinks_DB::get_total_clicks() >= self::SUPPORT_MIN_CLICKS;
     }
 
     private function render_support_banner(array $config): void

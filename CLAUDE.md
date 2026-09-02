@@ -47,6 +47,22 @@ Structure du zip :
 - Anchor text simple "BioLinks" pour éviter over-optimization.
 - Estimation : 10-20% d'activation volontaire × 30% sites DA>10 = 3-6% d'installations génèrent backlink qualifié.
 
+## Bannière de support (conditions d'affichage)
+
+`BioLinks_Admin::should_show_support_banner()` cumule cinq conditions, toutes obligatoires :
+
+1. `support_dismissed` non posé (le bouton « I already left a review » le pose définitivement) ;
+2. `support_snooze_until` dépassé (« Maybe later » repousse de 14 jours) ;
+3. au moins 7 jours depuis `activated_at` ;
+4. une page BioLinks créée (`page_id`) et au moins un lien configuré ;
+5. **au moins `SUPPORT_MIN_CLICKS` clics cumulés** (25), lus via `BioLinks_DB::get_total_clicks()`.
+
+Le critère 5 est le seul qui mesure l'usage réel plutôt que la configuration : une install qui a créé sa page puis l'a abandonnée ne verra jamais la bannière. Seuil volontairement au-dessus du bruit d'auto-tests de l'administrateur.
+
+Calibrage du seuil (mesuré le 2026-09-02 sur la démo `nomadesurrails.fr/linkedtree/`) : 41 clics réellement logués en 5 mois sur un site à ~101 articles, le reste des 137 `click_count` venant de l'import Click Tracker v2. Un seuil à 50 n'aurait donc quasiment jamais été atteint par une install ordinaire, d'où 25.
+
+Contrainte WP.org rappelée : aucune récompense fonctionnelle ni manipulation en échange d'un avis, et le compteur reste local (le plugin est zero-network).
+
 ## Gotcha LiteSpeed (instance nomadesurrails.fr)
 
 Les pages BioLinks standalone sont cassées visuellement en Guest Mode LiteSpeed (Combine/Async/Critical CSS supprime le CSS du template). **Obligation** : ajouter chaque slug d'instance BioLinks à l'option `optm-exc` :
