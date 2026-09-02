@@ -13,10 +13,10 @@ Plugin WordPress gratuit/open-source : alternative auto-hébergée à Linktree /
 
 ## État de release
 
-- Dernière version : **v1.1.11** publiée sur GitHub + Forgejo + WP.org le 2026-08-26 (tag `v1.1.11`, zip ~134 KB, 34 fichiers). Ajoute Bluesky, Mastodon, Blog et RSS aux réseaux sociaux (PR #7). Précédée par v1.1.10 le 2026-08-13 (traductions JS de l'admin) et v1.1.9 le même jour (compatibilité WP 7.1).
+- Dernière version : **v1.1.12** publiée sur GitHub + WP.org le 2026-09-02 (tag `v1.1.12`, zip 132 KB, 34 fichiers). Conditionne la bannière de support à un usage réel, seuil 25 clics (PR #9). Précédée par v1.1.11 le 2026-08-26 (Bluesky, Mastodon, Blog et RSS, PR #7), v1.1.10 et v1.1.9 le 2026-08-13.
 - Historique git nettoyé des co-auteurs AI (tag backup `backup-before-claude-removal` conservé en sécurité, supprimable).
 - **WordPress.org : APPROUVÉ le 2026-04-21**. Page publique : https://wordpress.org/plugins/biolinks/. Accès SVN actif pour user `nomadesurrails`.
-- **SVN workspace** : `/home/jerem/claude-scripts/biolinks-svn/` (checkout de `https://plugins.svn.wordpress.org/biolinks/`). Credentials cachés dans `~/.subversion/auth/svn.simple/`. Trunk pushed à rev 3666498, tag `1.1.11` à rev 3666502, assets à rev 3666501 (screenshot-2 « réseaux sociaux » régénéré pour 1.1.11).
+- **SVN workspace** : `/home/jerem/claude-scripts/biolinks-svn/` (checkout de `https://plugins.svn.wordpress.org/biolinks/`). Credentials cachés dans `~/.subversion/auth/svn.simple/`. Trunk pushed à rev 3677698, tag `1.1.12` à rev 3677699. Assets à rev 3666501 (screenshot-2 « réseaux sociaux » régénéré pour 1.1.11, inchangés depuis).
 - **Plugin strictement zero-network depuis v1.1.2** : plus aucun appel externe (retrait complet de l'intégration GA). Stats de clic internes uniquement.
 
 ## Stack technique
@@ -109,14 +109,14 @@ Les traductions livrées dans `languages/` sont un fallback : sur WP.org, celles
 5. Build zip :
    ```bash
    cd /home/jerem/PhpstormProjects
-   zip -r /tmp/biolinks-X.Y.Z.zip biolinks/ -x "biolinks/.git/*" "biolinks/README.md" "biolinks/screenshots/*" "biolinks/tools/*" "biolinks/CLAUDE.md" "biolinks/Makefile" "biolinks/docs/*" -q
+   zip -r /tmp/biolinks-X.Y.Z.zip biolinks/ -x "biolinks/.git/*" "biolinks/.github/*" "biolinks/README.md" "biolinks/screenshots/*" "biolinks/tools/*" "biolinks/CLAUDE.md" "biolinks/Makefile" "biolinks/docs/*" -q
    ```
-   Attendu : ~127 KB, 32 fichiers.
+   Attendu : ~132 KB, 34 fichiers. Sans l'exclusion `.github/*`, le zip embarque les 9 fichiers de CI et passe à 45 entrées : `--exclude='.git/'` ne couvre pas `.github/`.
 6. `gh release create vX.Y.Z /tmp/biolinks-X.Y.Z.zip --title "vX.Y.Z" --notes "..." --repo JeremieSamson/biolinks`
 7. Push vers WP.org SVN (plugin maintenant approuvé, toute nouvelle version passe par SVN) :
    ```bash
    cd /home/jerem/claude-scripts/biolinks-svn
-   rsync -av --delete --exclude='.git/' --exclude='README.md' --exclude='screenshots/' --exclude='docs/' --exclude='tools/' --exclude='CLAUDE.md' --exclude='Makefile' \
+   rsync -av --delete --exclude='.git/' --exclude='.github/' --exclude='README.md' --exclude='screenshots/' --exclude='docs/' --exclude='tools/' --exclude='CLAUDE.md' --exclude='Makefile' \
      /home/jerem/PhpstormProjects/biolinks/ trunk/
    svn add --force trunk/*
    svn commit trunk -m "Release X.Y.Z"
@@ -124,7 +124,7 @@ Les traductions livrées dans `languages/` sont un fallback : sur WP.org, celles
    ```
    Credentials SVN cachés dans `~/.subversion/auth/svn.simple/` (rafraîchir via `rm -rf ~/.subversion/auth/svn.simple/` puis un `svn commit` interactif si mot de passe rotated).
 
-Exclusions zip justifiées : `.git/*` (inutile), `README.md` (version GitHub, `readme.txt` est la version WP.org), `screenshots/*` (WP.org serve via repo SVN assets séparé).
+Exclusions zip justifiées : `.git/*` et `.github/*` (inutiles hors dépôt), `README.md` (version GitHub, `readme.txt` est la version WP.org), `screenshots/*` (WP.org serve via repo SVN assets séparé).
 
 ## Assets WP.org (banner, icon, screenshots)
 
