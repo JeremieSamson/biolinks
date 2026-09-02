@@ -4,7 +4,7 @@ Tags: link in bio, social links, bio page, link page, click tracking
 Requires at least: 5.9
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 1.1.11
+Stable tag: 1.1.12
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -80,6 +80,9 @@ Yes. The bio page is a standard WordPress page and works with all major caching 
 
 == Changelog ==
 
+= 1.1.12 =
+* The support banner now waits for real usage: it only shows up once your BioLinks page has collected at least 25 clicks.
+
 = 1.1.11 =
 * Add Bluesky, Mastodon, Blog and RSS as social network options.
 * Housekeeping: remove an unused internal constant left over from the old link icon auto detection.
@@ -146,6 +149,9 @@ Yes. The bio page is a standard WordPress page and works with all major caching 
 * Import from Click Tracker plugin
 
 == Upgrade Notice ==
+
+= 1.1.12 =
+The support banner now waits until your page has collected at least 25 clicks.
 
 = 1.1.11 =
 Adds Bluesky, Mastodon, Blog and RSS to the social networks section.
