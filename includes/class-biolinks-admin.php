@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
 
 class BioLinks_Admin
 {
-    private const SUPPORT_MIN_CLICKS = 50;
+    private const SUPPORT_MIN_CLICKS = 25;
 
     public function __construct()
     {
