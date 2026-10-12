@@ -4,7 +4,7 @@ Plugin WordPress gratuit/open-source : alternative auto-hébergée à Linktree /
 
 ## Localisation du code
 
-- **Code source réel** : `/home/jerem/PhpstormProjects/biolinks/` (ce dossier-ci). `/home/jerem/claude-scripts/biolinks` est un symlink qui pointe ici.
+- **Code source réel** : `/home/jerem/PhpstormProjects/biolinks/` (ce dossier-ci). `/home/jerem/claude/open-source/biolinks` est un symlink qui pointe ici.
 - **Repo GitHub** : `github.com/JeremieSamson/biolinks` (projet open source → exception à la règle Forgejo par défaut).
 - **Instance prod de démo** : `nomadesurrails.fr/linkedtree/` (page ID 3383, slug `linkedtree`, template dark, accent `#0a7286`).
 - **Landing page marketing** : `symfolidity.com/biolinks` (fichier `content/biolinks.md` dans `/home/jerem/PhpstormProjects/symfolidity.com/`, déployé manuellement en tant que `ubuntu` sur kimsufi2 à `/var/www/symfolidity.com/biolinks/`).
@@ -16,7 +16,7 @@ Plugin WordPress gratuit/open-source : alternative auto-hébergée à Linktree /
 - Dernière version : **v1.1.12** publiée sur GitHub + WP.org le 2026-09-02 (tag `v1.1.12`, zip 132 KB, 34 fichiers). Conditionne la bannière de support à un usage réel, seuil 25 clics (PR #9). Précédée par v1.1.11 le 2026-08-26 (Bluesky, Mastodon, Blog et RSS, PR #7), v1.1.10 et v1.1.9 le 2026-08-13.
 - Historique git nettoyé des co-auteurs AI (tag backup `backup-before-claude-removal` conservé en sécurité, supprimable).
 - **WordPress.org : APPROUVÉ le 2026-04-21**. Page publique : https://wordpress.org/plugins/biolinks/. Accès SVN actif pour user `nomadesurrails`.
-- **SVN workspace** : `/home/jerem/claude-scripts/biolinks-svn/` (checkout de `https://plugins.svn.wordpress.org/biolinks/`). Credentials cachés dans `~/.subversion/auth/svn.simple/`. Trunk pushed à rev 3677698, tag `1.1.12` à rev 3677699. Assets à rev 3666501 (screenshot-2 « réseaux sociaux » régénéré pour 1.1.11, inchangés depuis).
+- **SVN workspace** : `/home/jerem/claude/open-source/biolinks-svn/` (checkout de `https://plugins.svn.wordpress.org/biolinks/`). Credentials cachés dans `~/.subversion/auth/svn.simple/`. Trunk pushed à rev 3677698, tag `1.1.12` à rev 3677699. Assets à rev 3666501 (screenshot-2 « réseaux sociaux » régénéré pour 1.1.11, inchangés depuis).
 - **Plugin strictement zero-network depuis v1.1.2** : plus aucun appel externe (retrait complet de l'intégration GA). Stats de clic internes uniquement.
 
 ## Stack technique
@@ -115,7 +115,7 @@ Les traductions livrées dans `languages/` sont un fallback : sur WP.org, celles
 6. `gh release create vX.Y.Z /tmp/biolinks-X.Y.Z.zip --title "vX.Y.Z" --notes "..." --repo JeremieSamson/biolinks`
 7. Push vers WP.org SVN (plugin maintenant approuvé, toute nouvelle version passe par SVN) :
    ```bash
-   cd /home/jerem/claude-scripts/biolinks-svn
+   cd /home/jerem/claude/open-source/biolinks-svn
    rsync -av --delete --exclude='.git/' --exclude='.github/' --exclude='README.md' --exclude='screenshots/' --exclude='docs/' --exclude='tools/' --exclude='CLAUDE.md' --exclude='Makefile' \
      /home/jerem/PhpstormProjects/biolinks/ trunk/
    svn add --force trunk/*
