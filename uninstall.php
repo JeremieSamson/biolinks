@@ -10,6 +10,7 @@ global $wpdb;
 $biolinks_config_table = $wpdb->prefix . 'biolinks_config';
 $biolinks_links_table  = $wpdb->prefix . 'biolinks_links';
 $biolinks_logs_table   = $wpdb->prefix . 'biolinks_logs';
+$biolinks_views_table  = $wpdb->prefix . 'biolinks_views';
 
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 $biolinks_page_id = (int) $wpdb->get_var(
@@ -21,8 +22,12 @@ if ($biolinks_page_id > 0) {
 }
 
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
+$wpdb->query("DROP TABLE IF EXISTS {$biolinks_views_table}"); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
 $wpdb->query("DROP TABLE IF EXISTS {$biolinks_logs_table}"); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
 $wpdb->query("DROP TABLE IF EXISTS {$biolinks_links_table}"); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
 $wpdb->query("DROP TABLE IF EXISTS {$biolinks_config_table}"); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+delete_option('biolinks_schema_version');
