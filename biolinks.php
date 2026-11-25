@@ -32,7 +32,7 @@ require_once BIOLINKS_PATH . 'includes/class-biolinks-dashboard.php';
 require_once BIOLINKS_PATH . 'includes/class-biolinks-front.php';
 
 register_activation_hook(__FILE__, [BioLinks_DB::class, 'activate']);
-add_action('plugins_loaded', [BioLinks_DB::class, 'maybe_upgrade']);
+add_action('init', [BioLinks_DB::class, 'maybe_upgrade'], 1);
 
 if (is_admin()) {
     new BioLinks_Admin();

@@ -55,10 +55,16 @@ class BioLinks_DB
         if (get_option('biolinks_schema_version') === self::SCHEMA_VERSION) {
             return;
         }
-        self::activate();
+        self::install_schema();
     }
 
     public static function activate(): void
+    {
+        self::install_schema();
+        self::ensure_page();
+    }
+
+    private static function install_schema(): void
     {
         global $wpdb;
         $charset = $wpdb->get_charset_collate();
@@ -149,8 +155,6 @@ class BioLinks_DB
         }
 
         update_option('biolinks_schema_version', self::SCHEMA_VERSION);
-
-        self::ensure_page();
     }
 
     private static function backfill_log_sources(): void

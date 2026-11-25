@@ -13,7 +13,7 @@ Plugin WordPress gratuit/open-source : alternative auto-hébergée à Linktree /
 
 ## État de release
 
-- Version en cours : **v1.2.0** (PR #10) : suivi des clics résistant au cache, vues de page, taux de clic, sources de trafic, liens programmés et mis en avant, titres de section, UTM, formulaire newsletter, balises Open Graph, CSS inliné. Schéma DB v2 (option `biolinks_schema_version`, migration sur `plugins_loaded`).
+- Version en cours : **v1.2.0** (PR #10) : suivi des clics résistant au cache, vues de page, taux de clic, sources de trafic, liens programmés et mis en avant, titres de section, UTM, formulaire newsletter, balises Open Graph, CSS inliné. Schéma DB v2 (option `biolinks_schema_version`, migration sur `init` (priorité 1), sans `ensure_page()` : appelé avant `init`, `wp_insert_post` plante faute de `$wp_rewrite` (fatal attrapé par la CI Plugin Check sur la PR #10)).
 - Version précédente : **v1.1.12** publiée sur GitHub + WP.org le 2026-09-02 (tag `v1.1.12`, zip 132 KB, 34 fichiers). Conditionne la bannière de support à un usage réel, seuil 25 clics (PR #9). Précédée par v1.1.11 le 2026-08-26 (Bluesky, Mastodon, Blog et RSS, PR #7), v1.1.10 et v1.1.9 le 2026-08-13.
 - Historique git nettoyé des co-auteurs AI (tag backup `backup-before-claude-removal` conservé en sécurité, supprimable).
 - **WordPress.org : APPROUVÉ le 2026-04-21**. Page publique : https://wordpress.org/plugins/biolinks/. Accès SVN actif pour user `nomadesurrails`.
