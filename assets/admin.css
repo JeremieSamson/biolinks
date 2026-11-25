@@ -336,3 +336,35 @@
     text-decoration: underline;
     font-size: 12px;
 }
+
+.bl-badge {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 1px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    line-height: 18px;
+    vertical-align: middle;
+    background: #f0f0f1;
+    color: #50575e;
+}
+
+.bl-badge-featured {
+    background: #e6f4f6;
+    color: #0a7286;
+}
+
+.bl-badge-scheduled {
+    background: #fcf3e6;
+    color: #8a5a00;
+}
+
+.bl-badge-ended {
+    background: #fbeaea;
+    color: #b32d2e;
+}
+
+.bl-charts .widefat td,
+.bl-charts .widefat th {
+    padding: 8px 10px;
+}
