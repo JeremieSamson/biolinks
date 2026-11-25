@@ -153,3 +153,8 @@ body::before {
 .biolinks-footer:hover {
     color: rgba(255, 255, 255, 0.6);
 }
+
+.biolinks-section-title,
+.biolinks-newsletter-title {
+    color: #fff;
+}

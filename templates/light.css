@@ -137,3 +137,8 @@ body {
 .biolinks-footer:hover {
     color: #666;
 }
+
+.biolinks-section-title,
+.biolinks-newsletter-title {
+    color: #1a1a1a;
+}
