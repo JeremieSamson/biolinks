@@ -13,11 +13,11 @@ Plugin WordPress gratuit/open-source : alternative auto-hébergée à Linktree /
 
 ## État de release
 
-- Version en cours : **v1.2.0** (PR #10) : suivi des clics résistant au cache, vues de page, taux de clic, sources de trafic, liens programmés et mis en avant, titres de section, UTM, formulaire newsletter, balises Open Graph, CSS inliné. Schéma DB v2 (option `biolinks_schema_version`, migration sur `init` (priorité 1), sans `ensure_page()` : appelé avant `init`, `wp_insert_post` plante faute de `$wp_rewrite` (fatal attrapé par la CI Plugin Check sur la PR #10)).
-- Version précédente : **v1.1.12** publiée sur GitHub + WP.org le 2026-09-02 (tag `v1.1.12`, zip 132 KB, 34 fichiers). Conditionne la bannière de support à un usage réel, seuil 25 clics (PR #9). Précédée par v1.1.11 le 2026-08-26 (Bluesky, Mastodon, Blog et RSS, PR #7), v1.1.10 et v1.1.9 le 2026-08-13.
+- Dernière version : **v1.2.0** publiée sur GitHub + WP.org le 2026-11-25 (PR #10, tag `v1.2.0`, zip 150 KB, 35 fichiers, SVN trunk rev 3822297, tag rev 3822298), validée d'abord en canary sur nomadesurrails : suivi des clics résistant au cache, vues de page, taux de clic, sources de trafic, liens programmés et mis en avant, titres de section, UTM, formulaire newsletter, balises Open Graph, CSS inliné. Schéma DB v2 (option `biolinks_schema_version`, migration sur `init` (priorité 1), sans `ensure_page()` : appelé avant `init`, `wp_insert_post` plante faute de `$wp_rewrite` (fatal attrapé par la CI Plugin Check sur la PR #10)).
+- Précédente : **v1.1.12** publiée sur GitHub + WP.org le 2026-09-02 (tag `v1.1.12`, zip 132 KB, 34 fichiers). Conditionne la bannière de support à un usage réel, seuil 25 clics (PR #9). Précédée par v1.1.11 le 2026-08-26 (Bluesky, Mastodon, Blog et RSS, PR #7), v1.1.10 et v1.1.9 le 2026-08-13.
 - Historique git nettoyé des co-auteurs AI (tag backup `backup-before-claude-removal` conservé en sécurité, supprimable).
 - **WordPress.org : APPROUVÉ le 2026-04-21**. Page publique : https://wordpress.org/plugins/biolinks/. Accès SVN actif pour user `nomadesurrails`.
-- **SVN workspace** : `/home/jerem/claude/open-source/biolinks-svn/` (checkout de `https://plugins.svn.wordpress.org/biolinks/`). Credentials cachés dans `~/.subversion/auth/svn.simple/`. Trunk pushed à rev 3677698, tag `1.1.12` à rev 3677699. Assets à rev 3666501 (screenshot-2 « réseaux sociaux » régénéré pour 1.1.11, inchangés depuis).
+- **SVN workspace** : `/home/jerem/claude/open-source/biolinks-svn/` (checkout de `https://plugins.svn.wordpress.org/biolinks/`). Credentials cachés dans `~/.subversion/auth/svn.simple/`. Trunk pushed à rev 3822297, tag `1.2.0` à rev 3822298. Assets à rev 3666501 (screenshot-2 « réseaux sociaux » régénéré pour 1.1.11, inchangés depuis).
 - **Plugin strictement zero-network depuis v1.1.2** : plus aucun appel externe (retrait complet de l'intégration GA). Stats de clic internes uniquement.
 
 ## Stack technique
@@ -120,7 +120,7 @@ Les traductions livrées dans `languages/` sont un fallback : sur WP.org, celles
    cd /home/jerem/PhpstormProjects
    zip -r /tmp/biolinks-X.Y.Z.zip biolinks/ -x "biolinks/.git/*" "biolinks/.github/*" "biolinks/README.md" "biolinks/screenshots/*" "biolinks/tools/*" "biolinks/CLAUDE.md" "biolinks/Makefile" "biolinks/docs/*" -q
    ```
-   Attendu : ~132 KB, 34 fichiers. Sans l'exclusion `.github/*`, le zip embarque les 9 fichiers de CI et passe à 45 entrées : `--exclude='.git/'` ne couvre pas `.github/`.
+   Attendu : ~150 KB, 35 fichiers (depuis la 1.2.0). Sans l'exclusion `.github/*`, le zip embarque les 9 fichiers de CI et passe à 45 entrées : `--exclude='.git/'` ne couvre pas `.github/`.
 6. `gh release create vX.Y.Z /tmp/biolinks-X.Y.Z.zip --title "vX.Y.Z" --notes "..." --repo JeremieSamson/biolinks`
 7. Push vers WP.org SVN (plugin maintenant approuvé, toute nouvelle version passe par SVN) :
    ```bash
