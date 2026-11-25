@@ -1,14 +1,14 @@
 === BioLinks ===
 Contributors: nomadesurrails
-Tags: link in bio, social links, bio page, link page, click tracking
+Tags: link in bio, linktree, social links, bio page, click tracking
 Requires at least: 5.9
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 1.1.12
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Self-hosted link in bio page for WordPress. 5 templates, click tracking, analytics dashboard. No third-party, no subscription.
+Self-hosted link in bio page for WordPress. 5 templates, click and view analytics, scheduled links. No third-party, no subscription.
 
 == Description ==
 
@@ -22,6 +22,14 @@ No third-party accounts. No subscriptions. No limits. Just a free, open-source p
 * **Custom accent color**: Native WordPress color picker to match your brand
 * **Social media icons**: Instagram, YouTube, TikTok, LinkedIn, Twitter/X, Facebook, GitHub, Pinterest, Twitch, Snapchat, WhatsApp, Bluesky, Mastodon, plus Blog and RSS links (SVG icons displayed automatically)
 * **Click tracking**: Built-in analytics with daily charts and per-link stats inside your WordPress admin
+* **Page views and click-through rate**: See how many visitors open your page and which share of them click each link
+* **Traffic sources**: Find out whether your visitors come from Instagram, TikTok, Facebook, LinkedIn, search engines or other sites, detected on your own server
+* **Highlighted links**: Make your most important link stand out with the accent color
+* **Section titles**: Group your links under headings
+* **Scheduled links**: Show a link from a start date, until an end date, or both. Works even when the page is cached
+* **UTM parameters**: Optionally tag outgoing links so the destination site can attribute the visit to your link in bio
+* **Newsletter form**: Optional email field that posts straight to your email provider (Mailchimp, Brevo, MailerLite, Kit...)
+* **Rich link previews**: Open Graph and Twitter Card tags, so your page shows a title, a description and your photo when shared
 * **Standalone page**: No theme header/footer, works with any WordPress theme
 * **Zero external dependencies**: Everything hosted on your server. No CDN, no cookies, no third-party tracking. GDPR friendly by design
 * **Drag & drop link ordering**: Reorder your links with a simple drag and drop
@@ -66,7 +74,15 @@ All BioLinks data (links, settings, statistics) and the generated page are perma
 
 = Does it work with caching plugins? =
 
-Yes. The bio page is a standard WordPress page and works with all major caching plugins (WP Super Cache, W3 Total Cache, LiteSpeed Cache, etc.).
+Yes. The bio page is a standard WordPress page and works with all major caching plugins (WP Super Cache, W3 Total Cache, LiteSpeed Cache, etc.). Its stylesheet is inlined, so CSS optimization features cannot strip it, and click tracking keeps working on pages cached for days. Scheduled links are shown and hidden in the browser, at the right time, even on a cached page.
+
+= Does BioLinks use cookies? =
+
+No. Views and clicks are recorded on your server without any cookie or browser storage. The traffic source is guessed from the browser signature of social network apps and from the referring site, then stored as a single word such as "instagram". Each click also keeps the browser signature (user agent), page views keep nothing else. IP addresses are not stored in the statistics.
+
+= How do I add a newsletter form? =
+
+In the Appearance tab, enable the newsletter form and paste the form action URL and the email field name found in the embed code of your email provider. Add the hidden fields of that embed code if it has any. The visitor's address goes straight to your provider: BioLinks never sees it.
 
 == Screenshots ==
 
@@ -79,6 +95,20 @@ Yes. The bio page is a standard WordPress page and works with all major caching 
 7. WordPress dashboard widget: At-a-glance click stats with KPIs, 30-day sparkline, and top 3 most clicked links.
 
 == Changelog ==
+
+= 1.2.0 =
+* Fix: click tracking silently stopped working once a page cache kept the BioLinks page longer than a day, because the security token embedded in the page expired. Tracking no longer depends on it, and requests coming from another site are rejected.
+* New: page views, click-through rate per link and traffic sources (Instagram, TikTok, Facebook, LinkedIn, search engines...) in the Statistics tab. Existing clicks are classified retroactively.
+* New: highlight a link with the accent color.
+* New: section titles to group links.
+* New: schedule a link with a start date, an end date, or both.
+* New: optional UTM parameters on outgoing links.
+* New: optional newsletter form that posts straight to your email provider.
+* New: Open Graph, Twitter Card, meta description and canonical tags, so shared links show a proper preview.
+* New icons: book, download, document, calendar, location, gift, star and heart.
+* Improvement: the template stylesheet is now inlined. CSS optimization plugins can no longer strip it, and the page saves a request.
+* Improvement: stylesheets, scripts and resource hints added by other plugins are no longer printed on the BioLinks page, and jQuery is no longer loaded there.
+* Bots and link preview crawlers are no longer counted.
 
 = 1.1.12 =
 * The support banner now waits for real usage: it only shows up once your BioLinks page has collected at least 25 clicks.
@@ -149,6 +179,9 @@ Yes. The bio page is a standard WordPress page and works with all major caching 
 * Import from Click Tracker plugin
 
 == Upgrade Notice ==
+
+= 1.2.0 =
+Fixes click tracking on cached pages, adds page views, click-through rate, traffic sources, scheduled and highlighted links, section titles and link previews.
 
 = 1.1.12 =
 The support banner now waits until your page has collected at least 25 clicks.
