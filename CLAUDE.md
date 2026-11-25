@@ -38,7 +38,7 @@ Structure du zip :
 - **Base de données** : création via `dbDelta()` (require `ABSPATH . 'wp-admin/includes/upgrade.php'`). Syntaxe : pas de `IF NOT EXISTS`, double espace après `PRIMARY KEY`, `;` en fin de statement.
 - **Échappement** : valeurs numériques → `esc_html()` avec cast string explicite. HTML autorisé → `wp_kses()` + whitelist d'attributs stricte.
 - **i18n** : ne pas appeler `load_plugin_textdomain()` (auto-loaded depuis WP 4.6). Ajouter `translators:` comment pour chaque placeholder dans `printf()`.
-- **Header `Tested up to`** : maintenir à jour avec la version WP actuelle, sinon le plugin disparaît de la recherche directory. Il est présent **dans les deux fichiers** (`readme.txt` et le header de `biolinks.php`) : les deux doivent être bumpés ensemble, sinon Plugin Check lève `mismatched_tested_up_to_header` (le header PHP écrase la valeur du readme).
+- **Header `Tested up to`** : maintenir à jour avec la version WP actuelle, sinon le plugin disparaît de la recherche directory. Depuis novembre 2026, Plugin Check exige qu'il soit **uniquement dans `readme.txt`** (ERROR `plugin_header_tested_up_to_not_allowed` s'il figure aussi dans le header de `biolinks.php`, retiré en 1.2.0). `check-versions.sh` vérifie cette absence.
 - **Prepared statements `%i`** : nécessite WP 6.2+, donc incompatible avec le floor 5.9+ de BioLinks → rester sur `%s + esc_sql()`.
 
 ## Credit link (opt-in)
@@ -109,7 +109,7 @@ Les traductions livrées dans `languages/` sont un fallback : sur WP.org, celles
 ## Procédure de release (version X.Y.Z)
 
 1. Bump dans 2 fichiers du dossier `biolinks/` :
-   - `biolinks.php` : header `* Version: X.Y.Z` + `define('BIOLINKS_VERSION', 'X.Y.Z')` (+ header `* Tested up to:` si la version WP cible change)
+   - `biolinks.php` : header `* Version: X.Y.Z` + `define('BIOLINKS_VERSION', 'X.Y.Z')`
    - `readme.txt` : `Stable tag: X.Y.Z` + entrée `= X.Y.Z =` changelog + entrée `Upgrade Notice` (+ `Tested up to:` si besoin)
    Contrôle : `wp plugin check biolinks` doit renvoyer 0 ERROR (les ~102 WARNING DirectDatabaseQuery / InterpolatedNotPrepared sont structurels, dus au floor 5.9 qui interdit `%i`).
 2. `git commit -m "chore(release): bump version to X.Y.Z"`

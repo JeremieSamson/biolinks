@@ -13,7 +13,6 @@ declare(strict_types=1);
  * Text Domain: biolinks
  * Domain Path: /languages
  * Requires at least: 5.9
- * Tested up to: 7.1
  * Requires PHP: 8.0
  */
 
