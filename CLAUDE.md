@@ -9,11 +9,12 @@ Plugin WordPress gratuit/open-source : alternative auto-hébergée à Linktree /
 - **Instance prod de démo** : `nomadesurrails.fr/linkedtree/` (page ID 3383, slug `linkedtree`, template dark, accent `#0a7286`).
 - **Landing page marketing** : `symfolidity.com/biolinks` (fichier `content/biolinks.md` dans `/home/jerem/PhpstormProjects/symfolidity.com/`, déployé manuellement en tant que `ubuntu` sur kimsufi2 à `/var/www/symfolidity.com/biolinks/`).
 - **Article case study** : `symfolidity.com/articles/biolinks-plugin-wordpress-link-in-bio/`.
-- **Tuto utilisateur** : brouillon ID 3389 sur nomadesurrails.fr (à publier pour la stratégie SEO FR).
+- **Tuto utilisateur** : l'ancien brouillon ID 3389 sur nomadesurrails.fr n'existe plus (constaté le 2026-11-25). Aucun tuto FR publié à ce jour.
 
 ## État de release
 
-- Dernière version : **v1.1.12** publiée sur GitHub + WP.org le 2026-09-02 (tag `v1.1.12`, zip 132 KB, 34 fichiers). Conditionne la bannière de support à un usage réel, seuil 25 clics (PR #9). Précédée par v1.1.11 le 2026-08-26 (Bluesky, Mastodon, Blog et RSS, PR #7), v1.1.10 et v1.1.9 le 2026-08-13.
+- Version en cours : **v1.2.0** (PR #10) : suivi des clics résistant au cache, vues de page, taux de clic, sources de trafic, liens programmés et mis en avant, titres de section, UTM, formulaire newsletter, balises Open Graph, CSS inliné. Schéma DB v2 (option `biolinks_schema_version`, migration sur `plugins_loaded`).
+- Version précédente : **v1.1.12** publiée sur GitHub + WP.org le 2026-09-02 (tag `v1.1.12`, zip 132 KB, 34 fichiers). Conditionne la bannière de support à un usage réel, seuil 25 clics (PR #9). Précédée par v1.1.11 le 2026-08-26 (Bluesky, Mastodon, Blog et RSS, PR #7), v1.1.10 et v1.1.9 le 2026-08-13.
 - Historique git nettoyé des co-auteurs AI (tag backup `backup-before-claude-removal` conservé en sécurité, supprimable).
 - **WordPress.org : APPROUVÉ le 2026-04-21**. Page publique : https://wordpress.org/plugins/biolinks/. Accès SVN actif pour user `nomadesurrails`.
 - **SVN workspace** : `/home/jerem/claude/open-source/biolinks-svn/` (checkout de `https://plugins.svn.wordpress.org/biolinks/`). Credentials cachés dans `~/.subversion/auth/svn.simple/`. Trunk pushed à rev 3677698, tag `1.1.12` à rev 3677699. Assets à rev 3666501 (screenshot-2 « réseaux sociaux » régénéré pour 1.1.11, inchangés depuis).
@@ -63,6 +64,14 @@ Calibrage du seuil (mesuré le 2026-09-02 sur la démo `nomadesurrails.fr/linked
 
 Contrainte WP.org rappelée : aucune récompense fonctionnelle ni manipulation en échange d'un avis, et le compteur reste local (le plugin est zero-network).
 
+## Suivi des clics et des vues : jamais de nonce
+
+La page BioLinks est servie depuis un cache de page (7 jours sur nomadesurrails, plus Cloudflare). Un nonce WordPress imprimé dans la page vit 24 h : jusqu'à la 1.1.12, l'endpoint `biolinks_click` le vérifiait et rejetait en silence tous les clics passé le premier jour du cycle de cache (21 clics logués en avril 2026, ~2 par mois ensuite). Depuis la 1.2.0, les beacons publics (`biolinks_click`, `biolinks_view`) vérifient l'en-tête `Origin`, filtrent les robots et gardent la limite de 60 s par IP et lien sur les clics. Ne pas réintroduire de nonce sur un endpoint appelé depuis la page publique.
+
+Pas de cookie ni de `sessionStorage` côté visiteur (promesse « GDPR friendly ») : les vues sont donc des pages vues, pas des visiteurs uniques.
+
+La planification des liens est appliquée par `assets/front.js` (attributs `data-start` / `data-end` en timestamps UTC) pour rester juste sur une page en cache ; le serveur n'exclut que les liens déjà terminés au moment du rendu.
+
 ## Gotcha LiteSpeed (instance nomadesurrails.fr)
 
 Les pages BioLinks standalone sont cassées visuellement en Guest Mode LiteSpeed (Combine/Async/Critical CSS supprime le CSS du template). **Obligation** : ajouter chaque slug d'instance BioLinks à l'option `optm-exc` :
@@ -71,7 +80,7 @@ Les pages BioLinks standalone sont cassées visuellement en Guest Mode LiteSpeed
 ssh seopress 'cd /home/nomadesurrails.seopress.host/public_html && sudo wp --allow-root litespeed-option set optm-exc "/linkedtree/"'
 ```
 
-Une URL par ligne. Page reste cachée (HIT conservé), juste exclue des optimisations CSS. Solution long terme : inliner le CSS du template dans le HTML côté plugin (solution B évoquée, pas implémentée).
+Une URL par ligne. Page reste cachée (HIT conservé), juste exclue des optimisations CSS. Depuis la 1.2.0 le CSS du template est inliné (solution B), ce qui devrait rendre l'exclusion inutile ; elle est conservée sur nomadesurrails tant que ce n'est pas vérifié en Guest Mode.
 
 ## Procédure i18n (après ajout ou modification de chaînes)
 
