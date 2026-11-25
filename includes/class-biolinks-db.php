@@ -7,6 +7,25 @@ if (!defined('ABSPATH')) {
 
 class BioLinks_DB
 {
+    public const SCHEMA_VERSION = '2';
+
+    public const SOURCES = [
+        'instagram',
+        'facebook',
+        'tiktok',
+        'linkedin',
+        'twitter',
+        'threads',
+        'snapchat',
+        'pinterest',
+        'youtube',
+        'whatsapp',
+        'telegram',
+        'search',
+        'website',
+        'direct',
+    ];
+
     public static function table_config(): string
     {
         global $wpdb;
@@ -25,13 +44,35 @@ class BioLinks_DB
         return $wpdb->prefix . 'biolinks_logs';
     }
 
+    public static function table_views(): string
+    {
+        global $wpdb;
+        return $wpdb->prefix . 'biolinks_views';
+    }
+
+    public static function maybe_upgrade(): void
+    {
+        if (get_option('biolinks_schema_version') === self::SCHEMA_VERSION) {
+            return;
+        }
+        self::install_schema();
+    }
+
     public static function activate(): void
+    {
+        self::install_schema();
+        self::ensure_page();
+    }
+
+    private static function install_schema(): void
     {
         global $wpdb;
         $charset = $wpdb->get_charset_collate();
         $config = self::table_config();
         $links = self::table_links();
         $logs = self::table_logs();
+        $views = self::table_views();
+        $previous_schema = (string) get_option('biolinks_schema_version', '');
 
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
@@ -48,6 +89,10 @@ class BioLinks_DB
             icon varchar(50) DEFAULT NULL,
             position int(11) NOT NULL DEFAULT 0,
             click_count int(11) DEFAULT 0,
+            link_type varchar(20) NOT NULL DEFAULT 'link',
+            featured tinyint(1) NOT NULL DEFAULT 0,
+            starts_at datetime DEFAULT NULL,
+            ends_at datetime DEFAULT NULL,
             PRIMARY KEY  (id)
         ) $charset;");
 
@@ -56,8 +101,17 @@ class BioLinks_DB
             link_id int(11) NOT NULL,
             clicked_at datetime NOT NULL,
             user_agent varchar(500) DEFAULT NULL,
+            source varchar(20) DEFAULT NULL,
             PRIMARY KEY  (id),
             KEY idx_link_date (link_id, clicked_at)
+        ) $charset;");
+
+        dbDelta("CREATE TABLE $views (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            viewed_at datetime NOT NULL,
+            source varchar(20) DEFAULT NULL,
+            PRIMARY KEY  (id),
+            KEY idx_date (viewed_at)
         ) $charset;");
 
         $defaults = [
@@ -71,6 +125,16 @@ class BioLinks_DB
             'socials' => '{}',
             'show_credit' => '0',
             'activated_at' => (string) time(),
+            'utm_enabled' => '0',
+            'utm_source' => 'biolinks',
+            'utm_medium' => 'link_in_bio',
+            'newsletter_enabled' => '0',
+            'newsletter_action' => '',
+            'newsletter_field' => 'EMAIL',
+            'newsletter_hidden' => '',
+            'newsletter_title' => '',
+            'newsletter_placeholder' => '',
+            'newsletter_button' => '',
         ];
 
         foreach ($defaults as $key => $value) {
@@ -86,7 +150,93 @@ class BioLinks_DB
             }
         }
 
-        self::ensure_page();
+        if ($previous_schema === '' || version_compare($previous_schema, '2', '<')) {
+            self::backfill_log_sources();
+        }
+
+        update_option('biolinks_schema_version', self::SCHEMA_VERSION);
+    }
+
+    private static function backfill_log_sources(): void
+    {
+        global $wpdb;
+        $logs = self::table_logs();
+        $patterns = [
+            'instagram' => ['Instagram'],
+            'facebook' => ['FBAN', 'FBAV', 'FB_IAB', 'FBIOS', 'FB4A'],
+            'tiktok' => ['musical_ly', 'BytedanceWebview', 'TikTok', 'trill_'],
+            'linkedin' => ['LinkedInApp'],
+            'snapchat' => ['Snapchat'],
+            'pinterest' => ['Pinterest'],
+            'twitter' => ['Twitter'],
+            'telegram' => ['Telegram'],
+            'whatsapp' => ['WhatsApp'],
+        ];
+
+        foreach ($patterns as $source => $needles) {
+            foreach ($needles as $needle) {
+                $wpdb->query($wpdb->prepare(
+                    "UPDATE $logs SET source = %s WHERE source IS NULL AND user_agent LIKE %s",
+                    $source,
+                    '%' . $wpdb->esc_like($needle) . '%'
+                ));
+            }
+        }
+
+        $wpdb->query("UPDATE $logs SET source = 'direct' WHERE source IS NULL");
+    }
+
+    public static function detect_source(string $user_agent, string $referrer): string
+    {
+        $ua_patterns = [
+            'instagram' => '/Instagram/i',
+            'facebook' => '/FBAN|FBAV|FB_IAB|FBIOS|FB4A/',
+            'tiktok' => '/musical_ly|BytedanceWebview|TikTok|trill_/i',
+            'linkedin' => '/LinkedInApp/i',
+            'threads' => '/Barcelona/',
+            'snapchat' => '/Snapchat/i',
+            'pinterest' => '/Pinterest/i',
+            'twitter' => '/Twitter/i',
+            'telegram' => '/Telegram/i',
+            'whatsapp' => '/WhatsApp/i',
+        ];
+        foreach ($ua_patterns as $source => $pattern) {
+            if (preg_match($pattern, $user_agent)) {
+                return $source;
+            }
+        }
+
+        $host = strtolower((string) wp_parse_url($referrer, PHP_URL_HOST));
+        if ($host === '') {
+            return 'direct';
+        }
+
+        $host_patterns = [
+            'instagram' => '/(^|\.)instagram\.com$/',
+            'facebook' => '/(^|\.)(facebook\.com|fb\.me|messenger\.com)$/',
+            'tiktok' => '/(^|\.)tiktok\.com$/',
+            'linkedin' => '/(^|\.)(linkedin\.com|lnkd\.in)$/',
+            'twitter' => '/(^|\.)(twitter\.com|x\.com|t\.co)$/',
+            'threads' => '/(^|\.)threads\.(net|com)$/',
+            'snapchat' => '/(^|\.)snapchat\.com$/',
+            'pinterest' => '/(^|\.)(pinterest\.[a-z.]+|pin\.it)$/',
+            'youtube' => '/(^|\.)(youtube\.com|youtu\.be)$/',
+            'whatsapp' => '/(^|\.)whatsapp\.(com|net)$/',
+            'telegram' => '/(^|\.)(t\.me|telegram\.org)$/',
+            'search' => '/(^|\.)(google\.[a-z.]+|bing\.com|duckduckgo\.com|search\.yahoo\.com|yandex\.[a-z]+|ecosia\.org|qwant\.com|search\.brave\.com)$/',
+        ];
+        foreach ($host_patterns as $source => $pattern) {
+            if (preg_match($pattern, $host)) {
+                return $source;
+            }
+        }
+
+        $own_host = strtolower((string) wp_parse_url(home_url(), PHP_URL_HOST));
+        if ($host === $own_host) {
+            return 'direct';
+        }
+
+        return 'website';
     }
 
     public static function ensure_page(): void
@@ -175,27 +325,41 @@ class BioLinks_DB
         return $wpdb->get_row($wpdb->prepare("SELECT * FROM $table WHERE id = %d", $id));
     }
 
-    public static function insert_link(string $name, string $url, int $position, ?string $icon = null): int
+    public static function get_public_links(): array
     {
         global $wpdb;
-        $wpdb->insert(self::table_links(), [
-            'link_name' => $name,
-            'link_url' => $url,
-            'position' => $position,
-            'icon' => $icon,
-        ]);
+        $table = self::table_links();
+        return $wpdb->get_results($wpdb->prepare(
+            "SELECT * FROM $table WHERE ends_at IS NULL OR ends_at > %s ORDER BY position ASC",
+            current_time('mysql')
+        ));
+    }
+
+    public static function insert_link(array $data): int
+    {
+        global $wpdb;
+        $wpdb->insert(self::table_links(), self::link_columns($data));
         return (int) $wpdb->insert_id;
     }
 
-    public static function update_link(int $id, string $name, string $url, int $position, ?string $icon = null): void
+    public static function update_link(int $id, array $data): void
     {
         global $wpdb;
-        $wpdb->update(self::table_links(), [
-            'link_name' => $name,
-            'link_url' => $url,
-            'position' => $position,
-            'icon' => $icon,
-        ], ['id' => $id]);
+        $wpdb->update(self::table_links(), self::link_columns($data), ['id' => $id]);
+    }
+
+    private static function link_columns(array $data): array
+    {
+        return [
+            'link_name' => (string) ($data['link_name'] ?? ''),
+            'link_url' => (string) ($data['link_url'] ?? ''),
+            'position' => (int) ($data['position'] ?? 0),
+            'icon' => $data['icon'] ?? null,
+            'link_type' => ($data['link_type'] ?? 'link') === 'header' ? 'header' : 'link',
+            'featured' => !empty($data['featured']) ? 1 : 0,
+            'starts_at' => $data['starts_at'] ?? null,
+            'ends_at' => $data['ends_at'] ?? null,
+        ];
     }
 
     public static function delete_link(int $id): void
@@ -224,7 +388,7 @@ class BioLinks_DB
 
     // --- Click tracking ---
 
-    public static function log_click(int $link_id, ?string $user_agent): void
+    public static function log_click(int $link_id, ?string $user_agent, string $source): void
     {
         global $wpdb;
         $links = self::table_links();
@@ -239,23 +403,75 @@ class BioLinks_DB
             'link_id' => $link_id,
             'clicked_at' => current_time('mysql'),
             'user_agent' => $user_agent ? mb_substr($user_agent, 0, 500) : null,
+            'source' => $source,
         ]);
+    }
+
+    public static function log_view(string $source): void
+    {
+        global $wpdb;
+        $wpdb->insert(self::table_views(), [
+            'viewed_at' => current_time('mysql'),
+            'source' => $source,
+        ]);
+    }
+
+    public static function link_exists(int $link_id): bool
+    {
+        global $wpdb;
+        $table = self::table_links();
+        return (int) $wpdb->get_var($wpdb->prepare(
+            "SELECT COUNT(*) FROM $table WHERE id = %d AND link_type = 'link'",
+            $link_id
+        )) > 0;
     }
 
     // --- Stats ---
 
-    public static function get_clicks_per_day(int $days = 30): array
+    private static function since(int $days): string
+    {
+        return wp_date('Y-m-d H:i:s', time() - $days * DAY_IN_SECONDS);
+    }
+
+    private static function today_start(): string
+    {
+        return wp_date('Y-m-d 00:00:00');
+    }
+
+    public static function get_daily_series(int $days = 30): array
     {
         global $wpdb;
-        $table = self::table_logs();
-        return $wpdb->get_results($wpdb->prepare(
-            "SELECT DATE(clicked_at) as date, COUNT(*) as clicks
-             FROM $table
-             WHERE clicked_at >= DATE_SUB(NOW(), INTERVAL %d DAY)
-             GROUP BY DATE(clicked_at)
-             ORDER BY date ASC",
-            $days
+        $logs = self::table_logs();
+        $views = self::table_views();
+        $since = wp_date('Y-m-d 00:00:00', time() - ($days - 1) * DAY_IN_SECONDS);
+
+        $clicks = $wpdb->get_results($wpdb->prepare(
+            "SELECT DATE(clicked_at) AS day, COUNT(*) AS total FROM $logs WHERE clicked_at >= %s GROUP BY DATE(clicked_at)",
+            $since
         ));
+        $page_views = $wpdb->get_results($wpdb->prepare(
+            "SELECT DATE(viewed_at) AS day, COUNT(*) AS total FROM $views WHERE viewed_at >= %s GROUP BY DATE(viewed_at)",
+            $since
+        ));
+
+        $clicks_map = [];
+        foreach ($clicks as $row) {
+            $clicks_map[$row->day] = (int) $row->total;
+        }
+        $views_map = [];
+        foreach ($page_views as $row) {
+            $views_map[$row->day] = (int) $row->total;
+        }
+
+        $series = ['labels' => [], 'clicks' => [], 'views' => []];
+        for ($i = $days - 1; $i >= 0; $i--) {
+            $day = wp_date('Y-m-d', time() - $i * DAY_IN_SECONDS);
+            $series['labels'][] = $day;
+            $series['clicks'][] = $clicks_map[$day] ?? 0;
+            $series['views'][] = $views_map[$day] ?? 0;
+        }
+
+        return $series;
     }
 
     public static function get_clicks_per_link(int $days = 30): array
@@ -266,38 +482,86 @@ class BioLinks_DB
         return $wpdb->get_results($wpdb->prepare(
             "SELECT t.id, t.link_name, COUNT(l.id) as clicks
              FROM $links t
-             LEFT JOIN $logs l ON l.link_id = t.id AND l.clicked_at >= DATE_SUB(NOW(), INTERVAL %d DAY)
+             LEFT JOIN $logs l ON l.link_id = t.id AND l.clicked_at >= %s
+             WHERE t.link_type = 'link'
              GROUP BY t.id, t.link_name
              ORDER BY clicks DESC",
-            $days
+            self::since($days)
         ));
+    }
+
+    public static function get_sources(int $days = 30): array
+    {
+        global $wpdb;
+        $logs = self::table_logs();
+        $views = self::table_views();
+        $since = self::since($days);
+
+        $view_rows = $wpdb->get_results($wpdb->prepare(
+            "SELECT COALESCE(source, 'direct') AS source, COUNT(*) AS total FROM $views WHERE viewed_at >= %s GROUP BY COALESCE(source, 'direct')",
+            $since
+        ));
+        $click_rows = $wpdb->get_results($wpdb->prepare(
+            "SELECT COALESCE(source, 'direct') AS source, COUNT(*) AS total FROM $logs WHERE clicked_at >= %s GROUP BY COALESCE(source, 'direct')",
+            $since
+        ));
+
+        $sources = [];
+        foreach ($view_rows as $row) {
+            $sources[$row->source] = ['views' => (int) $row->total, 'clicks' => 0];
+        }
+        foreach ($click_rows as $row) {
+            $sources[$row->source] = [
+                'views' => $sources[$row->source]['views'] ?? 0,
+                'clicks' => (int) $row->total,
+            ];
+        }
+
+        uasort($sources, static fn(array $a, array $b): int => ($b['views'] <=> $a['views']) ?: ($b['clicks'] <=> $a['clicks']));
+
+        return $sources;
     }
 
     public static function get_total_clicks_today(): int
     {
         global $wpdb;
         $table = self::table_logs();
-        return (int) $wpdb->get_var(
-            "SELECT COUNT(*) FROM $table WHERE DATE(clicked_at) = CURDATE()"
-        );
+        return (int) $wpdb->get_var($wpdb->prepare(
+            "SELECT COUNT(*) FROM $table WHERE clicked_at >= %s",
+            self::today_start()
+        ));
     }
 
     public static function get_total_clicks_week(): int
     {
-        global $wpdb;
-        $table = self::table_logs();
-        return (int) $wpdb->get_var(
-            "SELECT COUNT(*) FROM $table WHERE clicked_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)"
-        );
+        return self::count_since(self::table_logs(), 'clicked_at', self::since(7));
     }
 
     public static function get_total_clicks_month(): int
     {
+        return self::count_since(self::table_logs(), 'clicked_at', self::since(30));
+    }
+
+    public static function get_views_since_days(int $days): int
+    {
+        return self::count_since(self::table_views(), 'viewed_at', self::since($days));
+    }
+
+    public static function get_total_views(): int
+    {
         global $wpdb;
-        $table = self::table_logs();
-        return (int) $wpdb->get_var(
-            "SELECT COUNT(*) FROM $table WHERE clicked_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)"
-        );
+        $table = self::table_views();
+        return (int) $wpdb->get_var("SELECT COUNT(*) FROM $table");
+    }
+
+    private static function count_since(string $table, string $column, string $since): int
+    {
+        global $wpdb;
+        $column = esc_sql($column);
+        return (int) $wpdb->get_var($wpdb->prepare(
+            "SELECT COUNT(*) FROM $table WHERE $column >= %s",
+            $since
+        ));
     }
 
     public static function get_total_clicks(): int

@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initImportButton();
     initBioCounter();
     initTemplateCards();
+    initLinkTypeToggle();
 });
 
 var dailyChart = null;
@@ -102,10 +103,18 @@ function initCharts() {
         data: {
             labels: blChartData.daily.labels,
             datasets: [{
+                label: __('Page views', 'biolinks'),
+                data: blChartData.daily.views,
+                borderColor: '#9aa5b1',
+                backgroundColor: 'rgba(154, 165, 177, 0.12)',
+                fill: true,
+                tension: 0.3,
+                pointRadius: 2,
+            }, {
                 label: __('Clicks', 'biolinks'),
-                data: blChartData.daily.values,
+                data: blChartData.daily.clicks,
                 borderColor: '#0a7286',
-                backgroundColor: 'rgba(10, 114, 134, 0.1)',
+                backgroundColor: 'rgba(10, 114, 134, 0.15)',
                 fill: true,
                 tension: 0.3,
                 pointRadius: 3,
@@ -114,7 +123,8 @@ function initCharts() {
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
+            interaction: { mode: 'index', intersect: false },
+            plugins: { legend: { display: true, position: 'bottom' } },
             scales: {
                 y: { beginAtZero: true, ticks: { stepSize: 1 } }
             }
@@ -164,7 +174,8 @@ function initPeriodSelector() {
             if (!response.success) return;
 
             dailyChart.data.labels = response.data.daily.labels;
-            dailyChart.data.datasets[0].data = response.data.daily.values;
+            dailyChart.data.datasets[0].data = response.data.daily.views;
+            dailyChart.data.datasets[1].data = response.data.daily.clicks;
             dailyChart.update();
 
             linksChart.data.labels = response.data.links.labels;
@@ -223,4 +234,21 @@ function initTemplateCards() {
             card.classList.add('bl-template-active');
         });
     });
+}
+
+function initLinkTypeToggle() {
+    var select = document.getElementById('bl-link-type');
+    var url = document.getElementById('bl-link-url');
+    if (!select || !url) return;
+
+    function apply() {
+        var isHeader = select.value === 'header';
+        document.querySelectorAll('.bl-link-only').forEach(function (row) {
+            row.style.display = isHeader ? 'none' : '';
+        });
+        url.required = !isHeader;
+    }
+
+    select.addEventListener('change', apply);
+    apply();
 }

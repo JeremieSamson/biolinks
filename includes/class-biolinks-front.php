@@ -16,6 +16,8 @@ class BioLinks_Front
         add_action('wp', [$this, 'maybe_hide_admin_bar']);
         add_action('wp_ajax_biolinks_click', [$this, 'handle_click']);
         add_action('wp_ajax_nopriv_biolinks_click', [$this, 'handle_click']);
+        add_action('wp_ajax_biolinks_view', [$this, 'handle_view']);
+        add_action('wp_ajax_nopriv_biolinks_view', [$this, 'handle_view']);
         add_filter('wp_sitemaps_posts_query_args', [$this, 'exclude_from_sitemap'], 10, 2);
         add_action('pre_get_posts', [$this, 'exclude_from_search']);
     }
@@ -50,15 +52,14 @@ class BioLinks_Front
             $template = 'dark';
         }
 
-        wp_enqueue_style(
-            'biolinks-template',
-            BIOLINKS_URL . 'templates/' . $template . '.css',
-            [],
-            BIOLINKS_VERSION
-        );
+        $accent = sanitize_hex_color((string) ($config['accent_color'] ?? '')) ?: '#0a7286';
+        $css = ':root { --accent: ' . $accent . '; }' . "\n"
+            . $this->read_stylesheet(BIOLINKS_PATH . 'templates/' . $template . '.css')
+            . $this->read_stylesheet(BIOLINKS_PATH . 'templates/common.css');
 
-        $accent = sanitize_hex_color((string) BioLinks_DB::get_config('accent_color')) ?: '#0a7286';
-        wp_add_inline_style('biolinks-template', ':root { --accent: ' . $accent . '; }');
+        wp_register_style('biolinks-template', false, [], BIOLINKS_VERSION);
+        wp_enqueue_style('biolinks-template');
+        wp_add_inline_style('biolinks-template', $css);
 
         wp_enqueue_script(
             'biolinks-front',
@@ -70,8 +71,23 @@ class BioLinks_Front
 
         wp_localize_script('biolinks-front', 'biolinksData', [
             'ajax_url' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('biolinks_nonce'),
         ]);
+    }
+
+    private function read_stylesheet(string $path): string
+    {
+        if (!is_readable($path)) {
+            return '';
+        }
+        $css = (string) file_get_contents($path);
+        return preg_replace('/\s+/', ' ', $css) . "\n";
+    }
+
+    private function allowed_handles(string $type): array
+    {
+        $defaults = $type === 'style' ? ['biolinks-template'] : ['biolinks-front'];
+        $handles = apply_filters('biolinks_allowed_' . $type . '_handles', $defaults);
+        return is_array($handles) ? $handles : $defaults;
     }
 
     public function dequeue_other_assets(): void
@@ -80,14 +96,11 @@ class BioLinks_Front
             return;
         }
 
-        $keep_styles = ['biolinks-template'];
-        $keep_scripts = ['biolinks-front', 'jquery'];
-
         global $wp_styles, $wp_scripts;
 
         if ($wp_styles instanceof WP_Styles) {
             foreach ($wp_styles->queue as $handle) {
-                if (!in_array($handle, $keep_styles, true)) {
+                if (!in_array($handle, $this->allowed_handles('style'), true)) {
                     wp_dequeue_style($handle);
                 }
             }
@@ -95,11 +108,25 @@ class BioLinks_Front
 
         if ($wp_scripts instanceof WP_Scripts) {
             foreach ($wp_scripts->queue as $handle) {
-                if (!in_array($handle, $keep_scripts, true)) {
+                if (!in_array($handle, $this->allowed_handles('script'), true)) {
                     wp_dequeue_script($handle);
                 }
             }
         }
+
+        add_filter('print_styles_array', [$this, 'filter_style_handles']);
+        add_filter('print_scripts_array', [$this, 'filter_script_handles']);
+        add_filter('wp_resource_hints', '__return_empty_array', 9999);
+    }
+
+    public function filter_style_handles(array $handles): array
+    {
+        return array_values(array_intersect($handles, $this->allowed_handles('style')));
+    }
+
+    public function filter_script_handles(array $handles): array
+    {
+        return array_values(array_intersect($handles, $this->allowed_handles('script')));
     }
 
     public function purge_third_party_output(): void
@@ -160,13 +187,18 @@ class BioLinks_Front
 
     public function handle_click(): void
     {
-        if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'biolinks_nonce')) {
-            wp_send_json_error('Invalid nonce', 403);
+        if (!$this->is_same_origin_request()) {
+            wp_send_json_error('Invalid origin', 403);
         }
 
-        $link_id = isset($_POST['link_id']) ? (int) $_POST['link_id'] : 0;
-        if ($link_id <= 0) {
+        $link_id = isset($_POST['link_id']) ? absint(wp_unslash($_POST['link_id'])) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Public analytics beacon sent from a cached page, where a nonce would expire.
+        if ($link_id <= 0 || !BioLinks_DB::link_exists($link_id)) {
             wp_send_json_error('Invalid link ID', 400);
+        }
+
+        $user_agent = $this->user_agent();
+        if ($this->is_bot($user_agent)) {
+            wp_send_json_success();
         }
 
         $ip = isset($_SERVER['REMOTE_ADDR']) ? sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR'])) : '';
@@ -176,11 +208,80 @@ class BioLinks_Front
         }
         set_transient($rate_key, 1, 60);
 
-        $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field(wp_unslash($_SERVER['HTTP_USER_AGENT'])) : null;
-
-        BioLinks_DB::log_click($link_id, $user_agent);
+        BioLinks_DB::log_click($link_id, $user_agent, BioLinks_DB::detect_source((string) $user_agent, $this->posted_referrer()));
 
         wp_send_json_success();
+    }
+
+    public function handle_view(): void
+    {
+        if (!$this->is_same_origin_request()) {
+            wp_send_json_error('Invalid origin', 403);
+        }
+
+        $user_agent = $this->user_agent();
+        if ($this->is_bot($user_agent)) {
+            wp_send_json_success();
+        }
+
+        BioLinks_DB::log_view(BioLinks_DB::detect_source((string) $user_agent, $this->posted_referrer()));
+
+        wp_send_json_success();
+    }
+
+    private function user_agent(): ?string
+    {
+        return isset($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field(wp_unslash($_SERVER['HTTP_USER_AGENT'])) : null;
+    }
+
+    private function posted_referrer(): string
+    {
+        return isset($_POST['referrer']) ? esc_url_raw(wp_unslash($_POST['referrer'])) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Public analytics beacon sent from a cached page, where a nonce would expire.
+    }
+
+    private function is_bot(?string $user_agent): bool
+    {
+        if ($user_agent === null || $user_agent === '') {
+            return true;
+        }
+        return (bool) preg_match('/bot|crawl|spider|slurp|preview|facebookexternalhit|embedly|headless|lighthouse|pingdom|uptime|curl|wget|python-requests/i', $user_agent);
+    }
+
+    private function is_same_origin_request(): bool
+    {
+        $origin = isset($_SERVER['HTTP_ORIGIN']) ? esc_url_raw(wp_unslash($_SERVER['HTTP_ORIGIN'])) : '';
+        if ($origin === '') {
+            return true;
+        }
+        $origin_host = strtolower((string) wp_parse_url($origin, PHP_URL_HOST));
+        $home_host = strtolower((string) wp_parse_url(home_url(), PHP_URL_HOST));
+        return $origin_host === $home_host;
+    }
+
+    public static function link_href(object $link, array $config): string
+    {
+        $url = (string) $link->link_url;
+        if (($config['utm_enabled'] ?? '0') !== '1' || !preg_match('#^https?://#i', $url)) {
+            return $url;
+        }
+
+        $host = strtolower((string) wp_parse_url($url, PHP_URL_HOST));
+        if ($host === strtolower((string) wp_parse_url(home_url(), PHP_URL_HOST))) {
+            return $url;
+        }
+
+        $query = (string) wp_parse_url($url, PHP_URL_QUERY);
+        if (str_contains($query, 'utm_')) {
+            return $url;
+        }
+
+        $params = array_filter([
+            'utm_source' => sanitize_title((string) ($config['utm_source'] ?? 'biolinks')),
+            'utm_medium' => sanitize_title((string) ($config['utm_medium'] ?? 'link_in_bio')),
+            'utm_content' => sanitize_title((string) $link->link_name),
+        ]);
+
+        return add_query_arg(array_map('rawurlencode', $params), $url);
     }
 
     public function exclude_from_sitemap(array $args, string $post_type): array

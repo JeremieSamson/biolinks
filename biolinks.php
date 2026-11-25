@@ -5,7 +5,7 @@ declare(strict_types=1);
  * Plugin Name: BioLinks
  * Plugin URI: https://github.com/JeremieSamson/biolinks
  * Description: Self-hosted link in bio page with 5 templates, click tracking, and analytics.
- * Version: 1.1.12
+ * Version: 1.2.0
  * Author: Jérémie Samson
  * Author URI: https://nomadesurrails.fr
  * License: GPLv2 or later
@@ -13,7 +13,6 @@ declare(strict_types=1);
  * Text Domain: biolinks
  * Domain Path: /languages
  * Requires at least: 5.9
- * Tested up to: 7.1
  * Requires PHP: 8.0
  */
 
@@ -21,7 +20,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('BIOLINKS_VERSION', '1.1.12');
+define('BIOLINKS_VERSION', '1.2.0');
 define('BIOLINKS_PATH', plugin_dir_path(__FILE__));
 define('BIOLINKS_URL', plugin_dir_url(__FILE__));
 
@@ -32,6 +31,7 @@ require_once BIOLINKS_PATH . 'includes/class-biolinks-dashboard.php';
 require_once BIOLINKS_PATH . 'includes/class-biolinks-front.php';
 
 register_activation_hook(__FILE__, [BioLinks_DB::class, 'activate']);
+add_action('init', [BioLinks_DB::class, 'maybe_upgrade'], 1);
 
 if (is_admin()) {
     new BioLinks_Admin();

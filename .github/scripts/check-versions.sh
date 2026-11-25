@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# The release version lives in four places and a mismatch on "Tested up to"
-# makes the plugin drop out of the WordPress.org directory search.
+# The release version lives in three places. "Tested up to" lives in readme.txt
+# only: Plugin Check rejects it in the plugin header, and a stale value makes
+# the plugin drop out of the WordPress.org directory search.
 set -uo pipefail
 
 fail=0
@@ -10,13 +11,12 @@ ok()  { printf 'ok    %s\n' "$*"; }
 php_version=$(sed -n 's/^[[:space:]]*\*[[:space:]]*Version:[[:space:]]*\([0-9][0-9.]*\).*/\1/p' biolinks.php | head -1)
 php_const=$(sed -n "s/.*BIOLINKS_VERSION'[^']*'\([0-9][0-9.]*\)'.*/\1/p" biolinks.php | head -1)
 readme_tag=$(sed -n 's/^Stable tag:[[:space:]]*\([0-9][0-9.]*\).*/\1/p' readme.txt | head -1)
-php_tested=$(sed -n 's/^[[:space:]]*\*[[:space:]]*Tested up to:[[:space:]]*\([0-9][0-9.]*\).*/\1/p' biolinks.php | head -1)
+php_tested=$(sed -n 's/^[[:space:]]*\*[[:space:]]*Tested up to:.*/x/p' biolinks.php | head -1)
 readme_tested=$(sed -n 's/^Tested up to:[[:space:]]*\([0-9][0-9.]*\).*/\1/p' readme.txt | head -1)
 
 for pair in "biolinks.php Version:$php_version" \
             "BIOLINKS_VERSION:$php_const" \
             "readme.txt Stable tag:$readme_tag" \
-            "biolinks.php Tested up to:$php_tested" \
             "readme.txt Tested up to:$readme_tested"; do
   [ -n "${pair#*:}" ] || err "could not read ${pair%%:*}"
 done
@@ -28,10 +28,10 @@ else
   err "version mismatch: header=$php_version constant=$php_const stable tag=$readme_tag"
 fi
 
-if [ "$php_tested" = "$readme_tested" ]; then
-  ok "tested up to $php_tested consistent"
+if [ -z "$php_tested" ]; then
+  ok "tested up to $readme_tested declared in readme.txt only"
 else
-  err "tested up to mismatch: biolinks.php=$php_tested readme.txt=$readme_tested"
+  err "biolinks.php declares Tested up to: keep it in readme.txt only"
 fi
 
 # readme.txt needs the version under both == Changelog == and == Upgrade Notice ==.

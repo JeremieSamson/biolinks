@@ -14,6 +14,13 @@ No third-party accounts. No subscriptions. No limits. Just a free, open-source p
 - **Custom accent color**: Native WordPress color picker to match your brand
 - **Social media icons**: Instagram, YouTube, TikTok, LinkedIn, Twitter/X, Facebook, GitHub, Pinterest, Twitch, Snapchat, WhatsApp, Bluesky, Mastodon, plus Blog and RSS links (SVG icons displayed automatically)
 - **Click tracking**: Built-in analytics with daily charts and per-link stats, right inside your WordPress admin
+- **Page views and click-through rate**: See how many visitors open your page and which share of them click each link
+- **Traffic sources**: Instagram, TikTok, Facebook, LinkedIn, search engines or other sites, detected on your own server
+- **Highlighted links and section titles**: Make your key link stand out and group the others under headings
+- **Scheduled links**: Start and end dates, applied in the browser so they work on cached pages
+- **UTM parameters**: Optional tagging of outgoing links for the analytics of the destination site
+- **Newsletter form**: Optional email field posting straight to Mailchimp, Brevo, MailerLite, Kit...
+- **Rich link previews**: Open Graph and Twitter Card tags out of the box
 - **Standalone page**: No theme header/footer, works with any WordPress theme
 - **Zero external dependencies**: Everything hosted on your server. No CDN, no cookies, no third-party tracking. GDPR friendly by design.
 - **Drag & drop link ordering**: Reorder your links with a simple drag and drop

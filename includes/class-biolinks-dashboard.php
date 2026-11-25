@@ -67,20 +67,10 @@ class BioLinks_Dashboard
             return;
         }
 
-        $clicks_per_day = BioLinks_DB::get_clicks_per_day(30);
+        $series = BioLinks_DB::get_daily_series(30);
+        $labels = $series['labels'];
+        $values = $series['clicks'];
         $clicks_per_link = BioLinks_DB::get_clicks_per_link(30);
-
-        $by_date = [];
-        foreach ($clicks_per_day as $row) {
-            $by_date[$row->date] = (int) $row->clicks;
-        }
-        $labels = [];
-        $values = [];
-        for ($i = 29; $i >= 0; $i--) {
-            $d = wp_date('Y-m-d', strtotime("-{$i} days"));
-            $labels[] = $d;
-            $values[] = $by_date[$d] ?? 0;
-        }
 
         $top_links = [];
         foreach ($clicks_per_link as $row) {
