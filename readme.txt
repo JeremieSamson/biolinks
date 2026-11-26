@@ -2,7 +2,7 @@
 Contributors: nomadesurrails
 Tags: link in bio, linktree, social links, bio page, click tracking
 Requires at least: 5.9
-Tested up to: 7.1
+Tested up to: 7.2
 Requires PHP: 8.0
 Stable tag: 1.2.0
 License: GPLv2 or later

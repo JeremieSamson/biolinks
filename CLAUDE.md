@@ -22,7 +22,7 @@ Plugin WordPress gratuit/open-source : alternative auto-hébergée à Linktree /
 
 ## Stack technique
 
-PHP 8+, WordPress 5.9+ (testé jusqu'à 7.1), MySQL, vanilla JS, Chart.js (vendored), SortableJS (vendored). GPLv2.
+PHP 8+, WordPress 5.9+ (testé jusqu'à 7.2, vérifié sur 7.2-RC3 en PHP 8.6 le 2026-11-26), MySQL, vanilla JS, Chart.js (vendored), SortableJS (vendored). GPLv2.
 
 Structure du zip :
 - `biolinks.php` — bootstrap plugin + constante `BIOLINKS_VERSION`
